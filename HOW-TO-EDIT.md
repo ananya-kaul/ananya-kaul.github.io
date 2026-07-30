@@ -16,7 +16,7 @@ to add an app, how to publish, and what to do when something breaks.
 4. [How publishing actually works](#4-how-publishing-actually-works)
 5. [Add / edit / remove an app](#5-add--edit--remove-an-app)
 6. [Getting an app icon from the App Store](#6-getting-an-app-icon-from-the-app-store)
-6b. [Adding a new blog post](#6b-adding-a-new-blog-post)
+6b. [Blog posts — they add themselves](#6b-blog-posts--they-add-themselves)
 7. [Editing every other section](#7-editing-every-other-section)
 8. [Replacing your photo and resume](#8-replacing-your-photo-and-resume)
 9. [SEO — what to change and where](#9-seo--what-to-change-and-where)
@@ -319,11 +319,29 @@ Save Image As into the `public/images/apps/` folder.
 
 ---
 
-## 6b. Adding a new blog post
+## 6b. Blog posts — they add themselves
 
-Your articles live in **`src/app/lib/writing.ts`**, newest first. Medium's feed
-can't be read from the browser, so the list is stored in the repo rather than
-fetched live. To add a post, copy a block and edit it:
+**You don't have to do anything.** A scheduled job checks your Medium feed
+every day at 06:00 UTC, adds any new posts to the site, and publishes them.
+Write on Medium, and within a day it's on your portfolio.
+
+You can also run it on demand, two ways:
+
+- **From GitHub:** repo → **Actions** → *Sync Medium articles* → **Run workflow**.
+- **From your Mac:** `npm run sync:medium`, then commit and push as usual.
+
+### If you want to check or fix something
+
+The article list lives in **`src/app/lib/writing.ts`**, newest first. The sync
+job only ever *adds* posts it hasn't seen — it never rewrites existing ones, so
+anything you edit by hand stays edited.
+
+**One thing to know:** Medium truncates long titles with a "…" in its feed, and
+there's no way to get the full text back. The script trims a truncated title
+back to the last complete phrase and prints a warning naming that post. If it
+reads oddly, just fix that one line in `writing.ts` — your version will stick.
+
+To add a post manually, copy a block and edit it:
 
 ```ts
 {
@@ -336,12 +354,9 @@ fetched live. To add a post, copy a block and edit it:
 },
 ```
 
-Put new posts at the **top** of the list. The "10 AI/ML articles" stat in the
-hero, the social share card, and the Google structured data all count the list
-automatically.
-
-> **Careful:** Medium's own RSS truncates long titles with "…". Copy the title
-> from the article page itself, not from the feed.
+Put new posts at the **top** of the list. The "AI/ML articles" stat in the hero,
+the social share card, and the Google structured data all count the list
+automatically — you never update a number by hand.
 
 ---
 
@@ -353,7 +368,7 @@ automatically.
 | Social links (LinkedIn / email / WhatsApp / Instagram) | `socialLinks` list at the top of `Hero.tsx` — **and** the same list in `Footer.tsx` and `Contact.tsx` |
 | Work experience bullet points | `src/app/components/home/Experience.tsx` (`responsibilities` list at the top) |
 | Tech stack / skills | `src/app/components/home/Skills.tsx` (`skillsData` list) |
-| Blog posts (the Writing section) | `src/app/lib/writing.ts` — see [section 6b](#6b-adding-a-new-blog-post) |
+| Blog posts (the Writing section) | `src/app/lib/writing.ts` — but these sync automatically, see [6b](#6b-blog-posts--they-add-themselves) |
 | Education | `src/app/components/home/Education.tsx` (`education` list) |
 | Achievements, certifications, extracurricular | `src/app/components/home/Achievements.tsx` |
 | Contact section text + the direct email/WhatsApp buttons | `src/app/components/home/Contact.tsx` |
@@ -577,6 +592,9 @@ git diff
 gh run list --limit 3
 gh run watch
 
+# Pull new Medium articles into the site
+npm run sync:medium
+
 # Reinstall packages if things get weird
 npm ci
 ```
@@ -618,6 +636,9 @@ src/app/
         ├── Achievements.tsx
         └── Contact.tsx
 
+scripts/
+└── sync-medium.mjs       ← pulls new Medium posts into lib/writing.ts
+
 public/                   ← files served as-is (always use withBasePath to link them)
 ├── images/apps/          ← app icons
 ├── images/hero/          ← profile photo
@@ -625,7 +646,9 @@ public/                   ← files served as-is (always use withBasePath to lin
 ├── icon.svg, icon-192.png, icon-512.png, apple-touch-icon.png
 └── .nojekyll             ← required by GitHub Pages; don't delete
 
-.github/workflows/deploy.yml  ← the automation that publishes on every push
+.github/workflows/
+├── deploy.yml            ← publishes the site on every push
+└── sync-medium.yml       ← daily: pulls new Medium posts, commits, redeploys
 ```
 
 **Built with:** Next.js 15 (static export), React 19, TypeScript, Tailwind CSS 4,

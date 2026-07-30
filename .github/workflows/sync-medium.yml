@@ -1,0 +1,52 @@
+name: Sync Medium articles
+
+# Checks the Medium feed once a day and commits any new posts into
+# src/app/lib/writing.ts, then kicks off a deploy so the site picks them up.
+# Run it by hand any time from the Actions tab ("Run workflow").
+on:
+  schedule:
+    - cron: "0 6 * * *" # 06:00 UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: write # to commit the updated article list
+  actions: write # to trigger the deploy workflow afterwards
+
+concurrency:
+  group: "sync-medium"
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
+
+      - name: Pull new articles from Medium
+        run: node scripts/sync-medium.mjs
+
+      - name: Commit and deploy if anything changed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if git diff --quiet -- src/app/lib/writing.ts; then
+            echo "No new articles — nothing to do."
+            exit 0
+          fi
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/app/lib/writing.ts
+          git commit -m "Add new Medium article(s) [skip ci]"
+          git push
+
+          # A push made with GITHUB_TOKEN does not trigger other workflows,
+          # so ask the deploy workflow to run explicitly.
+          gh workflow run deploy.yml --ref main
+          echo "Committed new articles and triggered a deploy."

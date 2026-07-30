@@ -3,6 +3,9 @@ name: Deploy Next.js static site to GitHub Pages
 on:
   push:
     branches: [main]
+  # Lets the Medium sync workflow (and you, from the Actions tab) trigger a
+  # deploy without a code push.
+  workflow_dispatch:
 
 permissions:
   contents: read

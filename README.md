@@ -88,9 +88,18 @@ count.
 
 ## Adding an article
 
-Blog posts live in [`src/app/lib/writing.ts`](src/app/lib/writing.ts), newest
-first. The list is stored in the repo rather than fetched from Medium's feed at
-runtime — the site is a static export, and the feed isn't browser-readable.
+**This happens automatically.** [`sync-medium.yml`](.github/workflows/sync-medium.yml)
+checks the Medium feed daily, appends anything new to
+[`src/app/lib/writing.ts`](src/app/lib/writing.ts), commits it and triggers a
+deploy. Run it on demand from the Actions tab, or locally with
+`npm run sync:medium`.
+
+The list is committed rather than fetched at runtime: the site is a static
+export, Medium's feed isn't readable from a browser (CORS), and baking the posts
+into the HTML is what makes them count for SEO.
+
+The sync only ever *adds* posts it hasn't seen, matched by URL — existing
+entries are never rewritten, so manual edits survive.
 
 Each entry needs `title`, `url`, `date` (YYYY-MM-DD), `publication`, `blurb` and
 `tags`. Copy titles from the article page, not the RSS feed — Medium truncates

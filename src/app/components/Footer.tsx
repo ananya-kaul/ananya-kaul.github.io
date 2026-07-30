@@ -59,7 +59,7 @@ const Footer = () => {
             </p>
             <p className="text-sm text-gray-500 max-w-xs leading-relaxed">
               AI/ML &amp; mobile developer building AI-powered products, and
-              writing about AI engineering. Currently at iApp Technologies LLP.
+              writing about AI engineering.
             </p>
           </div>
 
@@ -98,9 +98,8 @@ const Footer = () => {
           </ul>
         </div>
 
-        <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row gap-2 justify-between items-center text-xs text-gray-600">
+        <div className="pt-6 border-t border-white/5 flex justify-center items-center text-xs text-gray-600">
           <p>© {year} Ananya Kaul. All rights reserved.</p>
-          <p>Built with Next.js, Tailwind CSS and Framer Motion.</p>
         </div>
       </div>
     </footer>
