@@ -1,10 +1,13 @@
 # Ananya Kaul — Portfolio
 
-Personal portfolio of **Ananya Kaul**, Mobile Developer (iOS · Flutter · AI/ML).
+Personal portfolio of **Ananya Kaul** — AI/ML & Mobile Developer (iOS · Flutter · AI/ML).
 
 **🌐 Live site:** [brisinger23.github.io/portfolio_code](https://brisinger23.github.io/portfolio_code/)
 
-Showcases 16 production apps shipped to the App Store, Mac App Store and Google Play — including Cal Care, Math AI, TEXT UP, PDF Editor, PDF Filler for Mac, PDF Scanner, Meme Me, and more.
+Showcases 16 production apps shipped to the App Store, Mac App Store and Google
+Play — including Cal Care, Math AI, TEXT UP, PDF Editor, PDF Filler for Mac,
+PDF Scanner and Meme Me — plus AI engineering articles published on Medium,
+Towards AI and Stackademic.
 
 ## Tech Stack
 
@@ -43,6 +46,7 @@ src/app/
 │   └── home/               # One file per section
 │       ├── Hero.tsx        # Intro, photo, stats, social links
 │       ├── Projects.tsx    # The Apps grid (cards open the detail sheet)
+│       ├── Writing.tsx     # Medium articles
 │       ├── AppDetailModal.tsx  # "About this app" sheet + store buttons
 │       ├── AppGlyph.tsx    # Fallback artwork for apps with no store icon
 │       ├── Experience.tsx  # Work experience
@@ -50,6 +54,7 @@ src/app/
 │       └── ...
 └── lib/
     ├── apps.ts             # ← EDIT HERE to add/change an app
+    ├── writing.ts          # ← EDIT HERE to add a Medium article
     ├── site.ts             # Canonical URL, person details, meta description
     └── basePath.ts         # Asset path helper for GitHub Pages
 public/
@@ -76,8 +81,21 @@ Add an entry to the `apps` array (order in the array = order on the page):
    structured data to `SoftwareApplication`) and append `?platform=mac` to the
    store URL.
 
-Hero stats, the footer count, and the JSON-LD app list all read from this file,
-so they stay in sync automatically.
+Hero stats, the footer count, the social share card and the JSON-LD app list all
+read from this file, so they stay in sync automatically. Mark an app `ai: true`
+when AI/ML is a core, user-facing feature — that drives the "AI-powered apps"
+count.
+
+## Adding an article
+
+Blog posts live in [`src/app/lib/writing.ts`](src/app/lib/writing.ts), newest
+first. The list is stored in the repo rather than fetched from Medium's feed at
+runtime — the site is a static export, and the feed isn't browser-readable.
+
+Each entry needs `title`, `url`, `date` (YYYY-MM-DD), `publication`, `blurb` and
+`tags`. Copy titles from the article page, not the RSS feed — Medium truncates
+long ones. The hero's "AI/ML articles" stat, the share card and the JSON-LD
+`Article` list all count this array.
 
 ## Notes
 

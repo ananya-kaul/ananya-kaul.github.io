@@ -8,13 +8,14 @@ import Footer from "./components/Footer";
 import CursorTrail from "./components/CursorTrail";
 import { PERSON, SITE_DESCRIPTION, SITE_URL } from "./lib/site";
 import { apps, hasLivePlayStore } from "./lib/apps";
+import { articles } from "./lib/writing";
 import { withBasePath } from "./lib/basePath";
 
 const OG_IMAGE = {
   url: `${SITE_URL}/og-image.png`,
   width: 1200,
   height: 630,
-  alt: "Ananya Kaul — iOS & Flutter Developer building AI-powered mobile apps",
+  alt: "Ananya Kaul — AI/ML & Mobile Developer building AI-powered products",
 };
 
 const montserrat = Montserrat({
@@ -29,7 +30,7 @@ const openSans = Open_Sans({
   variable: "--font-open-sans",
 });
 
-const TITLE = "Ananya Kaul — iOS & Flutter Developer | Mobile App Portfolio";
+const TITLE = "Ananya Kaul — AI/ML & Mobile Developer | Portfolio";
 
 const MOBILE_PLATFORMS = ["iOS", "iPadOS", "Android"];
 
@@ -69,7 +70,7 @@ const structuredData = {
       telephone: PERSON.phone,
       jobTitle: PERSON.jobTitle,
       description: SITE_DESCRIPTION,
-      sameAs: [PERSON.linkedin, PERSON.instagram, PERSON.github],
+      sameAs: [PERSON.linkedin, PERSON.medium, PERSON.github, PERSON.instagram],
       address: {
         "@type": "PostalAddress",
         addressLocality: PERSON.location.city,
@@ -85,19 +86,44 @@ const structuredData = {
         name: PERSON.university,
       },
       knowsAbout: [
+        "Artificial Intelligence",
+        "Machine Learning",
+        "Large Language Models",
+        "Retrieval-Augmented Generation",
+        "LLM Evaluation",
+        "AI Agents",
+        "Prompt Engineering",
+        "Core ML",
+        "Vision Framework",
+        "Python",
         "iOS Development",
         "Swift",
         "SwiftUI",
         "UIKit",
-        "Objective-C",
         "Flutter",
         "Dart",
-        "Core ML",
-        "Vision Framework",
-        "Firebase",
-        "Machine Learning",
         "Mobile App Architecture",
       ],
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${SITE_URL}/#articles`,
+      name: "Articles written by Ananya Kaul",
+      numberOfItems: articles.length,
+      itemListElement: articles.map((article, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "Article",
+          headline: article.title,
+          url: article.url,
+          datePublished: article.date,
+          description: article.blurb,
+          keywords: article.tags.join(", "),
+          author: { "@id": `${SITE_URL}/#person` },
+          publisher: { "@type": "Organization", name: article.publication },
+        },
+      })),
     },
     {
       "@type": "ItemList",
@@ -140,6 +166,12 @@ export const metadata: Metadata = {
   category: "technology",
   keywords: [
     "Ananya Kaul",
+    "AI ML Developer",
+    "AI Engineer",
+    "Machine Learning Developer",
+    "RAG Systems",
+    "LLM Evaluation",
+    "Prompt Engineering",
     "iOS Developer",
     "Flutter Developer",
     "Mobile App Developer",

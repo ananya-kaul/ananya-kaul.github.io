@@ -3,12 +3,13 @@ export const SITE_URL = "https://brisinger23.github.io/portfolio_code";
 
 export const PERSON = {
   name: "Ananya Kaul",
-  jobTitle: "Mobile Developer (iOS & Flutter)",
+  jobTitle: "AI/ML & Mobile Developer",
   email: "kaul23ananya@gmail.com",
   phone: "+918968692390",
   linkedin: "https://www.linkedin.com/in/ananyakaul",
   instagram: "https://www.instagram.com/theluckylad",
   github: "https://github.com/brisinger23",
+  medium: "https://medium.com/@ananyakaul",
   employer: {
     name: "iApp Technologies LLP",
     url: "https://iapptechnologies.com/",
@@ -18,4 +19,4 @@ export const PERSON = {
 } as const;
 
 export const SITE_DESCRIPTION =
-  "Ananya Kaul is a mobile developer specialising in high-performance iOS apps (Swift, SwiftUI, UIKit) and cross-platform Flutter apps with AI/ML built in — 15 production apps shipped to the App Store and Google Play.";
+  "Ananya Kaul builds AI-powered products — Vision pipelines, LLM assistants and RAG systems — shipped inside 16 production iOS and Flutter apps, and writes about AI engineering for Towards AI and Stackademic.";

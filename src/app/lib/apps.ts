@@ -23,6 +23,8 @@ export type AppProject = {
   tags: string[];
   appStore: string | null;
   playStore: string | null;
+  /** AI/ML is a core, user-facing part of the app — drives the AI counts */
+  ai?: boolean;
   /**
    * Set while a Play Store listing is prepared but not yet published. The URL
    * above is kept ready to go, but no Play Store button is shown, so nobody
@@ -34,6 +36,7 @@ export type AppProject = {
 export const apps: AppProject[] = [
   {
     slug: "cal-care",
+    ai: true,
     title: "Cal Care - AI Calorie Tracker",
     tagline: "Snap a photo of any meal and get instant calories and macros.",
     about:
@@ -76,6 +79,7 @@ export const apps: AppProject[] = [
   },
   {
     slug: "invitation-maker",
+    ai: true,
     title: "Invitation Maker & RSVP",
     tagline: "Design invitations and stories, then collect digital RSVPs.",
     about:
@@ -118,6 +122,7 @@ export const apps: AppProject[] = [
   },
   {
     slug: "math-ai",
+    ai: true,
     title: "Math AI - Homework Helper",
     tagline: "Solve maths problems, write essays and summarise PDFs with AI.",
     about:
@@ -182,6 +187,7 @@ export const apps: AppProject[] = [
   },
   {
     slug: "pdf-editor",
+    ai: true,
     title: "PDF Editor: Fill, Edit, e-Sign",
     tagline: "A complete PDF suite — convert, fill, sign, and chat with your docs.",
     about:
@@ -225,6 +231,7 @@ export const apps: AppProject[] = [
   },
   {
     slug: "photo-translator",
+    ai: true,
     title: "AI Photo Translator & Scanner",
     tagline: "Point the camera at any text and read it in your language.",
     about:
@@ -246,6 +253,7 @@ export const apps: AppProject[] = [
   },
   {
     slug: "meme-me",
+    ai: true,
     title: "Meme Me: AI Selfie Maker",
     tagline: "Turn a selfie into a meme with generative AI.",
     about:
@@ -288,6 +296,7 @@ export const apps: AppProject[] = [
   },
   {
     slug: "ai-cleaner",
+    ai: true,
     title: "AI Cleaner: Duplicate Photos",
     tagline: "Find duplicate photos and reclaim storage in a couple of taps.",
     about:
@@ -309,6 +318,7 @@ export const apps: AppProject[] = [
   },
   {
     slug: "ai-video-editor",
+    ai: true,
     title: "AI Video Editor",
     tagline: "Generate and edit video with state-of-the-art AI models.",
     about:
@@ -330,6 +340,7 @@ export const apps: AppProject[] = [
   },
   {
     slug: "jeeves",
+    ai: true,
     title: "Jeeves - AI Chat App",
     tagline: "An AI chat assistant, tuned for better answers.",
     about:
@@ -375,6 +386,9 @@ export const apps: AppProject[] = [
 /** True once the Play Store listing is actually published. */
 export const hasLivePlayStore = (app: AppProject) =>
   Boolean(app.playStore) && !app.playStorePending;
+
+/** Apps with AI/ML at their core — used for the hero stats. */
+export const aiApps = apps.filter((a) => a.ai);
 
 /** Apps that are publicly downloadable — used for counts and structured data. */
 export const liveApps = apps.filter(

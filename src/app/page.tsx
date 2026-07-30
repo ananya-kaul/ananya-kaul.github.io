@@ -1,4 +1,5 @@
 import Contact from "./components/home/Contact";
+import Writing from "./components/home/Writing";
 import Hero from "./components/home/Hero";
 import Projects from "./components/home/Projects";
 import Skills from "./components/home/Skills";
@@ -13,6 +14,7 @@ export default function Home() {
       <Skills />
       <Experience />
       <Projects />
+      <Writing />
       <Education />
       <Achievements />
       <Contact />

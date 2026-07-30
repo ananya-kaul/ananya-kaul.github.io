@@ -16,6 +16,7 @@ to add an app, how to publish, and what to do when something breaks.
 4. [How publishing actually works](#4-how-publishing-actually-works)
 5. [Add / edit / remove an app](#5-add--edit--remove-an-app)
 6. [Getting an app icon from the App Store](#6-getting-an-app-icon-from-the-app-store)
+6b. [Adding a new blog post](#6b-adding-a-new-blog-post)
 7. [Editing every other section](#7-editing-every-other-section)
 8. [Replacing your photo and resume](#8-replacing-your-photo-and-resume)
 9. [SEO — what to change and where](#9-seo--what-to-change-and-where)
@@ -318,6 +319,32 @@ Save Image As into the `public/images/apps/` folder.
 
 ---
 
+## 6b. Adding a new blog post
+
+Your articles live in **`src/app/lib/writing.ts`**, newest first. Medium's feed
+can't be read from the browser, so the list is stored in the repo rather than
+fetched live. To add a post, copy a block and edit it:
+
+```ts
+{
+  title: "The exact article title",
+  url: "https://medium.com/@ananyakaul/your-article-slug-abc123",
+  date: "2026-08-14",              // YYYY-MM-DD
+  publication: "Towards AI",       // or "Stackademic", or "Medium" if self-published
+  blurb: "One or two sentences — the hook under the title.",
+  tags: ["LLMs", "Machine Learning", "RAG"],   // first 3 show on the card
+},
+```
+
+Put new posts at the **top** of the list. The "10 AI/ML articles" stat in the
+hero, the social share card, and the Google structured data all count the list
+automatically.
+
+> **Careful:** Medium's own RSS truncates long titles with "…". Copy the title
+> from the article page itself, not from the feed.
+
+---
+
 ## 7. Editing every other section
 
 | What you want to change | File to open |
@@ -326,6 +353,7 @@ Save Image As into the `public/images/apps/` folder.
 | Social links (LinkedIn / email / WhatsApp / Instagram) | `socialLinks` list at the top of `Hero.tsx` — **and** the same list in `Footer.tsx` and `Contact.tsx` |
 | Work experience bullet points | `src/app/components/home/Experience.tsx` (`responsibilities` list at the top) |
 | Tech stack / skills | `src/app/components/home/Skills.tsx` (`skillsData` list) |
+| Blog posts (the Writing section) | `src/app/lib/writing.ts` — see [section 6b](#6b-adding-a-new-blog-post) |
 | Education | `src/app/components/home/Education.tsx` (`education` list) |
 | Achievements, certifications, extracurricular | `src/app/components/home/Achievements.tsx` |
 | Contact section text + the direct email/WhatsApp buttons | `src/app/components/home/Contact.tsx` |
@@ -583,6 +611,7 @@ src/app/
         ├── Skills.tsx        ← tech stack
         ├── Experience.tsx    ← work history
         ├── Projects.tsx      ← the app grid
+        ├── Writing.tsx       ← the Medium articles section
         ├── AppDetailModal.tsx← the "About this app" popup
         ├── AppGlyph.tsx      ← fallback art for apps with no icon
         ├── Education.tsx

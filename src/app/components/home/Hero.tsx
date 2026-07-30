@@ -2,11 +2,12 @@
 import Image from "next/image";
 import React from "react";
 import "./hero.css";
-import { BsInstagram, BsWhatsapp, BsLinkedin } from "react-icons/bs";
+import { BsInstagram, BsWhatsapp, BsLinkedin, BsMedium } from "react-icons/bs";
 import { MdMailOutline } from "react-icons/md";
 import { motion } from "framer-motion";
 import { withBasePath } from "../../lib/basePath";
-import { apps, liveApps } from "../../lib/apps";
+import { apps, aiApps } from "../../lib/apps";
+import { articles } from "../../lib/writing";
 
 const socialLinks = [
   {
@@ -14,6 +15,12 @@ const socialLinks = [
     icon: <BsLinkedin size={20} />,
     url: "https://linkedin.com/in/ananyakaul",
     color: "#0077b5",
+  },
+  {
+    name: "Medium",
+    icon: <BsMedium size={22} />,
+    url: "https://medium.com/@ananyakaul",
+    color: "#ffffff",
   },
   {
     name: "Email",
@@ -35,10 +42,11 @@ const socialLinks = [
   },
 ];
 
+// All three counts come from the data files, so they can never go stale
 const stats = [
   { value: `${apps.length}`, label: "Apps shipped" },
-  { value: `${liveApps.length}`, label: "Live on stores" },
-  { value: "6,000+", label: "Users reached" },
+  { value: `${aiApps.length}`, label: "AI-powered apps" },
+  { value: `${articles.length}`, label: "AI/ML articles" },
 ];
 
 const Hero = () => {
@@ -81,7 +89,7 @@ const Hero = () => {
               Ananya Kaul
             </h1>
             <p className="mt-2 text-sm sm:text-base text-gray-400 font-medium">
-              iOS &amp; Flutter Developer · AI/ML
+              AI/ML &amp; Mobile Developer · iOS · Flutter
             </p>
           </div>
 
@@ -92,11 +100,12 @@ const Hero = () => {
           <p className="text-base sm:text-lg md:text-xl tracking-wide text-center leading-relaxed text-gray-400 max-w-2xl">
             I build{" "}
             <span className="text-white border-b-2 border-blue-500/30">
-              high-performance iOS applications
+              AI-powered products
             </span>{" "}
-            and cross-platform Flutter apps, with AI woven in — from on-device
-            Vision pipelines to LLM-powered assistants. I care about scalable
-            architecture and interfaces that feel obvious to use.
+            — on-device Vision pipelines, LLM assistants and RAG systems —
+            shipped inside high-performance iOS and Flutter apps. I also write
+            about AI engineering: evaluation, agents and what actually survives
+            production.
           </p>
 
           {/* Stats — quick credibility, and reads well on a phone */}
@@ -166,13 +175,16 @@ const SkillsSlider = () => {
   return (
     <div className="flex gap-2 justify-center items-baseline">
       <div className="text-sm sm:text-2xl">I&apos;m</div>
-      <div className="slider" aria-label="Mobile Developer, iOS Developer, Flutter Developer, AI/ML Enthusiast">
+      <div
+        className="slider"
+        aria-label="AI/ML Developer, iOS Developer, Flutter Developer, AI Engineering Writer"
+      >
         <div className="slides text-gray-300">
-          <div>Mobile Developer</div>
+          <div>AI/ML Developer</div>
           <div>iOS Developer</div>
           <div>Flutter Developer</div>
-          <div>AI/ML Enthusiast</div>
-          <div>Mobile Developer</div>
+          <div>AI Engineering Writer</div>
+          <div>AI/ML Developer</div>
         </div>
       </div>
     </div>

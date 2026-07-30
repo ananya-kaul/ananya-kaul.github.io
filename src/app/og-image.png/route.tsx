@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
-import { apps, liveApps } from "../lib/apps";
+import { apps, aiApps } from "../lib/apps";
+import { articles } from "../lib/writing";
 
 /**
  * The 1200x630 social share card, generated at build time from the app list in
@@ -68,7 +69,7 @@ export function GET() {
               lineHeight: 1.05,
             }}
           >
-            iOS &amp; Flutter Developer
+            AI/ML &amp; Mobile Developer
           </div>
           <div
             style={{
@@ -78,7 +79,7 @@ export function GET() {
               lineHeight: 1.3,
             }}
           >
-            Building AI-powered mobile apps · Swift · SwiftUI · Flutter
+            AI-powered products · RAG · LLMs · Swift · SwiftUI · Flutter
           </div>
         </div>
 
@@ -86,8 +87,8 @@ export function GET() {
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
           {[
             `${apps.length} production apps`,
-            `${liveApps.length} live on the App Store & Google Play`,
-            "6,000+ users reached",
+            `${aiApps.length} with AI built in`,
+            `${articles.length} AI/ML articles published`,
           ].map((label) => (
             <div
               key={label}

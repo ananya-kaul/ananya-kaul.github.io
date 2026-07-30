@@ -1,5 +1,5 @@
 import React from "react";
-import { BsInstagram, BsWhatsapp, BsLinkedin } from "react-icons/bs";
+import { BsInstagram, BsWhatsapp, BsLinkedin, BsMedium } from "react-icons/bs";
 import { MdMailOutline } from "react-icons/md";
 
 const socialLinks = [
@@ -7,6 +7,11 @@ const socialLinks = [
     name: "LinkedIn",
     icon: <BsLinkedin size={20} aria-hidden />,
     url: "https://linkedin.com/in/ananyakaul",
+  },
+  {
+    name: "Medium",
+    icon: <BsMedium size={21} aria-hidden />,
+    url: "https://medium.com/@ananyakaul",
   },
   {
     name: "Email",
@@ -29,6 +34,7 @@ const footerLinks = [
   { label: "Tech Stack", href: "#skills" },
   { label: "Experience", href: "#experience" },
   { label: "Apps", href: "#projects" },
+  { label: "Writing", href: "#writing" },
   { label: "Education", href: "#education" },
   { label: "Contact", href: "#contact" },
 ];
@@ -52,8 +58,8 @@ const Footer = () => {
               Ananya Kaul
             </p>
             <p className="text-sm text-gray-500 max-w-xs leading-relaxed">
-              iOS &amp; Flutter developer building AI-powered mobile products.
-              Currently at iApp Technologies LLP.
+              AI/ML &amp; mobile developer building AI-powered products, and
+              writing about AI engineering. Currently at iApp Technologies LLP.
             </p>
           </div>
 

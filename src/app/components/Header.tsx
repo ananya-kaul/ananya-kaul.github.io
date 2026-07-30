@@ -9,7 +9,7 @@ const navLinks = [
   { label: "Tech Stack", href: "#skills", id: "skills" },
   { label: "Experience", href: "#experience", id: "experience" },
   { label: "Apps", href: "#projects", id: "projects" },
-  { label: "Education", href: "#education", id: "education" },
+  { label: "Writing", href: "#writing", id: "writing" },
   { label: "Contact", href: "#contact", id: "contact" },
 ];
 
@@ -98,7 +98,7 @@ const Header = () => {
                 <a
                   href={link.href}
                   aria-current={activeId === link.id ? "true" : undefined}
-                  className={`block px-3 py-2 rounded-xl transition-colors duration-300 hover:text-gray-100 hover:bg-white/5 ${
+                  className={`block whitespace-nowrap px-2.5 lg:px-3 py-2 rounded-xl transition-colors duration-300 hover:text-gray-100 hover:bg-white/5 ${
                     activeId === link.id
                       ? "text-blue-400 bg-blue-500/10"
                       : "text-gray-400"
@@ -113,7 +113,7 @@ const Header = () => {
             href={withBasePath("/resume.pdf")}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-2 flex items-center gap-1.5 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-lg shadow-blue-600/20 active:scale-95"
+            className="ml-1.5 lg:ml-2 flex items-center gap-1.5 whitespace-nowrap bg-blue-600 hover:bg-blue-500 text-white px-3.5 lg:px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-lg shadow-blue-600/20 active:scale-95"
           >
             <FileText size={13} aria-hidden />
             Resume
