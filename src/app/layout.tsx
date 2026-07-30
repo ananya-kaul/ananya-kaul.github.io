@@ -35,6 +35,59 @@ const TITLE = "Ananya Kaul — AI/ML & Mobile Developer | Portfolio";
 const MOBILE_PLATFORMS = ["iOS", "iPadOS", "Android"];
 
 /**
+ * The Person node, defined once. It carries an @id so the other nodes in the
+ * graph can point at it, and it is nested inline under ProfilePage.mainEntity
+ * rather than sitting beside it — that is the shape Google documents for the
+ * Profile Page rich result, and it does not depend on the validator resolving
+ * a sibling @id reference.
+ */
+const person = {
+  "@type": "Person",
+  "@id": `${SITE_URL}/#person`,
+  name: PERSON.name,
+  url: `${SITE_URL}/`,
+  image: `${SITE_URL}/images/hero/IMG_4620.JPG`,
+  email: `mailto:${PERSON.email}`,
+  telephone: PERSON.phone,
+  jobTitle: PERSON.jobTitle,
+  description: SITE_DESCRIPTION,
+  sameAs: [PERSON.linkedin, PERSON.medium, PERSON.github, PERSON.instagram],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: PERSON.location.city,
+    addressCountry: PERSON.location.country,
+  },
+  worksFor: {
+    "@type": "Organization",
+    name: PERSON.employer.name,
+    url: PERSON.employer.url,
+  },
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: PERSON.university,
+  },
+  knowsAbout: [
+    "Artificial Intelligence",
+    "Machine Learning",
+    "Large Language Models",
+    "Retrieval-Augmented Generation",
+    "LLM Evaluation",
+    "AI Agents",
+    "Prompt Engineering",
+    "Core ML",
+    "Vision Framework",
+    "Python",
+    "iOS Development",
+    "Swift",
+    "SwiftUI",
+    "UIKit",
+    "Flutter",
+    "Dart",
+    "Mobile App Architecture",
+  ],
+};
+
+/**
  * One JSON-LD graph rather than a lone Person node: the page itself, the
  * person, and every shipped app, so search engines can connect them.
  */
@@ -57,53 +110,11 @@ const structuredData = {
       name: TITLE,
       description: SITE_DESCRIPTION,
       isPartOf: { "@id": `${SITE_URL}/#website` },
-      about: { "@id": `${SITE_URL}/#person` },
+      // mainEntity is the ONE required property of ProfilePage. Omitting it is
+      // what produced "1 invalid item detected" in Search Console — `about`
+      // alone does not satisfy it.
+      mainEntity: person,
       primaryImageOfPage: `${SITE_URL}/images/hero/IMG_4620.JPG`,
-    },
-    {
-      "@type": "Person",
-      "@id": `${SITE_URL}/#person`,
-      name: PERSON.name,
-      url: `${SITE_URL}/`,
-      image: `${SITE_URL}/images/hero/IMG_4620.JPG`,
-      email: `mailto:${PERSON.email}`,
-      telephone: PERSON.phone,
-      jobTitle: PERSON.jobTitle,
-      description: SITE_DESCRIPTION,
-      sameAs: [PERSON.linkedin, PERSON.medium, PERSON.github, PERSON.instagram],
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: PERSON.location.city,
-        addressCountry: PERSON.location.country,
-      },
-      worksFor: {
-        "@type": "Organization",
-        name: PERSON.employer.name,
-        url: PERSON.employer.url,
-      },
-      alumniOf: {
-        "@type": "CollegeOrUniversity",
-        name: PERSON.university,
-      },
-      knowsAbout: [
-        "Artificial Intelligence",
-        "Machine Learning",
-        "Large Language Models",
-        "Retrieval-Augmented Generation",
-        "LLM Evaluation",
-        "AI Agents",
-        "Prompt Engineering",
-        "Core ML",
-        "Vision Framework",
-        "Python",
-        "iOS Development",
-        "Swift",
-        "SwiftUI",
-        "UIKit",
-        "Flutter",
-        "Dart",
-        "Mobile App Architecture",
-      ],
     },
     {
       "@type": "ItemList",
