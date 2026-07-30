@@ -2,7 +2,7 @@
 
 Personal portfolio of **Ananya Kaul** — AI/ML & Mobile Developer (iOS · Flutter · AI/ML).
 
-**🌐 Live site:** [brisinger23.github.io/portfolio_code](https://brisinger23.github.io/portfolio_code/)
+**🌐 Live site:** [ananya-kaul.github.io](https://ananya-kaul.github.io/)
 
 Showcases 16 production apps shipped to the App Store, Mac App Store and Google
 Play — including Cal Care, Math AI, TEXT UP, PDF Editor, PDF Filler for Mac,
@@ -56,7 +56,7 @@ src/app/
     ├── apps.ts             # ← EDIT HERE to add/change an app
     ├── writing.ts          # ← EDIT HERE to add a Medium article
     ├── site.ts             # Canonical URL, person details, meta description
-    └── basePath.ts         # Asset path helper for GitHub Pages
+    └── basePath.ts         # Asset path helper (pass-through now the site is at the root)
 public/
 ├── images/apps/            # App Store icons for the app cards
 ├── images/hero/            # Profile photo

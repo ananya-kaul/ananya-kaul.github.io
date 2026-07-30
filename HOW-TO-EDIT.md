@@ -1,7 +1,7 @@
 # How to Edit & Publish This Site — Full Guide
 
 Your personal manual for the portfolio at
-**https://brisinger23.github.io/portfolio_code/**
+**https://ananya-kaul.github.io/**
 
 Everything you need is in here: what's installed, how to preview a change, how
 to add an app, how to publish, and what to do when something breaks.
@@ -20,7 +20,7 @@ to add an app, how to publish, and what to do when something breaks.
 7. [Editing every other section](#7-editing-every-other-section)
 8. [Replacing your photo and resume](#8-replacing-your-photo-and-resume)
 9. [SEO — what to change and where](#9-seo--what-to-change-and-where)
-10. [The one rule you must not forget: withBasePath](#10-the-one-rule-you-must-not-forget-withbasepath)
+10. [About withBasePath](#10-about-withbasepath)
 11. [Checking your work before you publish](#11-checking-your-work-before-you-publish)
 12. [When something goes wrong](#12-when-something-goes-wrong)
 13. [Command cheat sheet](#13-command-cheat-sheet)
@@ -33,7 +33,7 @@ to add an app, how to publish, and what to do when something breaks.
 **Rule 1 — Every `git push` to `main` publishes to the live internet.**
 There is no separate "publish" button. Push, wait ~1–2 minutes, and the change
 is public. Watch it at
-https://github.com/brisinger23/portfolio_code/actions — a green check means it's
+https://github.com/ananya-kaul/ananya-kaul.github.io/actions — a green check means it's
 live.
 
 **Rule 2 — Always preview locally first.**
@@ -41,9 +41,10 @@ Run `npm run dev`, open http://localhost:3000, and look at the change with your
 own eyes before you push. Resize the window narrow (or use Chrome's device
 toolbar) to check it on a phone-sized screen too.
 
-**Rule 3 — Files inside `public/` must be wrapped in `withBasePath(...)`.**
-Forget this and the image works on localhost but 404s on the live site. See
-[section 10](#10-the-one-rule-you-must-not-forget-withbasepath).
+**Rule 3 — Keep using `withBasePath(...)` for files inside `public/`.**
+It no longer changes anything (the site moved to the domain root), but staying
+consistent means nothing breaks if the address ever changes again. See
+[section 10](#10-about-withbasepath).
 
 ---
 
@@ -80,8 +81,8 @@ cd ~/Desktop/"New Folder 1"/portfolio_code
 ### If you ever need to start fresh on a new Mac
 
 ```bash
-git clone https://github.com/brisinger23/portfolio_code.git
-cd portfolio_code
+git clone https://github.com/ananya-kaul/ananya-kaul.github.io.git
+cd ananya-kaul.github.io
 npm ci
 npm run dev
 ```
@@ -118,7 +119,7 @@ git commit -m "Add the new XYZ app"
 git push
 ```
 
-Then watch https://github.com/brisinger23/portfolio_code/actions until you see a
+Then watch https://github.com/ananya-kaul/ananya-kaul.github.io/actions until you see a
 green check. Hard-refresh the live site (**Cmd + Shift + R**) to see the change.
 
 > **Tip:** to stop the preview server, click that Terminal tab and press
@@ -137,7 +138,7 @@ Worth understanding once, so nothing feels like magic:
  git commit ────► saves a snapshot on your Mac
        │
        ▼
- git push ──────► uploads it to github.com/brisinger23/portfolio_code
+ git push ──────► uploads it to github.com/ananya-kaul/ananya-kaul.github.io
        │
        ▼
  GitHub Actions automatically:
@@ -146,7 +147,7 @@ Worth understanding once, so nothing feels like magic:
    • publishes that HTML to GitHub Pages
        │
        ▼
- https://brisinger23.github.io/portfolio_code/  ← live, ~1–2 min later
+ https://ananya-kaul.github.io/  ← live, ~1–2 min later
 ```
 
 The recipe for that automation lives in `.github/workflows/deploy.yml`. You
@@ -448,11 +449,11 @@ reference, here's what's where:
 
 Tell Google the site exists. Go to
 [Google Search Console](https://search.google.com/search-console), add
-`https://brisinger23.github.io/portfolio_code/` as a URL-prefix property, and
+`https://ananya-kaul.github.io/` as a URL-prefix property, and
 submit the sitemap:
 
 ```
-https://brisinger23.github.io/portfolio_code/sitemap.xml
+https://ananya-kaul.github.io/sitemap.xml
 ```
 
 ### Checking your share card looks right
@@ -464,29 +465,31 @@ Twitter cache for a while too, so an old preview doesn't mean it's broken.
 
 ---
 
-## 10. The one rule you must not forget: withBasePath
+## 10. About withBasePath
 
-The live site is served from `/portfolio_code/`, **not** from the root of the
-domain. So a link like `/images/apps/foo.jpg` points at the wrong place in
-production. The `withBasePath()` helper adds the missing prefix.
+**This used to be a trap. It isn't any more — but keep following it anyway.**
 
-**Always:**
+The site used to live at `ananya-kaul.github.io/portfolio_code/`, so every link
+to a file in `public/` needed a `/portfolio_code` prefix or it 404'd in
+production while working perfectly on localhost. The `withBasePath()` helper
+added that prefix.
+
+The site now lives at the **root** of `ananya-kaul.github.io`, so there is no
+prefix to add and the helper just returns the path unchanged.
+
+Keep using it regardless:
 
 ```tsx
 <Image src={withBasePath("/images/apps/foo.jpg")} ... />
 <a href={withBasePath("/resume.pdf")}>Resume</a>
 ```
 
-**Never:**
-
-```tsx
-<Image src="/images/apps/foo.jpg" ... />     // ❌ 404 on the live site
-```
+Why bother? If you ever move to a custom domain served from a subfolder, or back
+to a project-site URL, you set the prefix in one place (`next.config.ts`) and
+every image keeps working. Drop the helper and you'd be hunting broken images
+across a dozen files.
 
 External links (`https://...`) and on-page links (`#projects`) never need it.
-
-**The tell-tale symptom:** the image works perfectly on localhost:3000 and is
-broken on the live site. That's always a missing `withBasePath`.
 
 ---
 
@@ -513,7 +516,7 @@ mistakes show up first.
 
 **"The live site didn't change after I pushed."**
 1. Hard refresh: **Cmd + Shift + R** (your browser caches aggressively).
-2. Check https://github.com/brisinger23/portfolio_code/actions — is the latest
+2. Check https://github.com/ananya-kaul/ananya-kaul.github.io/actions — is the latest
    run green? If it's red, click it, open the red step, and read the error. It
    names the file and line.
 3. If it's still running, wait — it takes about a minute.
@@ -527,7 +530,8 @@ usual culprits, in order of likelihood:
 - a field name typed wrong (`titel` instead of `title`)
 
 **An image is broken on the live site but fine locally.**
-Missing `withBasePath(...)`. See [section 10](#10-the-one-rule-you-must-not-forget-withbasepath).
+Check the file really is committed inside `public/` and the filename case matches
+exactly — GitHub Pages is case-sensitive, macOS is not. See [section 10](#10-about-withbasepath).
 
 **I broke something and want to go back.**
 

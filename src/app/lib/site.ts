@@ -1,5 +1,5 @@
-/** Canonical origin + path the site is served from (GitHub Pages project site). */
-export const SITE_URL = "https://brisinger23.github.io/portfolio_code";
+/** Canonical origin. GitHub Pages *user* site, so served from the root. */
+export const SITE_URL = "https://ananya-kaul.github.io";
 
 export const PERSON = {
   name: "Ananya Kaul",
@@ -8,7 +8,7 @@ export const PERSON = {
   phone: "+918968692390",
   linkedin: "https://www.linkedin.com/in/ananyakaul",
   instagram: "https://www.instagram.com/theluckylad",
-  github: "https://github.com/brisinger23",
+  github: "https://github.com/ananya-kaul",
   medium: "https://medium.com/@ananyakaul",
   employer: {
     name: "iApp Technologies LLP",
