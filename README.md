@@ -59,6 +59,9 @@ public/
 └── resume.pdf              # Downloadable resume
 ```
 
+> **Editing this site?** [`HOW-TO-EDIT.md`](HOW-TO-EDIT.md) is the full guide —
+> local setup, previewing, adding apps, publishing, and troubleshooting.
+
 ## Adding an app
 
 Everything about the Apps section lives in [`src/app/lib/apps.ts`](src/app/lib/apps.ts).
