@@ -31,6 +31,8 @@ const openSans = Open_Sans({
 
 const TITLE = "Ananya Kaul — iOS & Flutter Developer | Mobile App Portfolio";
 
+const MOBILE_PLATFORMS = ["iOS", "iPadOS", "Android"];
+
 /**
  * One JSON-LD graph rather than a lone Person node: the page itself, the
  * person, and every shipped app, so search engines can connect them.
@@ -106,7 +108,10 @@ const structuredData = {
         "@type": "ListItem",
         position: index + 1,
         item: {
-          "@type": "MobileApplication",
+          // Desktop-only builds aren't mobile apps
+          "@type": app.platforms.some((os) => MOBILE_PLATFORMS.includes(os))
+            ? "MobileApplication"
+            : "SoftwareApplication",
           name: app.title,
           description: app.tagline,
           applicationCategory: app.category,

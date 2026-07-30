@@ -195,6 +195,28 @@ export const apps: AppProject[] = [
     playStore: null,
   },
   {
+    slug: "pdf-filler-mac",
+    title: "PDF Filler for Mac",
+    tagline: "The same PDF suite, native on macOS — fill, edit, sign, OCR.",
+    about:
+      "The macOS build of PDF Editor, shipped as a universal purchase so one licence covers iPhone, iPad and Mac. Everything moves to a desktop canvas: fill PDF forms, edit and annotate pages, drop in signatures and watermarks, reorder / rotate / split pages, scan multi-page documents, run OCR, and export or share straight to email and cloud storage. Requires macOS 14 or later.",
+    highlights: [
+      "Native macOS build of the PDF Editor codebase, distributed as a universal purchase",
+      "Form filling and e-signature flows reworked for pointer-and-keyboard input",
+      "Page management: reorder, rotate, split, merge and print",
+      "Annotation, watermarks and OCR text recognition",
+      "Document scanning plus export and sharing to email and cloud providers",
+    ],
+    category: "Business",
+    platforms: ["macOS"],
+    // Same store listing and artwork as the iOS build — reuse the icon file
+    icon: withBasePath("/images/apps/pdf-editor.jpg"),
+    tags: ["macOS", "PDFKit", "Universal Purchase", "e-Sign", "OCR"],
+    appStore:
+      "https://apps.apple.com/us/app/pdf-editor-fill-edit-e-sign/id1591585643?platform=mac",
+    playStore: null,
+  },
+  {
     slug: "photo-translator",
     title: "AI Photo Translator & Scanner",
     tagline: "Point the camera at any text and read it in your language.",
