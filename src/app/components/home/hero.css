@@ -1,10 +1,19 @@
 .slider {
-  height: 40px;
-  /* Height of one line of text */
+  /* One line of text — smaller on phones, driven off a single variable so the
+     keyframes below stay in sync with whatever height is in play. */
+  --slide-h: 30px;
+  height: var(--slide-h);
   overflow: hidden;
   position: relative;
-  font-size: 24px;
+  font-size: 16px;
   font-weight: normal;
+}
+
+@media (min-width: 640px) {
+  .slider {
+    --slide-h: 40px;
+    font-size: 24px;
+  }
 }
 
 .slides {
@@ -16,10 +25,10 @@
 }
 
 .slides div {
-  height: 40px;
-  /* Same as slider height */
+  height: var(--slide-h);
   display: flex;
   align-items: center;
+  white-space: nowrap;
 }
 
 @keyframes slide {
@@ -31,22 +40,22 @@
 
   20%,
   35% {
-    transform: translateY(-40px);
+    transform: translateY(calc(-1 * var(--slide-h)));
   }
 
   40%,
   55% {
-    transform: translateY(-80px);
+    transform: translateY(calc(-2 * var(--slide-h)));
   }
 
   60%,
   75% {
-    transform: translateY(-120px);
+    transform: translateY(calc(-3 * var(--slide-h)));
   }
 
   80%,
   95% {
-    transform: translateY(-160px);
+    transform: translateY(calc(-4 * var(--slide-h)));
   }
 
   100% {

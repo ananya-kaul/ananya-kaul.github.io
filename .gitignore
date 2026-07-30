@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Personal editing guide — local only, never push
 HOW-TO-EDIT.md
+
+# Claude Code local config
+.claude/

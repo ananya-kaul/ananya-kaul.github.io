@@ -140,7 +140,11 @@ export const skillsData: SkillGroup[] = [
 
 const Skills = () => {
   return (
-    <section className="w-full mt-25 px-6">
+    <section
+      className="w-full mt-20 sm:mt-25 px-4 sm:px-6"
+      id="skills"
+      aria-labelledby="skills-heading"
+    >
       <div className="max-w-7xl mx-auto flex flex-col gap-2 justify-center items-center">
 
         {/* Header Animation */}
@@ -149,10 +153,12 @@ const Skills = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           viewport={{ once: true }}
+          className="w-full"
         >
           <SectionHeader
+            id="skills-heading"
             title="Technologies"
-            description="Technologies I use to craft digital experiences"
+            description="The stack I use to design, build and ship mobile products."
             subtitle="Tech Stack"
           />
         </motion.div>
@@ -176,7 +182,7 @@ const Skills = () => {
           viewport={{ once: true }}
           className="max-w-6xl w-full"
         >
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-8 border border-gray-700 text-gray-300 backdrop-blur-3xl bg-[#161B22]/70 p-8 rounded-2xl">
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-6 sm:gap-8 border border-gray-700 text-gray-300 backdrop-blur-3xl bg-[#161B22]/70 p-5 sm:p-8 rounded-2xl">
             {skillsData.map((skill) => (
               <motion.div
                 key={skill.title}
@@ -199,16 +205,19 @@ export default Skills;
 const SkillsCard = ({ group }: { group: SkillGroup }) => {
   return (
     <div key={group.title}>
-      <h2 className="font-medium pb-2 mb-4">{group.title}</h2>
+      {/* h3 — the section already owns the h2 */}
+      <h3 className="font-display font-semibold text-gray-100 text-base pb-2 mb-3 border-b border-gray-700/60">
+        {group.title}
+      </h3>
 
       <div className="flex flex-wrap gap-2 md:gap-3 justify-start items-center">
         {group.skills.map((skill) => (
           <div
             key={skill.name}
-            className="text-gray-400 hover:text-foreground hover:decoration-1 hover:underline decoration-red-500 flex items-center gap-2 border border-gray-700 bg-[#0D1117] px-3 py-2 rounded-md hover:scale-105 hover:rotate-3 transition-transform"
+            className="text-gray-400 hover:text-foreground flex items-center gap-2 border border-gray-700 bg-[#0D1117] px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-md hover:border-blue-500/40 hover:scale-105 transition-all duration-300"
           >
-            <skill.logo />
-            <span className="text-sm font-medium">{skill.name}</span>
+            <skill.logo aria-hidden />
+            <span className="text-xs sm:text-sm font-medium">{skill.name}</span>
           </div>
         ))}
       </div>

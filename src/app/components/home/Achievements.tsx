@@ -5,32 +5,38 @@ import { motion } from "framer-motion";
 
 const Achievements = () => {
     return (
-        <section className="w-full mt-25 px-6" id="achievements">
+        <section
+            className="w-full mt-20 sm:mt-25 px-4 sm:px-6"
+            id="achievements"
+            aria-labelledby="achievements-heading"
+        >
             <div className="max-w-7xl mx-auto flex flex-col gap-2 justify-center items-center">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     viewport={{ once: true }}
+                    className="w-full"
                 >
                     <SectionHeader
+                        id="achievements-heading"
                         title="Achievements & Certificates"
                         subtitle="Highlights"
                         description="Recognitions and certifications throughout my journey."
                     />
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl mt-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 w-full max-w-5xl mt-6 sm:mt-8">
                     {/* Achievements */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 }}
                         viewport={{ once: true }}
-                        className="border border-gray-700 bg-[#161B22]/70 backdrop-blur-3xl p-8 rounded-2xl"
+                        className="border border-gray-700 bg-[#161B22]/70 backdrop-blur-3xl p-5 sm:p-8 rounded-2xl"
                     >
-                        <h3 className="text-xl font-bold text-gray-100 mb-6 border-b border-gray-700 pb-2">Achievements & Activities</h3>
-                        <ul className="space-y-4 text-gray-300">
+                        <h3 className="text-lg sm:text-xl font-bold text-gray-100 mb-5 border-b border-gray-700 pb-2">Achievements & Activities</h3>
+                        <ul className="space-y-4 text-sm sm:text-base text-gray-300">
                             <li className="flex gap-3">
                                 <span className="text-yellow-500 text-lg">★</span>
                                 <span>Awarded <strong className="text-white">“Rising Star of the Company”</strong> along with a cash prize for exceptional performance and contribution.</span>
@@ -47,7 +53,7 @@ const Achievements = () => {
                                         href="https://irjaeh.com/index.php/journal/article/view/243"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-blue-400 hover:text-blue-300 text-sm flex items-center gap-1 transition-colors w-fit"
+                                        className="text-blue-400 hover:text-blue-300 text-sm inline-flex items-center gap-1 transition-colors w-fit min-h-9"
                                     >
                                         View Publication <span className="text-xs">↗</span>
                                     </a>
@@ -66,25 +72,25 @@ const Achievements = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, delay: 0.3 }}
                         viewport={{ once: true }}
-                        className="border border-gray-700 bg-[#161B22]/70 backdrop-blur-3xl p-8 rounded-2xl"
+                        className="border border-gray-700 bg-[#161B22]/70 backdrop-blur-3xl p-5 sm:p-8 rounded-2xl"
                     >
-                        <h3 className="text-xl font-bold text-gray-100 mb-6 border-b border-gray-700 pb-2">Certifications</h3>
-                        <ul className="space-y-4 text-gray-300">
-                            <li className="flex items-center gap-3 p-3 rounded-lg bg-gray-800/30 hover:bg-gray-800/60 transition-colors">
-                                <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+                        <h3 className="text-lg sm:text-xl font-bold text-gray-100 mb-5 border-b border-gray-700 pb-2">Certifications</h3>
+                        <ul className="space-y-4 text-sm sm:text-base text-gray-300">
+                            <li className="flex items-center gap-3 p-3 rounded-lg bg-gray-800/30 hover:bg-gray-800/60 transition-colors text-sm sm:text-base">
+                                <span className="w-2 h-2 shrink-0 rounded-full bg-blue-400" aria-hidden></span>
                                 <span>IBM Data Science Professional Course</span>
                             </li>
-                            <li className="flex items-center gap-3 p-3 rounded-lg bg-gray-800/30 hover:bg-gray-800/60 transition-colors">
-                                <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+                            <li className="flex items-center gap-3 p-3 rounded-lg bg-gray-800/30 hover:bg-gray-800/60 transition-colors text-sm sm:text-base">
+                                <span className="w-2 h-2 shrink-0 rounded-full bg-blue-400" aria-hidden></span>
                                 <span>Meta iOS Developer Course</span>
                             </li>
-                            <li className="flex items-center gap-3 p-3 rounded-lg bg-gray-800/30 hover:bg-gray-800/60 transition-colors">
-                                <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+                            <li className="flex items-center gap-3 p-3 rounded-lg bg-gray-800/30 hover:bg-gray-800/60 transition-colors text-sm sm:text-base">
+                                <span className="w-2 h-2 shrink-0 rounded-full bg-blue-400" aria-hidden></span>
                                 <span>Google Data Analytics Professional Course</span>
                             </li>
                         </ul>
 
-                        <h3 className="text-xl font-bold text-gray-100 mb-4 mt-8 border-b border-gray-700 pb-2">Extracurricular</h3>
+                        <h3 className="text-lg sm:text-xl font-bold text-gray-100 mb-4 mt-8 border-b border-gray-700 pb-2">Extracurricular</h3>
                         <ul className="space-y-3 text-gray-300 text-sm">
                             <li>• Created education tech content through reels/shorts.</li>
                             <li>• Volunteer, Unnat Bharat Abhiyan (300+ rural children).</li>

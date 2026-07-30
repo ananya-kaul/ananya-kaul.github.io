@@ -1,95 +1,100 @@
-"use client";
-import Link from "next/link";
 import React from "react";
-import { BsInstagram, BsWhatsapp } from "react-icons/bs";
-import { FiLinkedin } from "react-icons/fi";
-import { GoMoveToTop } from "react-icons/go";
+import { BsInstagram, BsWhatsapp, BsLinkedin } from "react-icons/bs";
 import { MdMailOutline } from "react-icons/md";
-import { motion } from "framer-motion";
 
 const socialLinks = [
   {
-    name: "Instagram",
-    icon: <BsInstagram size={20} />,
-    url: "https://www.instagram.com/theluckylad",
-    color: "#E4405F",
-  },
-  {
-    name: "WhatsApp",
-    icon: <BsWhatsapp size={20} />,
-    url: "https://wa.me/+918968692390",
-    color: "#25D366",
+    name: "LinkedIn",
+    icon: <BsLinkedin size={20} aria-hidden />,
+    url: "https://linkedin.com/in/ananyakaul",
   },
   {
     name: "Email",
-    icon: <MdMailOutline size={24} />,
+    icon: <MdMailOutline size={22} aria-hidden />,
     url: "mailto:kaul23ananya@gmail.com",
-    color: "#EA4335",
   },
   {
-    name: "Linkedin",
-    icon: <FiLinkedin size={24} />,
-    url: "https://linkedin.com/in/ananyakaul",
-    color: "#0077b5",
+    name: "WhatsApp",
+    icon: <BsWhatsapp size={19} aria-hidden />,
+    url: "https://wa.me/+918968692390",
+  },
+  {
+    name: "Instagram",
+    icon: <BsInstagram size={19} aria-hidden />,
+    url: "https://www.instagram.com/theluckylad",
   },
 ];
 
-const handleMoveTop = () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-};
+const footerLinks = [
+  { label: "Tech Stack", href: "#skills" },
+  { label: "Experience", href: "#experience" },
+  { label: "Apps", href: "#projects" },
+  { label: "Education", href: "#education" },
+  { label: "Contact", href: "#contact" },
+];
+
+// Baked in at build time — the site is statically exported.
+const year = new Date().getFullYear();
 
 const Footer = () => {
   return (
-    <footer className="w-full mt-35 bg-[#0D1117] p-4 shadow-[0_-10px_30px_rgba(13,17,23,0.45)] pb-14 pt-14">
-      <div className="max-w-7xl mx-auto flex flex-col gap-3 justify-center items-center px-6 mb-3">
-        <button
-          onClick={handleMoveTop}
-          title="go to top"
-          type="button"
-          className="flex items-center gap-2 hover:scale-105 text-gray-500 hover:text-gray-200 transition-all duration-200 bg-gradient-to-b from-transparent to-transparent hover:from-transparent hover:to-gray-900 hover:border-b-[0.2] border-gray-500 px-2 py-1 rounded-lg"
-        >
-          <GoMoveToTop size={24} />
-        </button>
-        <div className="mt-4 w-full flex flex-col-reverse md:flex-row gap-8 justify-between">
-          <div className="flex gap-1 flex-col items-center md:items-start justify-center">
-            <h3 className="text-xl font-medium font-display flex gap-2 items-center text-gray-50 uppercase tracking-widest">
-              <div className="flex items-center gap-1 font-mono text-blue-400 font-bold">
+    <footer className="w-full mt-24 sm:mt-32 bg-[#0D1117] border-t border-white/5 shadow-[0_-10px_30px_rgba(13,17,23,0.45)] pt-12 pb-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col gap-8">
+        <div className="flex flex-col md:flex-row gap-8 md:gap-12 justify-between items-center md:items-start text-center md:text-left">
+          {/* Identity */}
+          <div className="flex flex-col gap-2 items-center md:items-start">
+            <p className="text-lg font-medium font-display flex gap-2 items-center text-gray-50 uppercase tracking-widest">
+              <span className="flex items-center gap-1 font-mono text-blue-400 font-bold">
                 <span className="text-gray-600 font-light">{"{"}</span>
-                {/* <span className="text-blue-400">AK</span> */}
-                <span className="text-blue-400">0223</span>
-
+                <span className="text-blue-400">AK</span>
                 <span className="text-gray-600 font-light">{"}"}</span>
-              </div>
-              ANANYA KAUL
-            </h3>
-            <p className="text-gray-500 text-center">
-              {/* Ananya Kaul © {new Date().getFullYear()} Built by Ananya Kaul */}
+              </span>
+              Ananya Kaul
+            </p>
+            <p className="text-sm text-gray-500 max-w-xs leading-relaxed">
+              iOS &amp; Flutter developer building AI-powered mobile products.
+              Currently at iApp Technologies LLP.
             </p>
           </div>
 
-          <div>
-            <ul className="flex gap-2 items-center md:items-start justify-center">
-              {socialLinks.map((link) => (
-                <motion.li
-                  key={link.name}
-                  whileHover={{
-                    scale: 1.1,
-                    color: link.color,
-                    filter: "drop-shadow(0 0 8px currentColor)"
-                  }}
-                  className="transition-all duration-300 text-gray-500"
-                >
-                  <Link
-                    title={link.name}
-                    href={link.url}
-                    className="flex items-center justify-center gap-2 p-2 rounded-lg"
+          {/* Section links — handy on a phone, and good internal linking for crawlers */}
+          <nav aria-label="Footer">
+            <ul className="flex flex-wrap gap-x-5 gap-y-2 justify-center md:justify-start text-sm">
+              {footerLinks.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    className="text-gray-400 hover:text-blue-400 transition-colors"
                   >
-                    {link.icon}
-                  </Link>
-                </motion.li>
+                    {link.label}
+                  </a>
+                </li>
               ))}
             </ul>
-          </div>
+          </nav>
+
+          {/* Socials */}
+          <ul className="flex gap-1 sm:gap-2 items-center justify-center">
+            {socialLinks.map((link) => (
+              <li key={link.name}>
+                <a
+                  title={link.name}
+                  href={link.url}
+                  target={link.url.startsWith("mailto:") ? undefined : "_blank"}
+                  rel="noopener noreferrer"
+                  className="grid place-items-center h-11 w-11 rounded-xl text-gray-500 hover:text-blue-400 hover:bg-white/5 transition-colors"
+                >
+                  {link.icon}
+                  <span className="sr-only">{link.name}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row gap-2 justify-between items-center text-xs text-gray-600">
+          <p>© {year} Ananya Kaul. All rights reserved.</p>
+          <p>Built with Next.js, Tailwind CSS and Framer Motion.</p>
         </div>
       </div>
     </footer>

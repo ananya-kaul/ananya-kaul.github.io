@@ -20,6 +20,25 @@
   ::selection {
     @apply bg-[#141414b7] text-[#dbdbdb];
   }
+
+  html {
+    scroll-behavior: smooth;
+    /* Never let a wide element push the page sideways on a phone */
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Fixed header is ~96px tall; keep anchored sections clear of it */
+  section[id] {
+    scroll-margin-top: 6.5rem;
+  }
+
+  /* Visible keyboard focus everywhere (was relying on the browser default) */
+  :focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -33,6 +52,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-open-sans);
+  overflow-x: hidden;
 }
 
 .grid-background {
@@ -40,12 +60,18 @@ body {
   background-image: linear-gradient(to right, #1c1f29 0.5px, transparent 0.5px),
     linear-gradient(to bottom, #1c1f29 0.5px, transparent 0.5px);
 
-  /* Size of each grid cell */
-  background-size: 45px 45px;
+  /* Size of each grid cell — tighter on phones so it reads as a grid, not stripes */
+  background-size: 28px 28px;
 
   /* Make it cover the container */
   width: 100%;
   height: 100%;
+}
+
+@media (min-width: 640px) {
+  .grid-background {
+    background-size: 45px 45px;
+  }
 }
 
 .glass-effect {
@@ -54,4 +80,24 @@ body {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Lock background scrolling while a modal / mobile menu is open */
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* Respect users who ask for less motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

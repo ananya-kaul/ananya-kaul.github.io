@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://brisinger23.github.io/portfolio_code/sitemap.xml
