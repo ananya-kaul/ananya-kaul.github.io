@@ -23,6 +23,12 @@ export type AppProject = {
   tags: string[];
   appStore: string | null;
   playStore: string | null;
+  /**
+   * Set while a Play Store listing is prepared but not yet published. The URL
+   * above is kept ready to go, but no Play Store button is shown, so nobody
+   * lands on a store 404. Delete this line the day the app goes live.
+   */
+  playStorePending?: boolean;
 };
 
 export const apps: AppProject[] = [
@@ -172,6 +178,7 @@ export const apps: AppProject[] = [
     appStore: "https://apps.apple.com/us/app/apple-store/id6755144921",
     playStore:
       "https://play.google.com/store/apps/details?id=com.second.phonenumber.secondline",
+    playStorePending: true, // Android build not published yet
   },
   {
     slug: "pdf-editor",
@@ -365,5 +372,11 @@ export const apps: AppProject[] = [
   },
 ];
 
+/** True once the Play Store listing is actually published. */
+export const hasLivePlayStore = (app: AppProject) =>
+  Boolean(app.playStore) && !app.playStorePending;
+
 /** Apps that are publicly downloadable — used for counts and structured data. */
-export const liveApps = apps.filter((a) => a.appStore || a.playStore);
+export const liveApps = apps.filter(
+  (a) => a.appStore || hasLivePlayStore(a)
+);

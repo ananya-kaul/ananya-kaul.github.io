@@ -5,7 +5,7 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Check, ExternalLink } from "lucide-react";
 import { FaApple, FaGooglePlay } from "react-icons/fa";
-import type { AppProject } from "../../lib/apps";
+import { hasLivePlayStore, type AppProject } from "../../lib/apps";
 import { GlyphArt } from "./AppGlyph";
 
 type Props = {
@@ -197,7 +197,7 @@ const AppDetailModal = ({ app, onClose }: Props) => {
                 </div>
               </div>
 
-              {!app.appStore && !app.playStore && (
+              {!app.appStore && !hasLivePlayStore(app) && (
                 <p className="mt-6 text-xs text-gray-500 italic">
                   Client-internal or unreleased build — no public store listing.
                 </p>
@@ -205,7 +205,7 @@ const AppDetailModal = ({ app, onClose }: Props) => {
             </div>
 
             {/* Sticky store actions — the only place that leaves the site */}
-            {(app.appStore || app.playStore) && (
+            {(app.appStore || hasLivePlayStore(app)) && (
               <div className="shrink-0 border-t border-white/10 bg-[#0d1117]/95 backdrop-blur px-5 sm:px-8 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] flex flex-col sm:flex-row gap-3">
                 {app.appStore && (
                   <a
@@ -219,9 +219,9 @@ const AppDetailModal = ({ app, onClose }: Props) => {
                     <ExternalLink size={14} className="opacity-70" aria-hidden />
                   </a>
                 )}
-                {app.playStore && (
+                {hasLivePlayStore(app) && (
                   <a
-                    href={app.playStore}
+                    href={app.playStore!}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 min-h-12 flex justify-center items-center gap-2.5 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 text-gray-100 font-semibold text-sm transition-colors active:scale-[0.98]"

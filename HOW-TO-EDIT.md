@@ -233,6 +233,20 @@ Cut a whole `{ ... },` block and paste it higher or lower in the list.
 
 Delete its whole `{ ... },` block — from the opening `{` to the comma after `}`.
 
+### An app you haven't published to Google Play yet
+
+Keep the URL you *will* use, and add `playStorePending: true`:
+
+```ts
+playStore: "https://play.google.com/store/apps/details?id=com.your.package",
+playStorePending: true,   // ← no Play Store button is shown while this is here
+```
+
+The card and popup show only the App Store button, so nobody taps through to a
+Play Store 404. **On launch day, delete the `playStorePending` line** — the
+button, the store badge and the "live on stores" count all switch on by
+themselves. (TEXT UP is set up this way right now.)
+
 ### An app with no public store listing
 
 Set `icon: null` and give it a `glyph` and a `gradient` instead:

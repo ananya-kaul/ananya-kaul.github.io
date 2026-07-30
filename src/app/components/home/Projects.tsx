@@ -5,7 +5,12 @@ import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import SectionHeader from "../ui/SectionHeader";
 import { motion } from "framer-motion";
-import { apps, liveApps, type AppProject } from "../../lib/apps";
+import {
+  apps,
+  liveApps,
+  hasLivePlayStore,
+  type AppProject,
+} from "../../lib/apps";
 import AppDetailModal from "./AppDetailModal";
 import { GlyphArt } from "./AppGlyph";
 
@@ -163,7 +168,7 @@ const ProjectCard = ({
                 <span className="sr-only">Available on the App Store</span>
               </span>
             )}
-            {app.playStore && (
+            {hasLivePlayStore(app) && (
               <span
                 title="Available on Google Play"
                 className="grid place-items-center h-7 w-7 rounded-full bg-black/60 border border-white/15 text-gray-200 backdrop-blur-sm"

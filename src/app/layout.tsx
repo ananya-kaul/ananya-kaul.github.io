@@ -7,7 +7,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CursorTrail from "./components/CursorTrail";
 import { PERSON, SITE_DESCRIPTION, SITE_URL } from "./lib/site";
-import { apps } from "./lib/apps";
+import { apps, hasLivePlayStore } from "./lib/apps";
 import { withBasePath } from "./lib/basePath";
 
 const OG_IMAGE = {
@@ -116,7 +116,8 @@ const structuredData = {
           description: app.tagline,
           applicationCategory: app.category,
           operatingSystem: app.platforms.join(", "),
-          ...(app.appStore || app.playStore
+          // Only point Google at a listing that actually resolves
+          ...(app.appStore || hasLivePlayStore(app)
             ? { url: app.appStore ?? app.playStore }
             : {}),
           author: { "@id": `${SITE_URL}/#person` },
