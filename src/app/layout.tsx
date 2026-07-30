@@ -150,7 +150,13 @@ const structuredData = {
             ? "MobileApplication"
             : "SoftwareApplication",
           name: app.title,
-          description: app.tagline,
+          // The full "About this app" copy, not the one-line card tagline: the
+          // detail sheet only renders on tap, so this is the only place a
+          // crawler ever sees the substantive text. Still user-visible on the
+          // page, so it stays within Google's structured-data guidelines.
+          description: app.about,
+          abstract: app.tagline,
+          featureList: app.highlights.join(" · "),
           applicationCategory: app.category,
           operatingSystem: app.platforms.join(", "),
           // Only point Google at a listing that actually resolves
