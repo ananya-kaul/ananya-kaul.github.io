@@ -159,10 +159,17 @@ const Recommendations = () => {
               ? "Leave a Recommendation"
               : "Be the first to recommend me"}
           </button>
-          <p className="text-xs text-gray-600 flex items-center gap-1.5 text-center">
-            <ShieldCheck size={13} aria-hidden />
-            Every recommendation is read and approved by me before it appears
-            here.
+          {/* items-start, not items-center: on a phone this line wraps, and
+              centring the icon against a two-line block parks it in the gutter
+              between the lines. Aligning to the top and nudging it down by
+              half a line's leading keeps it on the first line at every width.
+              shrink-0 stops flex from squashing the 13px square. */}
+          <p className="text-xs text-gray-600 flex items-start justify-center gap-1.5 text-center">
+            <ShieldCheck size={13} className="shrink-0 mt-[1.5px]" aria-hidden />
+            <span>
+              Every recommendation is read and approved by me before it appears
+              here.
+            </span>
           </p>
         </motion.div>
       </div>

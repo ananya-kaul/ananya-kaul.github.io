@@ -378,7 +378,12 @@ export const apps: AppProject[] = [
     glyph: "subscription",
     gradient: "from-orange-600/50 via-rose-700/40 to-red-700/50",
     tags: ["iOS", "Swift", "Modular Architecture", "Unit Testing"],
-    appStore: null,
+    // The https form of itms-apps://apps.apple.com/app/id6760344675. Kept as
+    // https because itms-apps:// does nothing in a desktop browser and is not
+    // a valid URL for the JSON-LD in layout.tsx, while https still hands off
+    // to the App Store app on iOS. Note the listing is not live yet, so this
+    // resolves to an App Store 404 until it publishes.
+    appStore: "https://apps.apple.com/app/id6760344675",
     playStore: null,
   },
 ];

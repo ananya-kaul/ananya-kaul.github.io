@@ -6,11 +6,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { withBasePath } from "../lib/basePath";
 
 const navLinks = [
+  // Kept in the same order as the sections on the page, so the scroll-spy
+  // highlight always moves left-to-right as someone scrolls down.
   { label: "Tech Stack", href: "#skills", id: "skills" },
   { label: "Experience", href: "#experience", id: "experience" },
-  { label: "Reviews", href: "#recommendations", id: "recommendations" },
   { label: "Apps", href: "#projects", id: "projects" },
   { label: "Writing", href: "#writing", id: "writing" },
+  { label: "Reviews", href: "#recommendations", id: "recommendations" },
   { label: "Contact", href: "#contact", id: "contact" },
 ];
 

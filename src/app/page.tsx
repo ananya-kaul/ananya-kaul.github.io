@@ -14,9 +14,14 @@ export default function Home() {
       <Hero />
       <Skills />
       <Experience />
-      <Recommendations />
       <Projects />
       <Writing />
+      {/* After the apps and the writing on purpose: by this point a visitor has
+          seen the work itself, so the recommendations read as corroboration of
+          something they already believe rather than a claim they have to take
+          on trust. It also keeps a thin section off the top of the page while
+          the count is still low. */}
+      <Recommendations />
       <Education />
       <Achievements />
       <Contact />

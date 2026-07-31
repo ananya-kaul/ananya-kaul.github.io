@@ -157,14 +157,24 @@ const ProjectCard = ({
             </span>
           </div>
 
-          {/* Store availability badges */}
+          {/* Store availability badges.
+
+              Both marks are bounding-box centred by the grid, but neither
+              *looks* centred, because their ink is not evenly distributed
+              inside that box. Measured against each glyph's alpha-weighted
+              centre of mass at the sizes used here: the apple sits ~1px low
+              (the leaf stretches the box upwards while the body hangs below)
+              and the play mark reads ~1.7px right (it is widest at the left
+              and tapers to a point). The nudges below pull each one back to
+              its optical centre — half the offset for the play mark, since a
+              full correction overshoots on a pointed shape. */}
           <div className="absolute top-3 right-3 flex gap-1.5">
             {app.appStore && (
               <span
                 title="Available on the App Store"
                 className="grid place-items-center h-7 w-7 rounded-full bg-black/60 border border-white/15 text-gray-200 backdrop-blur-sm"
               >
-                <FaApple size={13} aria-hidden />
+                <FaApple size={13} className="-translate-y-px" aria-hidden />
                 <span className="sr-only">Available on the App Store</span>
               </span>
             )}
@@ -173,7 +183,11 @@ const ProjectCard = ({
                 title="Available on Google Play"
                 className="grid place-items-center h-7 w-7 rounded-full bg-black/60 border border-white/15 text-gray-200 backdrop-blur-sm"
               >
-                <FaGooglePlay size={12} aria-hidden />
+                <FaGooglePlay
+                  size={12}
+                  className="translate-x-[0.8px]"
+                  aria-hidden
+                />
                 <span className="sr-only">Available on Google Play</span>
               </span>
             )}
