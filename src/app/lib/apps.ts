@@ -374,9 +374,7 @@ export const apps: AppProject[] = [
     ],
     category: "Finance",
     platforms: ["iOS"],
-    icon: null,
-    glyph: "subscription",
-    gradient: "from-orange-600/50 via-rose-700/40 to-red-700/50",
+    icon: withBasePath("/images/apps/cancel-subscription.jpg"),
     tags: ["iOS", "Swift", "Modular Architecture", "Unit Testing"],
     // The https form of itms-apps://apps.apple.com/app/id6760344675. Kept as
     // https because itms-apps:// does nothing in a desktop browser and is not
