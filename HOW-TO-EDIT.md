@@ -18,6 +18,7 @@ to add an app, how to publish, and what to do when something breaks.
 6. [Getting an app icon from the App Store](#6-getting-an-app-icon-from-the-app-store)
 6b. [Blog posts — they add themselves](#6b-blog-posts--they-add-themselves)
 7. [Editing every other section](#7-editing-every-other-section)
+7b. [Recommendations — publishing what people say](#7b-recommendations--publishing-what-people-say)
 8. [Replacing your photo and resume](#8-replacing-your-photo-and-resume)
 9. [SEO — what to change and where](#9-seo--what-to-change-and-where)
 10. [About withBasePath](#10-about-withbasepath)
@@ -372,6 +373,7 @@ automatically — you never update a number by hand.
 | Blog posts (the Writing section) | `src/app/lib/writing.ts` — but these sync automatically, see [6b](#6b-blog-posts--they-add-themselves) |
 | Education | `src/app/components/home/Education.tsx` (`education` list) |
 | Achievements, certifications, extracurricular | `src/app/components/home/Achievements.tsx` |
+| Recommendations / testimonials | `src/app/lib/recommendations.ts` — see [7b](#7b-recommendations--publishing-what-people-say) |
 | Contact section text + the direct email/WhatsApp buttons | `src/app/components/home/Contact.tsx` |
 | Top navigation links | `navLinks` at the top of `src/app/components/Header.tsx` |
 | Footer text and links | `src/app/components/Footer.tsx` |
@@ -396,6 +398,127 @@ comma.
 > **Careful with apostrophes.** Inside quotes, write `don't` as `don\'t`, or use
 > a curly apostrophe `don’t`. A bare `'` inside `'...'` breaks the build. The
 > safest habit: use double quotes `"don't"`.
+
+---
+
+## 7b. Recommendations — publishing what people say
+
+The **What People Say** section sits between Experience and Apps. It's social
+proof: instead of you saying you're good, the people you've shipped with say it.
+
+### How the whole thing flows
+
+```
+Visitor clicks "Leave a Recommendation"
+        ↓
+Form opens on your site (no Google Form, they never leave the page)
+        ↓
+Their answers land in the SAME Google Sheet as your contact messages,
+tagged "@RECOMMENDATION — <their name>"
+        ↓
+You read it and decide
+        ↓
+You paste it into src/app/lib/recommendations.ts and publish
+```
+
+That last step is manual on purpose. It's what stops spam, joke entries and
+anything you'd rather not have on a page recruiters read.
+
+### Reading what people submitted
+
+Open the same Google Sheet your contact form writes to. Recommendation rows
+start with `@RECOMMENDATION` in the Name column, so you can sort or filter on it
+to separate them from normal contact messages. The Message column arrives
+pre-formatted, like this:
+
+```
+Rating: 5/5
+Designation: Senior Mobile Developer
+Company: iApp Technologies LLP
+Relationship: Worked with me
+Would recommend: Definitely
+Would work with me again: Yes, absolutely
+Stood out: Problem solving, Swift, Teamwork
+LinkedIn: linkedin.com/in/example
+
+Working with Ananya was an excellent experience. He consistently delivered...
+```
+
+### Publishing one
+
+Open `src/app/lib/recommendations.ts` and add a block inside the square
+brackets. Newest first — that's the order they appear on the page.
+
+```ts
+export const recommendations: Recommendation[] = [
+  {
+    id: "rahul-sharma",
+    name: "Rahul Sharma",
+    designation: "Senior Mobile Developer",
+    company: "iApp Technologies LLP",
+    relationship: "Worked with me",
+    rating: 5,
+    project: "SecondLine — VoIP calling",
+    highlights: ["Problem solving", "Swift", "Teamwork"],
+    wouldWorkAgain: "Yes, absolutely",
+    linkedin: "https://www.linkedin.com/in/example",
+    quote:
+      "Working with Ananya was an excellent experience. He consistently delivered features before deadline and kept code quality high throughout.",
+  },
+];
+```
+
+| Line | Required? | Notes |
+|---|---|---|
+| `id` | yes | Any short unique tag. Their name in lowercase with a dash works. |
+| `name` | yes | |
+| `designation` | yes | Their job title. |
+| `company` | no | Leave the line out if they'd rather not say. |
+| `relationship` | yes | Must be one of: `Worked with me`, `Managed me`, `Reported to me`, `Client`, `Mentor`, `Studied with me`. |
+| `rating` | yes | A whole number, 1 to 5. |
+| `quote` | yes | **Don't rewrite what they wrote.** Trim it if it's long, but keep their words. |
+| `project` | no | Shown in small grey text under their name. |
+| `highlights` | no | The qualities they ticked, shown as little chips. |
+| `linkedin` | no | Worth asking for — it turns their name into a link, which makes the recommendation verifiable. That's what makes it worth something to a recruiter. |
+| `wouldWorkAgain` | no | `Yes, absolutely`, `Yes` or `Maybe`. Adds a green badge to the card. |
+
+Then publish as usual (section 3).
+
+### The numbers above the cards
+
+Three of the four are calculated, so they can never contradict what's on screen:
+
+- **Average rating** — worked out from the `rating` values you've published
+- **Recommendations** — how many are in the list
+- **Live apps delivered** — counted from `apps.ts` (apps with a real store link)
+- **Years experience** — the one you set by hand: `YEARS_EXPERIENCE` near the
+  bottom of `recommendations.ts`. Bump it when it changes.
+
+Until there's at least one recommendation, the average and the count are hidden
+and the section shows a short invitation instead — so an empty list looks
+deliberate rather than broken.
+
+### Getting people to actually write one
+
+Send them the direct link — `https://ananya-kaul.github.io/#recommendations` —
+and ask for something specific. A message that works:
+
+> Hi \<name\>, I'm putting together a portfolio for AI/ML roles and I'd really
+> value a couple of honest lines from you about working together on
+> \<project\>. There's a short form here — takes about two minutes:
+> https://ananya-kaul.github.io/#recommendations
+> No worries at all if you'd rather not.
+
+Ask your manager and one or two teammates first. Three specific, verifiable
+recommendations from people who can be looked up beat twenty vague ones.
+
+### A note on being honest with these
+
+Only publish recommendations people actually wrote. Don't write them yourself,
+don't pad the count, and don't inflate the ratings. A recruiter who checks one
+LinkedIn profile and finds the person doesn't exist has learned something about
+you that no amount of good code will undo — and the numbers on this page are
+calculated from the list precisely so they stay true.
 
 ---
 

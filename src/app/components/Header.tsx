@@ -8,6 +8,7 @@ import { withBasePath } from "../lib/basePath";
 const navLinks = [
   { label: "Tech Stack", href: "#skills", id: "skills" },
   { label: "Experience", href: "#experience", id: "experience" },
+  { label: "Reviews", href: "#recommendations", id: "recommendations" },
   { label: "Apps", href: "#projects", id: "projects" },
   { label: "Writing", href: "#writing", id: "writing" },
   { label: "Contact", href: "#contact", id: "contact" },
@@ -85,7 +86,10 @@ const Header = () => {
             <span className="text-blue-400 tracking-tighter">AK</span>
             <span className="text-gray-500 font-light">{"}"}</span>
           </span>
-          <span className="tracking-widest uppercase text-[11px] sm:text-sm ml-0.5 sm:ml-1 whitespace-nowrap">
+          {/* Hidden only at tablet width, where six nav links plus the Resume
+              button would otherwise overflow the bar. The {AK} monogram and
+              the aria-label still identify it. */}
+          <span className="tracking-widest uppercase text-[11px] sm:text-sm ml-0.5 sm:ml-1 whitespace-nowrap md:hidden lg:inline">
             Ananya Kaul
           </span>
         </Link>
@@ -98,7 +102,7 @@ const Header = () => {
                 <a
                   href={link.href}
                   aria-current={activeId === link.id ? "true" : undefined}
-                  className={`block whitespace-nowrap px-2.5 lg:px-3 py-2 rounded-xl transition-colors duration-300 hover:text-gray-100 hover:bg-white/5 ${
+                  className={`block whitespace-nowrap px-2 lg:px-3 py-2 rounded-xl transition-colors duration-300 hover:text-gray-100 hover:bg-white/5 ${
                     activeId === link.id
                       ? "text-blue-400 bg-blue-500/10"
                       : "text-gray-400"

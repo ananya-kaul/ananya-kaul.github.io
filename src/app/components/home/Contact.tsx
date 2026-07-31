@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import SectionHeader from "../ui/SectionHeader";
+import { FORM_ENDPOINT } from "../../lib/site";
 import { BiSend, BiLoaderAlt } from "react-icons/bi";
 import { MdMailOutline } from "react-icons/md";
 import { BsWhatsapp, BsLinkedin } from "react-icons/bs";
@@ -35,9 +36,6 @@ const Contact = () => {
     status: StatusType;
   } | null>(null);
   const [isSending, setIsSending] = useState(false);
-
-  const emailUrl =
-    "https://script.google.com/macros/s/AKfycbwVoRN6EEeHKCYyn1zLtIpevnoUIGBstOU1LWt-MCXZCBcUSZ9-cKoeKuWQtGE22ZMa/exec";
 
   /** Email validation */
   const checkEmailIsValid = (email: string) => {
@@ -79,7 +77,7 @@ const Contact = () => {
     formData.set("Message", form.message);
 
     try {
-      await fetch(emailUrl, { method: "POST", body: formData });
+      await fetch(FORM_ENDPOINT, { method: "POST", body: formData });
       setStatus({
         message: "Thanks for reaching out! I'll get back to you soon.",
         status: "Success",
