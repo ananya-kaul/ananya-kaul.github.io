@@ -272,10 +272,12 @@ const RecommendationForm = ({ open, onClose }: Props) => {
                 </button>
               </div>
             ) : (
+              /* The bottom padding clears the iPhone home indicator, so the
+                 Cancel button never ends up underneath it */
               <form
                 onSubmit={handleSubmit}
                 noValidate
-                className="overflow-y-auto overscroll-contain px-5 sm:px-8 pt-4 sm:pt-8 pb-6"
+                className="overflow-y-auto overscroll-contain px-5 sm:px-8 pt-4 sm:pt-8 pb-[max(1.5rem,env(safe-area-inset-bottom))]"
               >
                 <div className="pr-12">
                   <h3

@@ -217,7 +217,7 @@ const RecommendationCard = ({ item }: { item: Recommendation }) => (
       )}
     </div>
 
-    <blockquote className="relative text-sm sm:text-[15px] text-gray-300 leading-relaxed">
+    <blockquote className="relative text-sm sm:text-[15px] text-gray-300 leading-relaxed break-words">
       <Quote
         size={22}
         className="absolute -top-1 -left-0.5 text-white/5"
@@ -247,7 +247,9 @@ const RecommendationCard = ({ item }: { item: Recommendation }) => (
         {initials(item.name)}
       </span>
       <div className="min-w-0">
-        <p className="text-sm font-bold text-gray-100 flex items-center gap-1.5 flex-wrap">
+        {/* break-words throughout: a long unbroken company name or job title
+            would otherwise run off the edge of the card on a narrow phone */}
+        <p className="text-sm font-bold text-gray-100 flex items-center gap-1.5 flex-wrap break-words">
           {item.linkedin ? (
             <a
               href={item.linkedin}
@@ -263,11 +265,11 @@ const RecommendationCard = ({ item }: { item: Recommendation }) => (
             item.name
           )}
         </p>
-        <p className="text-xs text-gray-500 leading-snug">
+        <p className="text-xs text-gray-500 leading-snug break-words">
           {item.designation}
           {item.company && ` · ${item.company}`}
         </p>
-        <p className="text-[11px] text-gray-600 mt-0.5">
+        <p className="text-[11px] text-gray-600 mt-0.5 break-words">
           {item.relationship}
           {item.project && ` · ${item.project}`}
         </p>
