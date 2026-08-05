@@ -1,20 +1,41 @@
 /**
  * Recommendations shown in the "What People Say" section.
  *
- * Nothing on this page is automatic, and that is deliberate. Someone fills in
- * the form on the site, their answers land in the same Google Sheet as your
- * contact form, you read them, and you paste the ones you're happy with into
- * the `recommendations` array below. That manual step is what keeps spam and
- * joke entries off your site.
+ * These are no longer typed into this file. They live in a Supabase database,
+ * and you decide what appears from your admin dashboard:
  *
- * The numbers above the cards (average rating, how many recommendations) are
- * calculated from this array, so they can never disagree with what a visitor
- * can actually count on screen.
+ *   Visitor fills the form  ->  row lands in the database as "pending"
+ *                           ->  you open your admin site and press List
+ *                           ->  it appears here within seconds, no rebuild
  *
- * -> Full step-by-step instructions live in HOW-TO-EDIT.md, section 7b.
+ * Pressing Unlist takes it off the site again without deleting anything, and
+ * pressing List later brings it straight back. Nothing on this page is
+ * automatic: only rows you have explicitly listed are readable by the public.
+ *
+ * The site reads a *view* called `public_recommendations`, not the table. The
+ * view leaves out the submitter's email address, so the public key used by
+ * this file physically cannot read it.
+ *
+ * -> Setup and day-to-day use are in HOW-TO-EDIT.md, section 7b.
  */
 
-/** How the person knows you. Use one of these exact strings. */
+/**
+ * Both values are meant to be public — they are compiled into the JavaScript
+ * that every visitor downloads, which is how Supabase is designed to work. The
+ * anon key alone grants nothing: the database rules decide that it may read
+ * listed recommendations and submit new pending ones, and nothing else.
+ *
+ * Set them in `.env.local` for local development, and as repository secrets
+ * for the deploy (see HOW-TO-EDIT.md 7b). If they are missing the site still
+ * builds and every other section works — the recommendations section simply
+ * reports that it could not load.
+ */
+export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+export const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+
+export const isSupabaseConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+
+/** How the person knows you. The database only accepts these exact strings. */
 export type Relationship =
   | "Managed me"
   | "Worked with me"
@@ -27,64 +48,155 @@ export type Relationship =
 export type WouldWorkAgain = "Yes, absolutely" | "Yes" | "Maybe";
 
 export type Recommendation = {
-  /** Any short unique slug — used as the React key. e.g. "rahul-sharma" */
   id: string;
   name: string;
   /** Job title, e.g. "Senior Mobile Developer" */
   designation: string;
-  /** Where they work. Leave it out if they'd rather not say. */
+  /** Where they work. Optional — some people would rather not say. */
   company?: string;
   relationship: Relationship;
   /** Whole numbers, 1 to 5. */
   rating: number;
-  /** The recommendation itself, in their own words. Don't rewrite it. */
+  /** The recommendation itself, in their own words. */
   quote: string;
   /** Optional: what they worked on with you, shown under their name. */
   project?: string;
   /** Optional: the qualities they picked out, shown as small chips. */
   highlights?: string[];
-  /** Optional: their LinkedIn. Makes the recommendation verifiable — worth asking for. */
+  /** Optional: their LinkedIn. Turns their name into a verifiable link. */
   linkedin?: string;
   /** Optional: shown as a green badge on the card. */
   wouldWorkAgain?: WouldWorkAgain;
+  /** Optional: a photo URL. Falls back to their initials when empty. */
+  photoUrl?: string;
 };
 
-/**
- * Paste approved recommendations here, newest first.
- *
- * The section is built to look right whether there are zero, one or twenty —
- * with none it shows an invitation to be the first, so it never looks broken.
- *
- * Copy this shape for each new one:
- *
- *   {
- *     id: "rahul-sharma",
- *     name: "Rahul Sharma",
- *     designation: "Senior Mobile Developer",
- *     company: "iApp Technologies LLP",
- *     relationship: "Worked with me",
- *     rating: 5,
- *     project: "SecondLine — VoIP calling",
- *     highlights: ["Problem solving", "Swift", "Teamwork"],
- *     wouldWorkAgain: "Yes, absolutely",
- *     linkedin: "https://www.linkedin.com/in/example",
- *     quote:
- *       "Ananya consistently delivered features ahead of deadline without letting code quality slip...",
- *   },
- */
-export const recommendations: Recommendation[] = [];
+/** One row of the `public_recommendations` view, exactly as Postgres sends it. */
+type Row = {
+  id: string;
+  name: string;
+  designation: string;
+  company: string | null;
+  relationship: string;
+  rating: number;
+  quote: string;
+  project: string | null;
+  highlights: string[] | null;
+  linkedin: string | null;
+  would_work_again: string | null;
+  photo_url: string | null;
+};
 
-/** How many recommendations are live on the site right now. */
-export const recommendationCount = recommendations.length;
+/** Postgres uses snake_case and nulls; the rest of the app doesn't. */
+const fromRow = (row: Row): Recommendation => ({
+  id: row.id,
+  name: row.name,
+  designation: row.designation,
+  company: row.company ?? undefined,
+  relationship: row.relationship as Relationship,
+  rating: row.rating,
+  quote: row.quote,
+  project: row.project ?? undefined,
+  highlights: row.highlights?.length ? row.highlights : undefined,
+  linkedin: row.linkedin ?? undefined,
+  wouldWorkAgain: (row.would_work_again as WouldWorkAgain) || undefined,
+  photoUrl: row.photo_url ?? undefined,
+});
+
+/**
+ * Everything currently listed, newest first.
+ *
+ * Throws if the database can't be reached, so the section can tell the
+ * difference between "he has no recommendations yet" and "something is broken"
+ * — showing the friendly empty state in the second case would be a lie.
+ */
+export const fetchListedRecommendations = async (
+  signal?: AbortSignal
+): Promise<Recommendation[]> => {
+  if (!isSupabaseConfigured) {
+    throw new Error("Supabase is not configured");
+  }
+
+  const response = await fetch(
+    `${SUPABASE_URL}/rest/v1/public_recommendations?select=*&order=listed_at.desc`,
+    {
+      signal,
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Recommendations request failed (${response.status})`);
+  }
+
+  const rows: Row[] = await response.json();
+  return rows.map(fromRow);
+};
+
+/** Send a new submission. It always arrives as "pending" — see 7b. */
+export const submitRecommendation = async (payload: {
+  name: string;
+  designation: string;
+  company: string;
+  relationship: string;
+  rating: number;
+  quote: string;
+  project: string;
+  highlights: string[];
+  linkedin: string;
+  wouldWorkAgain: string;
+  recommend: string;
+  howYouKnowMe: string;
+  email: string;
+}): Promise<void> => {
+  if (!isSupabaseConfigured) {
+    throw new Error("Supabase is not configured");
+  }
+
+  /* A stored function rather than a plain insert. The function forces the new
+     row to "pending" no matter what is sent, so nobody can publish straight to
+     your site by calling this endpoint themselves. */
+  const response = await fetch(
+    `${SUPABASE_URL}/rest/v1/rpc/submit_recommendation`,
+    {
+      method: "POST",
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        p_name: payload.name,
+        p_designation: payload.designation,
+        p_company: payload.company,
+        p_relationship: payload.relationship,
+        p_rating: payload.rating,
+        p_quote: payload.quote,
+        p_project: payload.project,
+        p_highlights: payload.highlights,
+        p_linkedin: payload.linkedin,
+        p_would_work_again: payload.wouldWorkAgain,
+        p_recommend: payload.recommend,
+        p_how_you_know_me: payload.howYouKnowMe,
+        p_email: payload.email,
+      }),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Submission failed (${response.status})`);
+  }
+};
 
 /** Average rating to one decimal place, e.g. 4.9. Zero when there are none. */
-export const averageRating =
-  recommendationCount === 0
+export const averageOf = (items: Recommendation[]) =>
+  items.length === 0
     ? 0
     : Math.round(
-        (recommendations.reduce((sum, item) => sum + item.rating, 0) /
-          recommendationCount) *
-          10
+        (items.reduce((sum, item) => sum + item.rating, 0) / items.length) * 10
       ) / 10;
 
 /**

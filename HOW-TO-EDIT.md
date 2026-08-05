@@ -18,7 +18,7 @@ to add an app, how to publish, and what to do when something breaks.
 6. [Getting an app icon from the App Store](#6-getting-an-app-icon-from-the-app-store)
 6b. [Blog posts — they add themselves](#6b-blog-posts--they-add-themselves)
 7. [Editing every other section](#7-editing-every-other-section)
-7b. [Recommendations — publishing what people say](#7b-recommendations--publishing-what-people-say)
+7b. [Recommendations — listing and unlisting from your dashboard](#7b-recommendations--listing-and-unlisting-from-your-dashboard)
 8. [Replacing your photo and resume](#8-replacing-your-photo-and-resume)
 9. [SEO — what to change and where](#9-seo--what-to-change-and-where)
 10. [About withBasePath](#10-about-withbasepath)
@@ -373,7 +373,7 @@ automatically — you never update a number by hand.
 | Blog posts (the Writing section) | `src/app/lib/writing.ts` — but these sync automatically, see [6b](#6b-blog-posts--they-add-themselves) |
 | Education | `src/app/components/home/Education.tsx` (`education` list) |
 | Achievements, certifications, extracurricular | `src/app/components/home/Achievements.tsx` |
-| Recommendations / testimonials | `src/app/lib/recommendations.ts` — see [7b](#7b-recommendations--publishing-what-people-say) |
+| Recommendations / testimonials | Not in the code — you list and unlist them from your admin dashboard, see [7b](#7b-recommendations--listing-and-unlisting-from-your-dashboard) |
 | Contact section text + the direct email/WhatsApp buttons | `src/app/components/home/Contact.tsx` |
 | Top navigation links | `navLinks` at the top of `src/app/components/Header.tsx` |
 | Footer text and links | `src/app/components/Footer.tsx` |
@@ -401,102 +401,118 @@ comma.
 
 ---
 
-## 7b. Recommendations — publishing what people say
+## 7b. Recommendations — listing and unlisting from your dashboard
 
-The **What People Say** section sits between Experience and Apps. It's social
-proof: instead of you saying you're good, the people you've shipped with say it.
+The **What People Say** section sits below Writing. It's social proof: instead
+of you saying you're good, the people you've shipped with say it.
+
+You don't edit any code to publish these. They live in a database, and you
+control what appears from a private dashboard on your phone or laptop.
 
 ### How the whole thing flows
 
 ```
 Visitor clicks "Leave a Recommendation"
         ↓
-Form opens on your site (no Google Form, they never leave the page)
+Form opens on your site (they never leave the page)
         ↓
-Their answers land in the SAME Google Sheet as your contact messages,
-tagged "@RECOMMENDATION — <their name>"
+It lands in your database as "pending", and you get an email saying so
         ↓
-You read it and decide
+You open your dashboard and press "List on site"
         ↓
-You paste it into src/app/lib/recommendations.ts and publish
+It appears on your portfolio within seconds — no rebuild, no push
 ```
 
-That last step is manual on purpose. It's what stops spam, joke entries and
-anything you'd rather not have on a page recruiters read.
+Press **Unlist** later and it comes off the site immediately, but stays in the
+dashboard. Press **List** again months later and it goes straight back up,
+without you re-typing a word. Nothing is deleted by listing or unlisting.
 
-### Reading what people submitted
+Only recommendations you have explicitly listed are readable by the public.
+That's what stops spam, joke entries and anything you'd rather not have on a
+page recruiters read.
 
-Open the same Google Sheet your contact form writes to. Recommendation rows
-start with `@RECOMMENDATION` in the Name column, so you can sort or filter on it
-to separate them from normal contact messages. The Message column arrives
-pre-formatted, like this:
+### The two pieces
 
-```
-Rating: 5/5
-Designation: Senior Mobile Developer
-Company: iApp Technologies LLP
-Relationship: Worked with me
-Would recommend: Definitely
-Would work with me again: Yes, absolutely
-Stood out: Problem solving, Swift, Teamwork
-LinkedIn: linkedin.com/in/example
+| Where | What it is |
+|---|---|
+| **Supabase** | The database. Free account, holds every submission. |
+| **`portfolio-admin`** | Your dashboard — a separate repo, its own small site. |
 
-Working with Ananya was an excellent experience. He consistently delivered...
-```
+Your portfolio reads a cut-down view of the database that contains **only
+listed recommendations, and only the public columns**. Submitters' email
+addresses and your private notes are not merely hidden from the site; the key
+your site uses has no permission to read those columns at all.
 
-### Publishing one
+### First-time setup
 
-Open `src/app/lib/recommendations.ts` and add a block inside the square
-brackets. Newest first — that's the order they appear on the page.
+It's all written out in the admin repo's `README.md` — about fifteen minutes,
+once. In short:
 
-```ts
-export const recommendations: Recommendation[] = [
-  {
-    id: "rahul-sharma",
-    name: "Rahul Sharma",
-    designation: "Senior Mobile Developer",
-    company: "iApp Technologies LLP",
-    relationship: "Worked with me",
-    rating: 5,
-    project: "SecondLine — VoIP calling",
-    highlights: ["Problem solving", "Swift", "Teamwork"],
-    wouldWorkAgain: "Yes, absolutely",
-    linkedin: "https://www.linkedin.com/in/example",
-    quote:
-      "Working with Ananya was an excellent experience. He consistently delivered features before deadline and kept code quality high throughout.",
-  },
-];
-```
+1. Create a free Supabase project.
+2. Paste `schema.sql` into its SQL Editor and run it.
+3. Create your login (Authentication → Users), and turn off public sign-ups.
+4. Copy the **Project URL** and the **anon public** key into the dashboard's
+   `config.js`.
+5. Put the same two values into this project:
+   - locally: copy `.env.example` to `.env.local` and fill them in
+   - on GitHub: **Settings → Secrets and variables → Actions**, add
+     `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+6. Push the portfolio so it rebuilds with those values.
 
-| Line | Required? | Notes |
-|---|---|---|
-| `id` | yes | Any short unique tag. Their name in lowercase with a dash works. |
-| `name` | yes | |
-| `designation` | yes | Their job title. |
-| `company` | no | Leave the line out if they'd rather not say. |
-| `relationship` | yes | Must be one of: `Worked with me`, `Managed me`, `Reported to me`, `Client`, `Mentor`, `Studied with me`. |
-| `rating` | yes | A whole number, 1 to 5. |
-| `quote` | yes | **Don't rewrite what they wrote.** Trim it if it's long, but keep their words. |
-| `project` | no | Shown in small grey text under their name. |
-| `highlights` | no | The qualities they ticked, shown as little chips. |
-| `linkedin` | no | Worth asking for — it turns their name into a link, which makes the recommendation verifiable. That's what makes it worth something to a recruiter. |
-| `wouldWorkAgain` | no | `Yes, absolutely`, `Yes` or `Maybe`. Adds a green badge to the card. |
+> **Never** copy the `service_role` key anywhere. The `anon` key is designed to
+> be public — it's compiled into your site's JavaScript, which is normal and
+> safe, because the database rules decide what it may do. The `service_role`
+> key ignores those rules entirely.
 
-Then publish as usual (section 3).
+### Day to day
+
+Open the dashboard, and each recommendation has buttons:
+
+| Button | What it does |
+|---|---|
+| **List on site** | Live on the portfolio within seconds |
+| **Unlist** | Off the site, kept in the dashboard |
+| **Not now** | Same as Unlist, for something you haven't decided about |
+| **Archive** | Filed out of the way, still recoverable |
+| **Edit** | Fix a typo, trim something long, add a photo URL |
+| **Delete** | Actually gone. Asks first |
+
+Relisting something moves it back to the top of the section, because the site
+orders by when each one was most recently listed.
+
+**Editing:** fix typos and trim length, but don't rewrite what people said.
+Their words are the entire value of the thing.
 
 ### The numbers above the cards
 
-Three of the four are calculated, so they can never contradict what's on screen:
+Three of the four are calculated from what's currently listed, so they can never
+contradict what's on screen:
 
-- **Average rating** — worked out from the `rating` values you've published
-- **Recommendations** — how many are in the list
+- **Average rating** — worked out from the listed recommendations
+- **Recommendations** — how many are listed right now
 - **Live apps delivered** — counted from `apps.ts` (apps with a real store link)
-- **Years experience** — the one you set by hand: `YEARS_EXPERIENCE` near the
-  bottom of `recommendations.ts`. Bump it when it changes.
+- **Years experience** — the one you set by hand: `YEARS_EXPERIENCE` in
+  `src/app/lib/recommendations.ts`. Bump it when it changes.
 
-Until there's at least one recommendation, the average and the count are hidden
-and the section shows a short invitation instead — so an empty list looks
-deliberate rather than broken.
+Until you've listed at least one, the average and the count are hidden and the
+section shows a short invitation instead — so an empty list looks deliberate
+rather than broken.
+
+### What visitors see while it loads
+
+Because the recommendations are fetched when the page opens rather than baked
+into it, there's a brief moment where two grey placeholder cards show. That's
+the trade for being able to publish without a rebuild.
+
+One consequence worth knowing: **search engines mostly won't index the
+recommendation text**, since it isn't in the page's HTML. Every other section
+is unaffected. If that ever matters more to you than instant publishing, say so
+and it can be changed to bake them in at build time instead.
+
+If the database can't be reached, the section says so and offers a **Try
+again** button. It deliberately does *not* fall back to "be the first to
+recommend me" — that would be untrue when there are recommendations sitting
+behind a failed request.
 
 ### Getting people to actually write one
 
@@ -514,13 +530,14 @@ recommendations from people who can be looked up beat twenty vague ones.
 
 ### A note on being honest with these
 
-Only publish recommendations people actually wrote. Don't write them yourself,
+Only list recommendations people actually wrote. Don't write them yourself,
 don't pad the count, and don't inflate the ratings. A recruiter who checks one
 LinkedIn profile and finds the person doesn't exist has learned something about
 you that no amount of good code will undo — and the numbers on this page are
-calculated from the list precisely so they stay true.
+calculated from what you've listed precisely so they stay true.
 
 ---
+
 
 ## 8. Replacing your photo and resume
 

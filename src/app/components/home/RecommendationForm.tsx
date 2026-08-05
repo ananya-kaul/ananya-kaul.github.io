@@ -9,6 +9,7 @@ import {
   RELATIONSHIP_OPTIONS,
   STRENGTH_OPTIONS,
   WORK_AGAIN_OPTIONS,
+  submitRecommendation,
 } from "../../lib/recommendations";
 
 type Props = {
@@ -38,7 +39,7 @@ const EMPTY = {
 type FormState = typeof EMPTY;
 type Errors = Partial<Record<keyof FormState, string>>;
 
-/** One readable block of text, so it lands in your sheet already formatted. */
+/** One readable block of text, so the notification email is already formatted. */
 const buildMessage = (form: FormState) => {
   const details = [
     `Rating: ${form.rating}/5`,
@@ -53,8 +54,25 @@ const buildMessage = (form: FormState) => {
     form.linkedin && `LinkedIn: ${form.linkedin}`,
   ].filter(Boolean);
 
-  // Blank line between the answers and the quote, so it's readable in the sheet
+  // Blank line between the answers and the quote, so it's readable in the email
   return `${details.join("\n")}\n\n${form.message}`;
+};
+
+/**
+ * Nudge the old Google Apps Script so you still get an email telling you
+ * something arrived. Deliberately not awaited and never allowed to throw: the
+ * database is what actually holds the submission, so a bounced notification
+ * must not turn a saved recommendation into an error on the visitor's screen.
+ */
+const notifyByEmail = (form: FormState) => {
+  const data = new FormData();
+  data.set("Name", `@RECOMMENDATION — ${form.name}`);
+  data.set("Email", form.email || "not provided");
+  data.set("Message", buildMessage(form));
+
+  void fetch(FORM_ENDPOINT, { method: "POST", body: data }).catch(() => {
+    /* Nothing to do here — see above. */
+  });
 };
 
 const RecommendationForm = ({ open, onClose }: Props) => {
@@ -185,13 +203,27 @@ const RecommendationForm = ({ open, onClose }: Props) => {
     setIsSending(true);
     setFailed(false);
 
-    const data = new FormData();
-    data.set("Name", `@RECOMMENDATION — ${form.name}`);
-    data.set("Email", form.email || "not provided");
-    data.set("Message", buildMessage(form));
-
     try {
-      await fetch(FORM_ENDPOINT, { method: "POST", body: data });
+      /* This is the one that matters: it puts the recommendation in the
+         database as "pending", where it waits in your dashboard until you
+         list it. Only if this succeeds is the visitor told it went through. */
+      await submitRecommendation({
+        name: form.name.trim(),
+        designation: form.designation.trim(),
+        company: form.company.trim(),
+        relationship: form.relationship,
+        rating: form.rating,
+        quote: form.message.trim(),
+        project: form.project.trim(),
+        highlights: form.strengths,
+        linkedin: form.linkedin.trim(),
+        wouldWorkAgain: form.workAgain,
+        recommend: form.recommend,
+        howYouKnowMe: form.howYouKnowMe.trim(),
+        email: form.email.trim(),
+      });
+
+      notifyByEmail(form);
       setSent(true);
     } catch {
       setFailed(true);

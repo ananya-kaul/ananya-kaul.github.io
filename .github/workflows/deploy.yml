@@ -31,8 +31,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # The two Supabase values are read at build time and compiled into the
+      # JavaScript, so they have to be present here. Add them under
+      # Settings -> Secrets and variables -> Actions -> New repository secret.
+      # Both are public-by-design keys (see .env.example) — nothing secret is
+      # being exposed, they just live here so they're easy to rotate.
       - name: Build static site
         run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
 
       - name: Upload artifact for deployment
         uses: actions/upload-pages-artifact@v3

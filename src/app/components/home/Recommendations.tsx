@@ -1,41 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Quote, Linkedin, PenLine, ShieldCheck } from "lucide-react";
+import { Quote, Linkedin, PenLine, ShieldCheck, RotateCw } from "lucide-react";
 import SectionHeader from "../ui/SectionHeader";
 import Stars from "../ui/Stars";
 import RecommendationForm from "./RecommendationForm";
 import { liveApps } from "../../lib/apps";
 import {
-  averageRating,
-  recommendationCount,
-  recommendations,
+  averageOf,
+  fetchListedRecommendations,
   YEARS_EXPERIENCE,
   type Recommendation,
 } from "../../lib/recommendations";
-
-/**
- * Everything except "Years experience" is counted from the data files, so the
- * numbers can never drift from what a visitor can see on the page.
- */
-const stats = [
-  ...(recommendationCount > 0
-    ? [
-        {
-          value: `${averageRating.toFixed(1)}/5`,
-          label: "Average rating",
-          rating: averageRating,
-        },
-        {
-          value: `${recommendationCount}`,
-          label:
-            recommendationCount === 1 ? "Recommendation" : "Recommendations",
-        },
-      ]
-    : []),
-  { value: `${liveApps.length}`, label: "Live apps delivered" },
-  { value: YEARS_EXPERIENCE, label: "Years experience" },
-];
 
 const initials = (name: string) =>
   name
@@ -45,8 +21,60 @@ const initials = (name: string) =>
     .map((part) => part[0]?.toUpperCase() ?? "")
     .join("");
 
+type LoadState = "loading" | "ready" | "error";
+
 const Recommendations = () => {
   const [formOpen, setFormOpen] = useState(false);
+  const [items, setItems] = useState<Recommendation[]>([]);
+  const [state, setState] = useState<LoadState>("loading");
+  /* Bumping this re-runs the effect, which is how the Try again button and the
+     "you just submitted one" case both ask for fresh data. */
+  const [attempt, setAttempt] = useState(0);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    setState("loading");
+
+    fetchListedRecommendations(controller.signal)
+      .then((rows) => {
+        setItems(rows);
+        setState("ready");
+      })
+      .catch((error: unknown) => {
+        // A cancelled request is us navigating away, not a failure worth showing
+        if (controller.signal.aborted) return;
+        console.error("Could not load recommendations:", error);
+        setState("error");
+      });
+
+    return () => controller.abort();
+  }, [attempt]);
+
+  const count = items.length;
+  const average = averageOf(items);
+
+  /**
+   * Everything except "Years experience" is counted from live data, so the
+   * numbers can never drift from what a visitor can see on the page. The
+   * rating and count only appear once there is something to count.
+   */
+  const stats = [
+    ...(state === "ready" && count > 0
+      ? [
+          {
+            value: `${average.toFixed(1)}/5`,
+            label: "Average rating",
+            rating: average,
+          },
+          {
+            value: `${count}`,
+            label: count === 1 ? "Recommendation" : "Recommendations",
+          },
+        ]
+      : []),
+    { value: `${liveApps.length}`, label: "Live apps delivered" },
+    { value: YEARS_EXPERIENCE, label: "Years experience" },
+  ];
 
   return (
     <section
@@ -77,9 +105,7 @@ const Recommendations = () => {
           transition={{ duration: 0.7, delay: 0.15 }}
           viewport={{ once: true }}
           className={`mt-7 w-full grid grid-cols-2 gap-2.5 sm:gap-4 ${
-            stats.length === 4
-              ? "max-w-3xl md:grid-cols-4"
-              : "max-w-md"
+            stats.length === 4 ? "max-w-3xl md:grid-cols-4" : "max-w-md"
           }`}
         >
           {stats.map((stat) => (
@@ -106,41 +132,50 @@ const Recommendations = () => {
           ))}
         </motion.dl>
 
-        {recommendations.length > 0 ? (
-          <motion.ul
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.05 }}
-            variants={{
-              hidden: { opacity: 0, y: 30 },
-              visible: {
-                opacity: 1,
-                y: 0,
-                transition: {
-                  staggerChildren: 0.08,
-                  duration: 0.6,
-                  ease: "easeOut",
-                },
-              },
-            }}
-            className="mt-6 sm:mt-8 w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5"
-          >
-            {recommendations.map((item) => (
-              <motion.li
-                key={item.id}
+        {/* aria-live so a screen reader is told when the cards finish loading,
+            rather than being left on "Loading recommendations" forever */}
+        <div className="w-full flex flex-col items-center" aria-live="polite">
+          {state === "loading" && <LoadingCards />}
+
+          {state === "error" && <ErrorState onRetry={() => setAttempt((n) => n + 1)} />}
+
+          {state === "ready" &&
+            (count > 0 ? (
+              <motion.ul
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.05 }}
                 variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0 },
+                  hidden: { opacity: 0, y: 30 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      staggerChildren: 0.08,
+                      duration: 0.6,
+                      ease: "easeOut",
+                    },
+                  },
                 }}
-                className="h-full"
+                className="mt-6 sm:mt-8 w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5"
               >
-                <RecommendationCard item={item} />
-              </motion.li>
+                {items.map((item) => (
+                  <motion.li
+                    key={item.id}
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      visible: { opacity: 1, y: 0 },
+                    }}
+                    className="h-full"
+                  >
+                    <RecommendationCard item={item} />
+                  </motion.li>
+                ))}
+              </motion.ul>
+            ) : (
+              <EmptyState onOpen={() => setFormOpen(true)} />
             ))}
-          </motion.ul>
-        ) : (
-          <EmptyState onOpen={() => setFormOpen(true)} />
-        )}
+        </div>
 
         {/* The ask — always visible, so a happy visitor never has to hunt for it */}
         <motion.div
@@ -155,9 +190,12 @@ const Recommendations = () => {
             className="inline-flex items-center gap-2 min-h-12 px-6 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold transition-colors shadow-lg shadow-blue-600/20 active:scale-[0.98]"
           >
             <PenLine size={16} aria-hidden />
-            {recommendationCount > 0
-              ? "Leave a Recommendation"
-              : "Be the first to recommend me"}
+            {/* "Be the first" is only true once we've actually heard back that
+                there are none. While loading, or if the request failed, we
+                don't know — so fall back to the neutral wording. */}
+            {state === "ready" && count === 0
+              ? "Be the first to recommend me"
+              : "Leave a Recommendation"}
           </button>
           {/* items-start, not items-center: on a phone this line wraps, and
               centring the icon against a two-line block parks it in the gutter
@@ -180,6 +218,58 @@ const Recommendations = () => {
 };
 
 export default Recommendations;
+
+/* ---------------------------------------------------------------- states */
+
+/** Two card-shaped placeholders, so the page doesn't jump when the real ones land. */
+const LoadingCards = () => (
+  <div className="mt-6 sm:mt-8 w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
+    <span className="sr-only">Loading recommendations…</span>
+    {[0, 1].map((index) => (
+      <div
+        key={index}
+        aria-hidden
+        className="glass-effect rounded-2xl p-5 sm:p-6 h-56 flex flex-col gap-4 animate-pulse"
+      >
+        <div className="h-4 w-28 rounded bg-white/10" />
+        <div className="flex flex-col gap-2">
+          <div className="h-3 w-full rounded bg-white/10" />
+          <div className="h-3 w-11/12 rounded bg-white/10" />
+          <div className="h-3 w-8/12 rounded bg-white/10" />
+        </div>
+        <div className="mt-auto pt-4 border-t border-white/5 flex items-center gap-3">
+          <div className="h-11 w-11 rounded-full bg-white/10 shrink-0" />
+          <div className="flex flex-col gap-2 w-full">
+            <div className="h-3 w-32 rounded bg-white/10" />
+            <div className="h-2.5 w-44 rounded bg-white/10" />
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+/**
+ * Shown when the database can't be reached. Deliberately *not* the empty state:
+ * telling a visitor "be the first to recommend me" when there are in fact
+ * recommendations sitting behind a failed request would be untrue.
+ */
+const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
+  <div className="mt-6 sm:mt-8 w-full max-w-2xl glass-effect rounded-2xl p-6 sm:p-8 text-center flex flex-col items-center gap-3">
+    <p className="text-sm sm:text-base text-gray-400 leading-relaxed max-w-md">
+      Recommendations couldn&apos;t be loaded just now. It&apos;s almost
+      certainly temporary.
+    </p>
+    <button
+      type="button"
+      onClick={onRetry}
+      className="inline-flex items-center gap-2 min-h-11 px-5 rounded-xl border border-white/10 bg-white/5 text-sm font-semibold text-gray-200 hover:text-white hover:border-blue-500/50 hover:bg-blue-500/5 transition-colors"
+    >
+      <RotateCw size={15} aria-hidden />
+      Try again
+    </button>
+  </div>
+);
 
 const EmptyState = ({ onOpen }: { onOpen: () => void }) => (
   <motion.div
@@ -247,12 +337,25 @@ const RecommendationCard = ({ item }: { item: Recommendation }) => (
     )}
 
     <figcaption className="mt-auto pt-4 border-t border-white/5 flex items-center gap-3">
-      <span
-        className="grid place-items-center shrink-0 h-11 w-11 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 font-display text-sm font-bold"
-        aria-hidden
-      >
-        {initials(item.name)}
-      </span>
+      {item.photoUrl ? (
+        /* Plain <img>: the URL is whatever you pasted into the dashboard, and
+           next/image would need every possible host declared up front. */
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={item.photoUrl}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="shrink-0 h-11 w-11 rounded-full object-cover border border-white/10"
+        />
+      ) : (
+        <span
+          className="grid place-items-center shrink-0 h-11 w-11 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 font-display text-sm font-bold"
+          aria-hidden
+        >
+          {initials(item.name)}
+        </span>
+      )}
       <div className="min-w-0">
         {/* break-words throughout: a long unbroken company name or job title
             would otherwise run off the edge of the card on a narrow phone */}
