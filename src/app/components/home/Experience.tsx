@@ -48,7 +48,7 @@ const Experience = () => {
                     <div className="flex flex-col gap-1">
                         <div className="flex justify-between flex-wrap items-start gap-2">
                             <h3 className="text-lg sm:text-xl font-bold text-ink">
-                                Junior Mobile Developer
+                                Mobile Application Developer
                             </h3>
                             <span className="text-xs sm:text-sm text-positive border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 rounded-full whitespace-nowrap">
                                 Current

@@ -58,7 +58,14 @@
     transform: translateY(calc(-4 * var(--slide-h)));
   }
 
+  /* Holds on the fifth slide rather than sliding back to the top. The fifth
+     slide is a repeat of the first, so when the animation restarts at 0% the
+     jump is invisible — the same words are already on screen.
+
+     Animating back to translateY(0) here instead (which is what this used to
+     do) rewound through every slide in the last 0.4s, which read as the first
+     role appearing twice with a flicker in between. */
   100% {
-    transform: translateY(0);
+    transform: translateY(calc(-4 * var(--slide-h)));
   }
 }

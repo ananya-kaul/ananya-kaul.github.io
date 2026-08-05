@@ -179,12 +179,22 @@ const SkillsSlider = () => {
         className="slider"
         aria-label="AI/ML Developer, iOS Developer, Flutter Developer, AI Engineering Writer"
       >
+        {/* Four roles, then the first one repeated.
+
+            That repeat is not a mistake and must stay: the animation stops on
+            it and then restarts from the top, and because the same words are
+            already on screen the restart is invisible. Remove it and the
+            slider visibly snaps back.
+
+            If you add or remove a role here you MUST also update the keyframes
+            in hero.css — they step through a fixed number of slides, and the
+            last one has to land on this repeat. */}
         <div className="slides text-body">
           <div>AI/ML Developer</div>
           <div>iOS Developer</div>
           <div>Flutter Developer</div>
           <div>AI Engineering Writer</div>
-          <div>AI/ML Developer</div>
+          <div aria-hidden>AI/ML Developer</div>
         </div>
       </div>
     </div>
