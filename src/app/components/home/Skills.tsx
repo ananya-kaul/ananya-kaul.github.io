@@ -182,7 +182,7 @@ const Skills = () => {
           viewport={{ once: true }}
           className="max-w-6xl w-full"
         >
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-6 sm:gap-8 border border-gray-700 text-gray-300 backdrop-blur-3xl bg-[#161B22]/70 p-5 sm:p-8 rounded-2xl">
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-6 sm:gap-8 border border-line-strong text-body backdrop-blur-3xl bg-surface-raised/70 p-5 sm:p-8 rounded-2xl">
             {skillsData.map((skill) => (
               <motion.div
                 key={skill.title}
@@ -206,7 +206,7 @@ const SkillsCard = ({ group }: { group: SkillGroup }) => {
   return (
     <div key={group.title}>
       {/* h3 — the section already owns the h2 */}
-      <h3 className="font-display font-semibold text-gray-100 text-base pb-2 mb-3 border-b border-gray-700/60">
+      <h3 className="font-display font-semibold text-ink text-base pb-2 mb-3 border-b border-line-strong/60">
         {group.title}
       </h3>
 
@@ -214,7 +214,7 @@ const SkillsCard = ({ group }: { group: SkillGroup }) => {
         {group.skills.map((skill) => (
           <div
             key={skill.name}
-            className="text-gray-400 hover:text-foreground flex items-center gap-2 border border-gray-700 bg-[#0D1117] px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-md hover:border-blue-500/40 hover:scale-105 transition-all duration-300"
+            className="text-muted hover:text-foreground flex items-center gap-2 border border-line-strong bg-surface-solid px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-md hover:border-blue-500/40 hover:scale-105 transition-all duration-300"
           >
             <skill.logo aria-hidden />
             <span className="text-xs sm:text-sm font-medium">{skill.name}</span>

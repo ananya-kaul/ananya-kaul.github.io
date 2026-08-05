@@ -26,7 +26,7 @@ const BackToTop = () => {
           transition={{ duration: 0.2 }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           aria-label="Back to top"
-          className="fixed z-40 right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] sm:right-6 sm:bottom-6 grid place-items-center h-12 w-12 rounded-full glass-effect text-gray-300 hover:text-white hover:border-blue-500/50 active:scale-95 transition-colors"
+          className="fixed z-40 right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] sm:right-6 sm:bottom-6 grid place-items-center h-12 w-12 rounded-full glass-effect text-body hover:text-ink hover:border-blue-500/50 active:scale-95 transition-colors"
         >
           <ArrowUp size={20} aria-hidden />
         </motion.button>

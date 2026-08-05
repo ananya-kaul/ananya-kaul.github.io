@@ -77,7 +77,7 @@ const Projects = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           viewport={{ once: true }}
-          className="mt-8 text-center text-sm sm:text-base text-gray-500 max-w-xl"
+          className="mt-8 text-center text-sm sm:text-base text-faint max-w-xl"
         >
           {apps.length} production apps across iOS, Android and cross-platform
           stacks — {liveApps.length} of them live on the App Store or Google Play.
@@ -106,7 +106,7 @@ const CardArtwork = ({ app }: { app: AppProject }) => {
             aria-hidden
             className="object-cover scale-150 blur-2xl opacity-50 transition-transform duration-700 group-hover:scale-[1.7]"
           />
-          <div className="absolute inset-0 bg-gray-950/40" />
+          <div className="absolute inset-0 bg-surface/40" />
           {/* Sharp app icon front and center */}
           <div className="absolute inset-0 flex items-center justify-center">
             <Image
@@ -115,7 +115,7 @@ const CardArtwork = ({ app }: { app: AppProject }) => {
               height={96}
               loading="lazy"
               alt={`${app.title} app icon`}
-              className="h-20 w-20 sm:h-24 sm:w-24 rounded-[22%] shadow-2xl shadow-black/60 ring-1 ring-white/20 transition-transform duration-500 group-hover:scale-110"
+              className="h-20 w-20 sm:h-24 sm:w-24 rounded-[22%] shadow-2xl shadow-shade-strong ring-1 ring-white/20 transition-transform duration-500 group-hover:scale-110"
             />
           </div>
         </>
@@ -123,7 +123,7 @@ const CardArtwork = ({ app }: { app: AppProject }) => {
         <div
           className={`absolute inset-0 bg-gradient-to-br ${app.gradient ?? "from-gray-700/50 to-gray-900/50"} flex items-center justify-center`}
         >
-          <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-[22%] bg-white/10 ring-1 ring-white/20 shadow-2xl shadow-black/60 flex items-center justify-center text-white/90 transition-transform duration-500 group-hover:scale-110">
+          <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-[22%] bg-tint-strong ring-1 ring-white/20 shadow-2xl shadow-shade-strong flex items-center justify-center text-white/90 transition-transform duration-500 group-hover:scale-110">
             <GlyphArt glyph={app.glyph} />
           </div>
         </div>
@@ -146,7 +146,7 @@ const ProjectCard = ({
         type="button"
         onClick={onOpen}
         aria-label={`${app.title} — read about this app`}
-        className="h-full w-full text-left flex flex-col glass-effect text-gray-300 rounded-2xl overflow-hidden group transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/40 hover:border-white/20 active:scale-[0.99] cursor-pointer"
+        className="h-full w-full text-left flex flex-col glass-effect text-body rounded-2xl overflow-hidden group transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:shadow-shade hover:border-line-strong active:scale-[0.99] cursor-pointer"
       >
         {/* Artwork */}
         <div className="relative overflow-hidden aspect-[16/10] sm:aspect-video w-full">
@@ -172,7 +172,7 @@ const ProjectCard = ({
             {app.appStore && (
               <span
                 title="Available on the App Store"
-                className="grid place-items-center h-7 w-7 rounded-full bg-black/60 border border-white/15 text-gray-200 backdrop-blur-sm"
+                className="grid place-items-center h-7 w-7 rounded-full bg-scrim border border-line-strong text-ink backdrop-blur-sm"
               >
                 <FaApple size={13} className="-translate-y-px" aria-hidden />
                 <span className="sr-only">Available on the App Store</span>
@@ -181,7 +181,7 @@ const ProjectCard = ({
             {hasLivePlayStore(app) && (
               <span
                 title="Available on Google Play"
-                className="grid place-items-center h-7 w-7 rounded-full bg-black/60 border border-white/15 text-gray-200 backdrop-blur-sm"
+                className="grid place-items-center h-7 w-7 rounded-full bg-scrim border border-line-strong text-ink backdrop-blur-sm"
               >
                 <FaGooglePlay
                   size={12}
@@ -197,10 +197,10 @@ const ProjectCard = ({
         {/* Content */}
         <div className="flex flex-col flex-1 p-5 sm:p-6 gap-3.5">
           <div>
-            <h3 className="font-display text-lg sm:text-xl font-bold mb-1.5 text-gray-100 group-hover:text-blue-400 transition-colors tracking-tight leading-snug">
+            <h3 className="font-display text-lg sm:text-xl font-bold mb-1.5 text-ink group-hover:text-accent transition-colors tracking-tight leading-snug">
               {app.title}
             </h3>
-            <p className="text-gray-400 text-sm leading-relaxed line-clamp-3">
+            <p className="text-muted text-sm leading-relaxed line-clamp-3">
               {app.tagline}
             </p>
           </div>
@@ -210,19 +210,19 @@ const ProjectCard = ({
             {app.tags.slice(0, 4).map((tag) => (
               <span
                 key={tag}
-                className="border border-white/5 bg-white/5 text-gray-400 text-[11px] sm:text-xs px-2.5 py-1 rounded-full font-medium group-hover:bg-blue-500/10 group-hover:text-blue-300 group-hover:border-blue-500/20 transition-colors duration-500"
+                className="border border-line-soft bg-tint text-muted text-[11px] sm:text-xs px-2.5 py-1 rounded-full font-medium group-hover:bg-blue-500/10 group-hover:text-accent-soft group-hover:border-blue-500/20 transition-colors duration-500"
               >
                 {tag}
               </span>
             ))}
             {app.tags.length > 4 && (
-              <span className="text-[11px] sm:text-xs px-2 py-1 text-gray-500">
+              <span className="text-[11px] sm:text-xs px-2 py-1 text-faint">
                 +{app.tags.length - 4}
               </span>
             )}
           </div>
 
-          <div className="mt-auto pt-3.5 border-t border-white/10 flex items-center gap-1.5 text-sm font-semibold text-blue-400">
+          <div className="mt-auto pt-3.5 border-t border-line flex items-center gap-1.5 text-sm font-semibold text-accent">
             View details
             <ArrowUpRight
               size={16}

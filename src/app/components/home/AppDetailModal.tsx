@@ -79,7 +79,7 @@ const AppDetailModal = ({ app, onClose }: Props) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
           onClick={onClose}
-          className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/75 backdrop-blur-sm p-0 sm:p-6"
+          className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-scrim backdrop-blur-sm p-0 sm:p-6"
         >
           <motion.div
             ref={panelRef}
@@ -92,11 +92,11 @@ const AppDetailModal = ({ app, onClose }: Props) => {
             exit={{ opacity: 0, y: 30, scale: 0.98 }}
             transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
             onClick={(event) => event.stopPropagation()}
-            className="relative w-full sm:max-w-2xl max-h-[92dvh] sm:max-h-[88dvh] flex flex-col overflow-hidden rounded-t-3xl sm:rounded-3xl border border-white/10 bg-[#0d1117] shadow-2xl shadow-black/60"
+            className="relative w-full sm:max-w-2xl max-h-[92dvh] sm:max-h-[88dvh] flex flex-col overflow-hidden rounded-t-3xl sm:rounded-3xl border border-line bg-surface-solid shadow-2xl shadow-shade-strong"
           >
             {/* Drag affordance on mobile so the sheet reads as dismissible */}
             <div className="sm:hidden pt-3 pb-1 flex justify-center shrink-0">
-              <span className="h-1.5 w-10 rounded-full bg-white/20" />
+              <span className="h-1.5 w-10 rounded-full bg-tint-strong" />
             </div>
 
             <button
@@ -104,7 +104,7 @@ const AppDetailModal = ({ app, onClose }: Props) => {
               type="button"
               onClick={onClose}
               aria-label="Close app details"
-              className="absolute right-3 top-3 sm:right-4 sm:top-4 z-10 grid place-items-center h-11 w-11 rounded-full bg-black/50 text-gray-300 border border-white/10 hover:text-white hover:bg-black/70 transition-colors"
+              className="absolute right-3 top-3 sm:right-4 sm:top-4 z-10 grid place-items-center h-11 w-11 rounded-full bg-scrim text-body border border-line hover:text-ink hover:bg-scrim transition-colors"
             >
               <X size={20} />
             </button>
@@ -113,7 +113,7 @@ const AppDetailModal = ({ app, onClose }: Props) => {
             <div className="overflow-y-auto overscroll-contain px-5 sm:px-8 pb-6 pt-4 sm:pt-8">
               {/* Header: icon + title */}
               <div className="flex gap-4 sm:gap-5 items-start pr-12">
-                <div className="relative shrink-0 h-20 w-20 sm:h-24 sm:w-24 rounded-[22%] overflow-hidden ring-1 ring-white/15 shadow-xl shadow-black/50">
+                <div className="relative shrink-0 h-20 w-20 sm:h-24 sm:w-24 rounded-[22%] overflow-hidden ring-1 ring-white/15 shadow-xl shadow-shade-strong">
                   {app.icon ? (
                     <Image
                       src={app.icon}
@@ -136,15 +136,15 @@ const AppDetailModal = ({ app, onClose }: Props) => {
                 <div className="min-w-0">
                   <h3
                     id="app-detail-title"
-                    className="font-display text-xl sm:text-2xl font-bold text-gray-50 leading-tight tracking-tight"
+                    className="font-display text-xl sm:text-2xl font-bold text-ink leading-tight tracking-tight"
                   >
                     {app.title}
                   </h3>
-                  <p className="mt-1.5 text-sm sm:text-base text-gray-400 leading-snug">
+                  <p className="mt-1.5 text-sm sm:text-base text-muted leading-snug">
                     {app.tagline}
                   </p>
-                  <div className="mt-3 flex flex-wrap gap-x-2 gap-y-1 text-xs text-gray-500">
-                    <span className="text-blue-400/90">{app.category}</span>
+                  <div className="mt-3 flex flex-wrap gap-x-2 gap-y-1 text-xs text-faint">
+                    <span className="text-accent/90">{app.category}</span>
                     <span aria-hidden>·</span>
                     <span>{app.platforms.join(" · ")}</span>
                   </div>
@@ -153,25 +153,25 @@ const AppDetailModal = ({ app, onClose }: Props) => {
 
               {/* About */}
               <div className="mt-6 sm:mt-7">
-                <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 mb-2.5">
+                <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-faint mb-2.5">
                   About this app
                 </h4>
-                <p className="text-sm sm:text-[15px] leading-relaxed text-gray-300">
+                <p className="text-sm sm:text-[15px] leading-relaxed text-body">
                   {app.about}
                 </p>
               </div>
 
               {/* What I built */}
               <div className="mt-6 sm:mt-7">
-                <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 mb-3">
+                <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-faint mb-3">
                   What I built
                 </h4>
                 <ul className="flex flex-col gap-2.5">
                   {app.highlights.map((item) => (
-                    <li key={item} className="flex gap-3 text-sm leading-relaxed text-gray-300">
+                    <li key={item} className="flex gap-3 text-sm leading-relaxed text-body">
                       <Check
                         size={16}
-                        className="mt-0.5 shrink-0 text-blue-400"
+                        className="mt-0.5 shrink-0 text-accent"
                         aria-hidden
                       />
                       <span>{item}</span>
@@ -182,14 +182,14 @@ const AppDetailModal = ({ app, onClose }: Props) => {
 
               {/* Tech */}
               <div className="mt-6 sm:mt-7">
-                <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 mb-3">
+                <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-faint mb-3">
                   Built with
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {app.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="border border-white/10 bg-white/5 text-gray-300 text-xs px-3 py-1.5 rounded-full font-medium"
+                      className="border border-line bg-tint text-body text-xs px-3 py-1.5 rounded-full font-medium"
                     >
                       {tag}
                     </span>
@@ -198,7 +198,7 @@ const AppDetailModal = ({ app, onClose }: Props) => {
               </div>
 
               {!app.appStore && !hasLivePlayStore(app) && (
-                <p className="mt-6 text-xs text-gray-500 italic">
+                <p className="mt-6 text-xs text-faint italic">
                   Client-internal or unreleased build — no public store listing.
                 </p>
               )}
@@ -206,7 +206,7 @@ const AppDetailModal = ({ app, onClose }: Props) => {
 
             {/* Sticky store actions — the only place that leaves the site */}
             {(app.appStore || hasLivePlayStore(app)) && (
-              <div className="shrink-0 border-t border-white/10 bg-[#0d1117]/95 backdrop-blur px-5 sm:px-8 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] flex flex-col sm:flex-row gap-3">
+              <div className="shrink-0 border-t border-line bg-surface-solid/95 backdrop-blur px-5 sm:px-8 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] flex flex-col sm:flex-row gap-3">
                 {app.appStore && (
                   <a
                     href={app.appStore}
@@ -224,7 +224,7 @@ const AppDetailModal = ({ app, onClose }: Props) => {
                     href={app.playStore!}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 min-h-12 flex justify-center items-center gap-2.5 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 text-gray-100 font-semibold text-sm transition-colors active:scale-[0.98]"
+                    className="flex-1 min-h-12 flex justify-center items-center gap-2.5 rounded-xl border border-line-strong bg-tint hover:bg-tint-strong text-ink font-semibold text-sm transition-colors active:scale-[0.98]"
                   >
                     <FaGooglePlay size={16} aria-hidden />
                     Get it on Google Play

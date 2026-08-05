@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, X, FileText } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import ThemeToggle from "./ThemeToggle";
 import { withBasePath } from "../lib/basePath";
 
 const navLinks = [
@@ -71,7 +72,7 @@ const Header = () => {
       className="w-full flex items-center justify-center fixed top-0 left-0 right-0 z-[60] px-3 sm:px-4"
     >
       <div
-        className={`mx-auto w-full max-w-4xl text-gray-400 glass-effect rounded-2xl flex justify-between items-center shadow-xl shadow-black/20 transition-all duration-300 ${
+        className={`mx-auto w-full max-w-4xl text-muted glass-effect rounded-2xl flex justify-between items-center shadow-xl shadow-shade transition-all duration-300 ${
           scrolled
             ? "mt-3 py-2.5 px-4 sm:px-6 md:px-8"
             : "mt-4 sm:mt-6 py-3.5 px-4 sm:px-6 md:px-10"
@@ -80,13 +81,13 @@ const Header = () => {
         {/* Wordmark */}
         <Link
           href="/"
-          className="font-medium font-display text-gray-50 flex gap-2 justify-center items-center group shrink-0"
+          className="font-medium font-display text-ink flex gap-2 justify-center items-center group shrink-0"
           aria-label="Ananya Kaul — home"
         >
-          <span className="flex items-center gap-1.5 font-mono text-blue-400 font-bold group-hover:rotate-12 transition-transform duration-300">
-            <span className="text-gray-500 font-light">{"{"}</span>
-            <span className="text-blue-400 tracking-tighter">AK</span>
-            <span className="text-gray-500 font-light">{"}"}</span>
+          <span className="flex items-center gap-1.5 font-mono text-accent font-bold group-hover:rotate-12 transition-transform duration-300">
+            <span className="text-faint font-light">{"{"}</span>
+            <span className="text-accent tracking-tighter">AK</span>
+            <span className="text-faint font-light">{"}"}</span>
           </span>
           {/* Hidden only at tablet width, where six nav links plus the Resume
               button would otherwise overflow the bar. The {AK} monogram and
@@ -104,10 +105,10 @@ const Header = () => {
                 <a
                   href={link.href}
                   aria-current={activeId === link.id ? "true" : undefined}
-                  className={`block whitespace-nowrap px-2 lg:px-3 py-2 rounded-xl transition-colors duration-300 hover:text-gray-100 hover:bg-white/5 ${
+                  className={`block whitespace-nowrap px-2 lg:px-3 py-2 rounded-xl transition-colors duration-300 hover:text-ink hover:bg-tint ${
                     activeId === link.id
-                      ? "text-blue-400 bg-blue-500/10"
-                      : "text-gray-400"
+                      ? "text-accent bg-blue-500/10"
+                      : "text-muted"
                   }`}
                 >
                   {link.label}
@@ -115,6 +116,7 @@ const Header = () => {
               </li>
             ))}
           </ul>
+          <ThemeToggle compact className="ml-1.5" />
           <a
             href={withBasePath("/resume.pdf")}
             target="_blank"
@@ -126,17 +128,20 @@ const Header = () => {
           </a>
         </nav>
 
-        {/* Mobile toggle — 44px tap target */}
-        <button
-          type="button"
-          onClick={() => setMenuOpen((open) => !open)}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-nav"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          className="md:hidden grid place-items-center h-11 w-11 -mr-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
-        >
-          {menuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        {/* Mobile: theme toggle beside the menu button — 44px tap targets */}
+        <div className="md:hidden flex items-center gap-1 -mr-2">
+          <ThemeToggle />
+          <button
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            className="grid place-items-center h-11 w-11 rounded-xl text-body hover:text-ink hover:bg-tint transition-colors"
+          >
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -149,7 +154,7 @@ const Header = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMenuOpen(false)}
-              className="md:hidden fixed inset-0 -z-10 bg-black/60 backdrop-blur-sm"
+              className="md:hidden fixed inset-0 -z-10 bg-scrim backdrop-blur-sm"
             />
             <motion.nav
               key="nav-sheet"
@@ -159,7 +164,7 @@ const Header = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.22, ease: "easeOut" }}
-              className="md:hidden absolute top-full left-3 right-3 mt-2 rounded-2xl glass-effect p-3 shadow-2xl shadow-black/50"
+              className="md:hidden absolute top-full left-3 right-3 mt-2 rounded-2xl glass-effect p-3 shadow-2xl shadow-shade-strong"
             >
               <ul className="flex flex-col">
                 {navLinks.map((link) => (
@@ -169,8 +174,8 @@ const Header = () => {
                       onClick={() => setMenuOpen(false)}
                       className={`flex items-center min-h-12 px-4 rounded-xl text-base font-medium transition-colors ${
                         activeId === link.id
-                          ? "text-blue-400 bg-blue-500/10"
-                          : "text-gray-300 hover:bg-white/5"
+                          ? "text-accent bg-blue-500/10"
+                          : "text-body hover:bg-tint"
                       }`}
                     >
                       {link.label}

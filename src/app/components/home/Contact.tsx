@@ -97,10 +97,10 @@ const Contact = () => {
 
   const color =
     status?.status === "Success"
-      ? "text-green-500"
+      ? "text-positive"
       : status?.status === "Error"
-        ? "text-red-500"
-        : "text-gray-400";
+        ? "text-danger"
+        : "text-muted";
 
   return (
     <section
@@ -133,7 +133,7 @@ const Contact = () => {
               href={link.href}
               target={link.href.startsWith("mailto:") ? undefined : "_blank"}
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 min-h-11 px-4 rounded-xl border border-white/10 bg-white/5 text-sm text-gray-300 hover:text-white hover:border-blue-500/50 hover:bg-blue-500/5 transition-colors"
+              className="inline-flex items-center gap-2 min-h-11 px-4 rounded-xl border border-line bg-tint text-sm text-body hover:text-ink hover:border-blue-500/50 hover:bg-blue-500/5 transition-colors"
             >
               {link.icon}
               <span className="break-all">{link.label}</span>
@@ -148,13 +148,13 @@ const Contact = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
           viewport={{ once: true }}
-          className={`w-full max-w-3xl border border-gray-700 bg-[#161B22]/70 backdrop-blur-3xl p-5 sm:p-8 rounded-2xl flex flex-col gap-5 sm:gap-6 text-gray-200 ${
+          className={`w-full max-w-3xl border border-line-strong bg-surface-raised/70 backdrop-blur-3xl p-5 sm:p-8 rounded-2xl flex flex-col gap-5 sm:gap-6 text-ink ${
             isSending ? "opacity-70 pointer-events-none" : ""
           }`}
         >
           {/* Email */}
           <div className="flex flex-col">
-            <label htmlFor="email" className="text-sm text-gray-400 mb-2">
+            <label htmlFor="email" className="text-sm text-muted mb-2">
               Email
             </label>
             <input
@@ -169,14 +169,14 @@ const Contact = () => {
               aria-invalid={errors.email ? true : undefined}
               aria-describedby={errors.email ? "email-error" : undefined}
               className={`min-h-12 px-4 py-3 text-base rounded-md bg-transparent border ${
-                errors.email ? "border-red-500" : "border-gray-700"
+                errors.email ? "border-red-500" : "border-line-strong"
               } focus:outline-none focus:ring-2 ${
                 errors.email ? "focus:ring-red-500" : "focus:ring-blue-500"
-              } placeholder-gray-500 transition-all duration-200`}
+              } placeholder-faint transition-all duration-200`}
               disabled={isSending}
             />
             {errors.email && (
-              <span id="email-error" className="text-red-500 text-sm mt-1">
+              <span id="email-error" className="text-danger text-sm mt-1">
                 {errors.email}
               </span>
             )}
@@ -184,7 +184,7 @@ const Contact = () => {
 
           {/* Message */}
           <div className="flex flex-col">
-            <label htmlFor="message" className="text-sm text-gray-400 mb-2">
+            <label htmlFor="message" className="text-sm text-muted mb-2">
               Message
             </label>
             <textarea
@@ -197,14 +197,14 @@ const Contact = () => {
               aria-invalid={errors.message ? true : undefined}
               aria-describedby={errors.message ? "message-error" : undefined}
               className={`px-4 py-3 text-base rounded-md bg-transparent border ${
-                errors.message ? "border-red-500" : "border-gray-700"
+                errors.message ? "border-red-500" : "border-line-strong"
               } focus:outline-none focus:ring-2 ${
                 errors.message ? "focus:ring-red-500" : "focus:ring-blue-500"
-              } placeholder-gray-500 resize-none transition-all duration-200`}
+              } placeholder-faint resize-none transition-all duration-200`}
               disabled={isSending}
             />
             {errors.message && (
-              <span id="message-error" className="text-red-500 text-sm mt-1">
+              <span id="message-error" className="text-danger text-sm mt-1">
                 {errors.message}
               </span>
             )}
@@ -219,10 +219,10 @@ const Contact = () => {
           <button
             type="submit"
             disabled={isSending}
-            className={`cursor-pointer w-full sm:w-fit min-h-12 py-3 px-6 flex gap-2 justify-center items-center rounded-xl border border-gray-700 text-gray-200 font-semibold transition-all ${
+            className={`cursor-pointer w-full sm:w-fit min-h-12 py-3 px-6 flex gap-2 justify-center items-center rounded-xl border border-line-strong text-ink font-semibold transition-all ${
               isSending
-                ? "bg-gray-800 cursor-not-allowed"
-                : "hover:border-blue-500 hover:text-blue-400 active:scale-[0.98]"
+                ? "bg-tint-strong cursor-not-allowed"
+                : "hover:border-blue-500 hover:text-accent active:scale-[0.98]"
             }`}
           >
             {isSending ? (

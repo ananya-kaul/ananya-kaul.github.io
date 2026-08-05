@@ -62,7 +62,7 @@ const Hero = () => {
             ease: [0.16, 1, 0.3, 1], // custom ease-out-expo
             scale: { type: "spring", damping: 15, stiffness: 100 },
           }}
-          className="border-2 border-white/10 group relative w-32 sm:w-40 md:w-48 lg:w-56 aspect-square overflow-hidden rounded-full shadow-2xl shadow-black/50"
+          className="border-2 border-line group relative w-32 sm:w-40 md:w-48 lg:w-56 aspect-square overflow-hidden rounded-full shadow-2xl shadow-shade-strong"
         >
           <Image
             src={withBasePath("/images/hero/IMG_4620.JPG")}
@@ -82,24 +82,24 @@ const Hero = () => {
           className="flex flex-col justify-center items-center mt-6 gap-6 sm:gap-7 w-full max-w-3xl"
         >
           <div className="flex flex-col justify-center items-center text-center">
-            <span className="text-blue-400 font-medium tracking-[0.25em] sm:tracking-[0.3em] uppercase text-[10px] sm:text-xs mb-2">
+            <span className="text-accent font-medium tracking-[0.25em] sm:tracking-[0.3em] uppercase text-[10px] sm:text-xs mb-2">
               Hi, I&apos;m
             </span>
-            <h1 className="font-display tracking-tight text-4xl sm:text-6xl md:text-7xl font-bold bg-gradient-to-b from-white to-gray-500 bg-clip-text text-transparent">
+            <h1 className="font-display tracking-tight text-4xl sm:text-6xl md:text-7xl font-bold bg-gradient-to-b from-ink to-faint bg-clip-text text-transparent">
               Ananya Kaul
             </h1>
-            <p className="mt-2 text-sm sm:text-base text-gray-400 font-medium">
+            <p className="mt-2 text-sm sm:text-base text-muted font-medium">
               AI/ML &amp; Mobile Developer · iOS · Flutter
             </p>
           </div>
 
-          <div className="glass-effect px-5 sm:px-6 py-2 rounded-full border border-white/5">
+          <div className="glass-effect px-5 sm:px-6 py-2 rounded-full border border-line-soft">
             <SkillsSlider />
           </div>
 
-          <p className="text-base sm:text-lg md:text-xl tracking-wide text-center leading-relaxed text-gray-400 max-w-2xl">
+          <p className="text-base sm:text-lg md:text-xl tracking-wide text-center leading-relaxed text-muted max-w-2xl">
             I build{" "}
-            <span className="text-white border-b-2 border-blue-500/30">
+            <span className="text-ink border-b-2 border-blue-500/30">
               AI-powered products
             </span>{" "}
             — on-device Vision pipelines, LLM assistants and RAG systems —
@@ -122,10 +122,10 @@ const Hero = () => {
               >
                 <dt className="sr-only">{stat.label}</dt>
                 <dd>
-                  <span className="block font-display text-xl sm:text-2xl font-bold text-gray-50">
+                  <span className="block font-display text-xl sm:text-2xl font-bold text-ink">
                     {stat.value}
                   </span>
-                  <span className="block text-[10px] sm:text-xs text-gray-500 mt-0.5 leading-tight">
+                  <span className="block text-[10px] sm:text-xs text-faint mt-0.5 leading-tight">
                     {stat.label}
                   </span>
                 </dd>
@@ -149,7 +149,7 @@ const Hero = () => {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               href="#projects"
-              className="min-h-13 px-8 py-3.5 rounded-2xl border border-white/10 glass-effect bg-white/5 hover:bg-white/10 transition-all font-bold text-gray-200 text-center"
+              className="min-h-13 px-8 py-3.5 rounded-2xl border border-line glass-effect bg-tint hover:bg-tint-strong transition-all font-bold text-ink text-center"
             >
               View Apps
             </motion.a>
@@ -179,7 +179,7 @@ const SkillsSlider = () => {
         className="slider"
         aria-label="AI/ML Developer, iOS Developer, Flutter Developer, AI Engineering Writer"
       >
-        <div className="slides text-gray-300">
+        <div className="slides text-body">
           <div>AI/ML Developer</div>
           <div>iOS Developer</div>
           <div>Flutter Developer</div>
@@ -203,14 +203,14 @@ const SocialLinks = () => {
             color: link.color,
             filter: "drop-shadow(0 0 8px currentColor)",
           }}
-          className="transition-all duration-300 text-gray-400"
+          className="transition-all duration-300 text-muted"
         >
           <a
             title={link.name}
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="grid place-items-center h-11 w-11 rounded-xl hover:bg-white/5"
+            className="grid place-items-center h-11 w-11 rounded-xl hover:bg-tint"
           >
             {link.icon}
             <span className="sr-only">{link.name}</span>

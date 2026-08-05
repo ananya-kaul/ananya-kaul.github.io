@@ -2,14 +2,134 @@
 
 @custom-variant hover (&:hover);
 
+/* ===========================================================================
+   COLOURS — the only place any colour is defined
+   ---------------------------------------------------------------------------
+   Every component uses names like `text-ink` or `bg-card`, never `text-gray-400`
+   or `bg-[#0d1117]`. Each name is given a value twice below: once for dark mode
+   and once for light. Change it here and it changes everywhere, in both themes.
+
+   The names, roughly darkest-text to faintest:
+
+     text-ink          headings and anything that must stand out
+     text-body         normal paragraph text
+     text-muted        secondary text — captions, labels
+     text-faint        the quietest text — hints, timestamps
+
+     bg-surface        the page itself
+     bg-card           panels, cards, the header bar
+     bg-tint           a barely-there panel — buttons, chips
+     bg-tint-strong    the same, one step more visible (hover states)
+     bg-scrim          the dark wash behind an open modal
+
+     border-line       ordinary hairline borders
+     border-line-strong a border meant to be noticed — form fields
+
+   Blue (`bg-blue-600`, `text-blue-400` …) is deliberately NOT in this list.
+   It reads well on both themes, so it stays as it is. White text on a blue
+   button also stays white in both themes — that is correct, not an oversight.
+   =========================================================================== */
+
 :root {
-  --background: #0d1117;
-  --foreground: #c9d1d9;
+  --surface: #0d1117;
+  --surface-solid: #0d1117;
+  --surface-raised: #161b22;
+  --card: rgba(13, 17, 23, 0.8);
+  --tint: rgba(255, 255, 255, 0.05);
+  --tint-strong: rgba(255, 255, 255, 0.1);
+  --scrim: rgba(0, 0, 0, 0.75);
+
+  --ink: #f9fafb;
+  --body: #c9d1d9;
+  --muted: #9ca3af;
+  --faint: #7d8590;
+
+  --line: rgba(255, 255, 255, 0.1);
+  --line-soft: rgba(255, 255, 255, 0.05);
+  --line-strong: #374151;
+
+  /* Accents. Pale on dark, deep on light — the light values are chosen to
+     clear 4.5:1 against the light surface, which the pale ones do not
+     (blue-400 on white is 2.4:1, effectively unreadable). */
+  --accent: #60a5fa;
+  --accent-soft: #93c5fd;
+  --positive: #34d399;
+  --danger: #f87171;
+  --star: #fbbf24;
+
+  --shade: rgba(0, 0, 0, 0.4);
+  --shade-strong: rgba(0, 0, 0, 0.6);
+
+  --grid-line: #1c1f29;
+  --card-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.4);
+  --selection-bg: #141414b7;
+  --selection-fg: #dbdbdb;
+}
+
+/* Light mode. Slightly warm off-white rather than pure #fff — pure white
+   under a full-page grid pattern is glary to read against for any length. */
+:root[data-theme="light"] {
+  --surface: #f7f8fa;
+  --surface-solid: #ffffff;
+  --surface-raised: #ffffff;
+  --card: rgba(255, 255, 255, 0.85);
+  --tint: rgba(15, 23, 42, 0.04);
+  --tint-strong: rgba(15, 23, 42, 0.08);
+  --scrim: rgba(15, 23, 42, 0.45);
+
+  --ink: #0f172a;
+  --body: #334155;
+  --muted: #475569;
+  --faint: #5f6d7e;
+
+  --line: rgba(15, 23, 42, 0.12);
+  --line-soft: rgba(15, 23, 42, 0.07);
+  --line-strong: #cbd5e1;
+
+  --accent: #1d4ed8;
+  --accent-soft: #1e40af;
+  --positive: #047857;
+  --danger: #dc2626;
+  --star: #d97706;
+
+  /* Black at 40–60% is crushing on a white page; these are barely-there */
+  --shade: rgba(15, 23, 42, 0.08);
+  --shade-strong: rgba(15, 23, 42, 0.14);
+
+  --grid-line: #e2e6ed;
+  --card-shadow: 0 4px 20px 0 rgba(15, 23, 42, 0.07);
+  --selection-bg: #cfe3ff;
+  --selection-fg: #0f172a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Exposes every variable above as a Tailwind class: bg-surface, text-ink,
+     border-line, and so on. */
+  --color-surface: var(--surface);
+  --color-surface-solid: var(--surface-solid);
+  --color-surface-raised: var(--surface-raised);
+  --color-card: var(--card);
+  --color-tint: var(--tint);
+  --color-tint-strong: var(--tint-strong);
+  --color-scrim: var(--scrim);
+
+  --color-ink: var(--ink);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-line-strong: var(--line-strong);
+
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-positive: var(--positive);
+  --color-danger: var(--danger);
+  --color-star: var(--star);
+
+  --color-shade: var(--shade);
+  --color-shade-strong: var(--shade-strong);
 
   --font-sans: var(--font-open-sans), system-ui, sans-serif;
   --font-display: var(--font-montserrat), system-ui, sans-serif;
@@ -18,7 +138,8 @@
 
 @layer base {
   ::selection {
-    @apply bg-[#141414b7] text-[#dbdbdb];
+    background: var(--selection-bg);
+    color: var(--selection-fg);
   }
 
   html {
@@ -26,6 +147,12 @@
     /* Never let a wide element push the page sideways on a phone */
     overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
+    /* Tells the browser to draw its own scrollbars and form controls to match */
+    color-scheme: dark;
+  }
+
+  html[data-theme="light"] {
+    color-scheme: light;
   }
 
   /* Fixed header is ~96px tall; keep anchored sections clear of it */
@@ -41,24 +168,76 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0d1117;
-    --foreground: #c9d1d9;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--surface);
+  color: var(--body);
   font-family: var(--font-open-sans);
   overflow-x: hidden;
 }
 
+/* ===========================================================================
+   SWITCHING BETWEEN THEMES
+   ---------------------------------------------------------------------------
+   Two ways of doing it, because not every browser has the good one yet.
+
+   1. Browsers with the View Transitions API (Chrome, Edge, Safari 18+) get a
+      circle that opens out from the sun/moon button itself, wiping the new
+      theme over the old one. The animation is driven from ThemeToggle.tsx,
+      which knows where the button is; the rules here just get the browser's
+      own default crossfade out of its way.
+
+   2. Everything else (Firefox at the time of writing) gets a plain crossfade
+      of colours, which is unremarkable but never looks broken.
+   =========================================================================== */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  /* Both layers are painted opaque and the circle does the reveal, so the
+     default crossfade would only muddy it. */
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* The outgoing theme sits still underneath while the new one opens over it */
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+/**
+ * Fallback path. `.theme-switching` is added by the toggle for the length of
+ * the change only — leaving it on permanently would put a 280ms lag on every
+ * hover state on the site.
+ */
+html.theme-switching,
+html.theme-switching body,
+html.theme-switching *:not(svg):not(path) {
+  transition:
+    background-color 0.28s ease,
+    border-color 0.28s ease,
+    color 0.28s ease,
+    box-shadow 0.28s ease !important;
+}
+
+/* Someone who has asked for less motion gets the change with no theatre */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
 .grid-background {
   /* Two overlapping gradients to create a grid */
-  background-image: linear-gradient(to right, #1c1f29 0.5px, transparent 0.5px),
-    linear-gradient(to bottom, #1c1f29 0.5px, transparent 0.5px);
+  background-image: linear-gradient(
+      to right,
+      var(--grid-line) 0.5px,
+      transparent 0.5px
+    ),
+    linear-gradient(to bottom, var(--grid-line) 0.5px, transparent 0.5px);
 
   /* Size of each grid cell — tighter on phones so it reads as a grid, not stripes */
   background-size: 28px 28px;
@@ -75,11 +254,11 @@ body {
 }
 
 .glass-effect {
-  background: rgba(13, 17, 23, 0.8);
+  background: var(--card);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--line);
+  box-shadow: var(--card-shadow);
 }
 
 /* Lock background scrolling while a modal / mobile menu is open */

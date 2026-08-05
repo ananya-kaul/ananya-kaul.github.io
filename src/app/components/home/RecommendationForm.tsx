@@ -234,8 +234,8 @@ const RecommendationForm = ({ open, onClose }: Props) => {
 
   const fieldClass = (invalid?: string) =>
     `min-h-12 px-4 py-3 text-base rounded-xl bg-transparent border ${
-      invalid ? "border-red-500" : "border-gray-700"
-    } text-gray-100 placeholder-gray-600 focus:outline-none focus:ring-2 ${
+      invalid ? "border-red-500" : "border-line-strong"
+    } text-ink placeholder-faint focus:outline-none focus:ring-2 ${
       invalid ? "focus:ring-red-500" : "focus:ring-blue-500"
     } transition-all duration-200`;
 
@@ -249,7 +249,7 @@ const RecommendationForm = ({ open, onClose }: Props) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
           onClick={onClose}
-          className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/75 backdrop-blur-sm p-0 sm:p-6"
+          className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-scrim backdrop-blur-sm p-0 sm:p-6"
         >
           <motion.div
             ref={panelRef}
@@ -262,11 +262,11 @@ const RecommendationForm = ({ open, onClose }: Props) => {
             exit={{ opacity: 0, y: 30, scale: 0.98 }}
             transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
             onClick={(event) => event.stopPropagation()}
-            className="relative w-full sm:max-w-2xl max-h-[92dvh] sm:max-h-[88dvh] flex flex-col overflow-hidden rounded-t-3xl sm:rounded-3xl border border-white/10 bg-[#0d1117] shadow-2xl shadow-black/60"
+            className="relative w-full sm:max-w-2xl max-h-[92dvh] sm:max-h-[88dvh] flex flex-col overflow-hidden rounded-t-3xl sm:rounded-3xl border border-line bg-surface-solid shadow-2xl shadow-shade-strong"
           >
             {/* Drag affordance on mobile so the sheet reads as dismissible */}
             <div className="sm:hidden pt-3 pb-1 flex justify-center shrink-0">
-              <span className="h-1.5 w-10 rounded-full bg-white/20" />
+              <span className="h-1.5 w-10 rounded-full bg-tint-strong" />
             </div>
 
             <button
@@ -274,23 +274,23 @@ const RecommendationForm = ({ open, onClose }: Props) => {
               type="button"
               onClick={onClose}
               aria-label="Close the recommendation form"
-              className="absolute right-3 top-3 sm:right-4 sm:top-4 z-10 grid place-items-center h-11 w-11 rounded-full bg-black/50 text-gray-300 border border-white/10 hover:text-white hover:bg-black/70 transition-colors"
+              className="absolute right-3 top-3 sm:right-4 sm:top-4 z-10 grid place-items-center h-11 w-11 rounded-full bg-scrim text-body border border-line hover:text-ink hover:bg-scrim transition-colors"
             >
               <X size={20} />
             </button>
 
             {sent ? (
               <div className="px-6 sm:px-10 py-14 sm:py-16 text-center flex flex-col items-center gap-4">
-                <span className="grid place-items-center h-16 w-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+                <span className="grid place-items-center h-16 w-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-positive">
                   <Check size={30} />
                 </span>
                 <h3
                   id="recommend-title"
-                  className="font-display text-xl sm:text-2xl font-bold text-gray-50"
+                  className="font-display text-xl sm:text-2xl font-bold text-ink"
                 >
                   Thank you, {form.name.split(" ")[0]}
                 </h3>
-                <p className="text-sm sm:text-base text-gray-400 max-w-md leading-relaxed">
+                <p className="text-sm sm:text-base text-muted max-w-md leading-relaxed">
                   That means a lot. I read every submission and publish it to
                   the site once I&apos;ve reviewed it — usually within a day or
                   two.
@@ -314,11 +314,11 @@ const RecommendationForm = ({ open, onClose }: Props) => {
                 <div className="pr-12">
                   <h3
                     id="recommend-title"
-                    className="font-display text-xl sm:text-2xl font-bold text-gray-50 leading-tight tracking-tight"
+                    className="font-display text-xl sm:text-2xl font-bold text-ink leading-tight tracking-tight"
                   >
                     Leave a recommendation
                   </h3>
-                  <p className="mt-1.5 text-sm text-gray-400 leading-relaxed">
+                  <p className="mt-1.5 text-sm text-muted leading-relaxed">
                     Takes about two minutes. Only the starred fields are
                     required — skip anything you&apos;d rather not answer.
                     Nothing appears on the site until I&apos;ve reviewed it.
@@ -421,20 +421,20 @@ const RecommendationForm = ({ open, onClose }: Props) => {
                         aria-checked={form.rating === value}
                         aria-label={`${value} ${value === 1 ? "star" : "stars"}`}
                         onClick={() => set("rating", value)}
-                        className="grid place-items-center h-11 w-11 rounded-xl hover:bg-white/5 transition-colors active:scale-95"
+                        className="grid place-items-center h-11 w-11 rounded-xl hover:bg-tint transition-colors active:scale-95"
                       >
                         <Star
                           size={26}
                           className={
                             value <= form.rating
-                              ? "text-amber-400 fill-amber-400"
-                              : "text-gray-700"
+                              ? "text-star fill-star"
+                              : "text-line-strong"
                           }
                         />
                       </button>
                     ))}
                     {form.rating > 0 && (
-                      <span className="ml-2 text-sm text-gray-400">
+                      <span className="ml-2 text-sm text-muted">
                         {form.rating}/5
                       </span>
                     )}
@@ -522,8 +522,8 @@ const RecommendationForm = ({ open, onClose }: Props) => {
                       placeholder="What was it like working with Ananya? What did he build, and what stood out?"
                       aria-invalid={errors.message ? true : undefined}
                       className={`px-4 py-3 text-base rounded-xl bg-transparent border ${
-                        errors.message ? "border-red-500" : "border-gray-700"
-                      } text-gray-100 placeholder-gray-600 focus:outline-none focus:ring-2 ${
+                        errors.message ? "border-red-500" : "border-line-strong"
+                      } text-ink placeholder-faint focus:outline-none focus:ring-2 ${
                         errors.message ? "focus:ring-red-500" : "focus:ring-blue-500"
                       } resize-none transition-all duration-200`}
                     />
@@ -550,7 +550,7 @@ const RecommendationForm = ({ open, onClose }: Props) => {
                   </div>
                 </Fieldset>
 
-                <p aria-live="polite" className="text-sm text-red-400 min-h-5 mt-2">
+                <p aria-live="polite" className="text-sm text-danger min-h-5 mt-2">
                   {failed
                     ? "Couldn't send that — please check your connection, or email it to kaul23ananya@gmail.com and I'll add it myself."
                     : Object.keys(errors).some((key) => errors[key as keyof Errors])
@@ -562,7 +562,7 @@ const RecommendationForm = ({ open, onClose }: Props) => {
                   <button
                     type="button"
                     onClick={onClose}
-                    className="min-h-12 px-6 rounded-xl border border-gray-700 text-gray-300 font-semibold text-sm hover:border-gray-500 hover:text-white transition-colors"
+                    className="min-h-12 px-6 rounded-xl border border-line-strong text-body font-semibold text-sm hover:border-faint hover:text-ink transition-colors"
                   >
                     Cancel
                   </button>
@@ -571,7 +571,7 @@ const RecommendationForm = ({ open, onClose }: Props) => {
                     disabled={isSending}
                     className={`flex-1 min-h-12 px-6 flex justify-center items-center gap-2 rounded-xl font-semibold text-sm text-white transition-all shadow-lg shadow-blue-600/20 ${
                       isSending
-                        ? "bg-gray-800 cursor-not-allowed shadow-none"
+                        ? "bg-tint-strong cursor-not-allowed shadow-none"
                         : "bg-blue-600 hover:bg-blue-500 active:scale-[0.98]"
                     }`}
                   >
@@ -614,19 +614,19 @@ const Fieldset = ({
   error?: string;
   children: React.ReactNode;
 }) => (
-  <fieldset className="mt-6 sm:mt-7 border-t border-white/5 pt-5">
+  <fieldset className="mt-6 sm:mt-7 border-t border-line-soft pt-5">
     <legend className="sr-only">{legend}</legend>
-    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500 mb-3">
+    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-faint mb-3">
       {legend}
-      {required && <span className="text-blue-400 ml-1">*</span>}
+      {required && <span className="text-accent ml-1">*</span>}
       {hint && (
-        <span className="block mt-1 normal-case tracking-normal font-normal text-[11px] text-gray-600">
+        <span className="block mt-1 normal-case tracking-normal font-normal text-[11px] text-faint">
           {hint}
         </span>
       )}
     </p>
     {children}
-    {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+    {error && <p className="text-danger text-sm mt-2">{error}</p>}
   </fieldset>
 );
 
@@ -646,15 +646,15 @@ const Field = ({
   children: React.ReactNode;
 }) => (
   <div className="flex flex-col">
-    <label htmlFor={htmlFor} className="text-sm text-gray-400 mb-2">
+    <label htmlFor={htmlFor} className="text-sm text-muted mb-2">
       {label}
-      {required && <span className="text-blue-400 ml-1">*</span>}
+      {required && <span className="text-accent ml-1">*</span>}
     </label>
     {children}
     {hint && !error && (
-      <span className="text-[11px] text-gray-600 mt-1.5">{hint}</span>
+      <span className="text-[11px] text-faint mt-1.5">{hint}</span>
     )}
-    {error && <span className="text-red-400 text-sm mt-1.5">{error}</span>}
+    {error && <span className="text-danger text-sm mt-1.5">{error}</span>}
   </div>
 );
 
@@ -690,10 +690,10 @@ const ChipGroup = ({
           onClick={() => onSelect(option)}
           className={`min-h-11 px-4 rounded-xl border text-sm font-medium transition-colors active:scale-[0.97] ${
             isOn
-              ? "border-blue-500/50 bg-blue-500/10 text-blue-300"
+              ? "border-blue-500/50 bg-blue-500/10 text-accent-soft"
               : `${
-                  invalid ? "border-red-500/50" : "border-white/10"
-                } bg-white/5 text-gray-300 hover:text-white hover:bg-white/10`
+                  invalid ? "border-red-500/50" : "border-line"
+                } bg-tint text-body hover:text-ink hover:bg-tint-strong`
           }`}
         >
           {option}

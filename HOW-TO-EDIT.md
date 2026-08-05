@@ -19,6 +19,7 @@ to add an app, how to publish, and what to do when something breaks.
 6b. [Blog posts — they add themselves](#6b-blog-posts--they-add-themselves)
 7. [Editing every other section](#7-editing-every-other-section)
 7b. [Recommendations — listing and unlisting from your dashboard](#7b-recommendations--listing-and-unlisting-from-your-dashboard)
+7c. [Light mode and dark mode](#7c-light-mode-and-dark-mode)
 8. [Replacing your photo and resume](#8-replacing-your-photo-and-resume)
 9. [SEO — what to change and where](#9-seo--what-to-change-and-where)
 10. [About withBasePath](#10-about-withbasepath)
@@ -541,6 +542,74 @@ calculated from what you've listed precisely so they stay true.
 
 ---
 
+
+## 7c. Light mode and dark mode
+
+The sun / moon button in the header switches between them. It sits in the top
+bar on a computer, and next to the menu button on a phone.
+
+### What a visitor gets on their first visit
+
+Whatever their device is set to. Someone whose phone is in light mode sees the
+light site; everyone else sees the dark one. The moment they press the button
+their choice is remembered in that browser, and from then on it wins — the site
+stops following their system setting, because they've told it what they want.
+
+There is no flash of the wrong theme. A tiny script in `layout.tsx` sets the
+theme before the page is painted, which is why it has to stay in the `<head>`
+and must not be moved or deferred.
+
+### Changing the colours
+
+**Every colour in the site is defined in one place: the top of
+`src/app/globals.css`.** Nothing else has a colour hard-coded into it. Each name
+is given a value twice — once for dark, once for light — and changing it there
+changes it everywhere, in both themes.
+
+| Name | Used for |
+|---|---|
+| `text-ink` | Headings, and anything that must stand out |
+| `text-body` | Normal paragraph text |
+| `text-muted` | Secondary text — captions, labels, nav links |
+| `text-faint` | The quietest text — hints, dates |
+| `bg-surface` | The page itself |
+| `bg-card` | Panels and cards (the `glass-effect` look) |
+| `bg-tint` / `bg-tint-strong` | Barely-there panels — chips, ghost buttons |
+| `bg-scrim` | The wash behind an open pop-up |
+| `border-line` / `border-line-strong` | Hairlines and form field borders |
+| `text-accent` | Blue text |
+| `text-positive` / `text-danger` | Green and red text |
+
+So in a component you'll see `className="text-muted"`, never
+`className="text-gray-400"`. If you add something new, use these names — a
+plain Tailwind colour like `text-gray-400` will look correct in dark mode and
+then be unreadable in light.
+
+**The blue buttons are deliberately not in that list.** `bg-blue-600` with
+`text-white` reads well on both themes, so it stays exactly as it is. White
+text on a blue button in light mode is correct, not a bug.
+
+### A warning about contrast
+
+The light values were picked so that every piece of text clears the WCAG AA
+standard (4.5:1) against what's behind it. Pale colours that look fine on the
+dark site are often unreadable on the light one — `text-blue-400` on white is
+2.4:1, which is effectively invisible. If you change a colour, check it: paste
+the two values into a contrast checker such as
+[webaim.org/resources/contrastchecker](https://webaim.org/resources/contrastchecker/)
+and aim for 4.5 or higher.
+
+### The switching animation
+
+Pressing the button opens a circle out from the button itself, wiping the new
+theme over the old. That uses the browser's View Transitions API, which Chrome,
+Edge and Safari support. Firefox doesn't have it yet and gets a plain colour
+crossfade instead — less showy, but never broken.
+
+Anyone whose device is set to "reduce motion" gets neither: the theme just
+changes. That's deliberate, and worth leaving alone.
+
+---
 
 ## 8. Replacing your photo and resume
 

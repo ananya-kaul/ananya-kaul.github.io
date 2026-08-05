@@ -116,12 +116,12 @@ const Recommendations = () => {
             >
               <dt className="sr-only">{stat.label}</dt>
               <dd className="contents">
-                <span className="block font-display text-xl sm:text-2xl font-bold text-gray-50">
+                <span className="block font-display text-xl sm:text-2xl font-bold text-ink">
                   {stat.value}
                 </span>
                 <span
                   aria-hidden
-                  className="block text-[10px] sm:text-xs text-gray-500 leading-tight"
+                  className="block text-[10px] sm:text-xs text-faint leading-tight"
                 >
                   {stat.label}
                 </span>
@@ -200,7 +200,7 @@ const Recommendations = () => {
               between the lines. Aligning to the top and nudging it down by
               half a line's leading keeps it on the first line at every width.
               shrink-0 stops flex from squashing the 13px square. */}
-          <p className="text-xs text-gray-600 flex items-start justify-center gap-1.5 text-center">
+          <p className="text-xs text-faint flex items-start justify-center gap-1.5 text-center">
             <ShieldCheck size={13} className="shrink-0 mt-[1.5px]" aria-hidden />
             <span>
               Every recommendation is read and approved by me before it appears
@@ -229,17 +229,17 @@ const LoadingCards = () => (
         aria-hidden
         className="glass-effect rounded-2xl p-5 sm:p-6 h-56 flex flex-col gap-4 animate-pulse"
       >
-        <div className="h-4 w-28 rounded bg-white/10" />
+        <div className="h-4 w-28 rounded bg-tint-strong" />
         <div className="flex flex-col gap-2">
-          <div className="h-3 w-full rounded bg-white/10" />
-          <div className="h-3 w-11/12 rounded bg-white/10" />
-          <div className="h-3 w-8/12 rounded bg-white/10" />
+          <div className="h-3 w-full rounded bg-tint-strong" />
+          <div className="h-3 w-11/12 rounded bg-tint-strong" />
+          <div className="h-3 w-8/12 rounded bg-tint-strong" />
         </div>
-        <div className="mt-auto pt-4 border-t border-white/5 flex items-center gap-3">
-          <div className="h-11 w-11 rounded-full bg-white/10 shrink-0" />
+        <div className="mt-auto pt-4 border-t border-line-soft flex items-center gap-3">
+          <div className="h-11 w-11 rounded-full bg-tint-strong shrink-0" />
           <div className="flex flex-col gap-2 w-full">
-            <div className="h-3 w-32 rounded bg-white/10" />
-            <div className="h-2.5 w-44 rounded bg-white/10" />
+            <div className="h-3 w-32 rounded bg-tint-strong" />
+            <div className="h-2.5 w-44 rounded bg-tint-strong" />
           </div>
         </div>
       </div>
@@ -254,14 +254,14 @@ const LoadingCards = () => (
  */
 const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
   <div className="mt-6 sm:mt-8 w-full max-w-2xl glass-effect rounded-2xl p-6 sm:p-8 text-center flex flex-col items-center gap-3">
-    <p className="text-sm sm:text-base text-gray-400 leading-relaxed max-w-md">
+    <p className="text-sm sm:text-base text-muted leading-relaxed max-w-md">
       Recommendations couldn&apos;t be loaded just now. It&apos;s almost
       certainly temporary.
     </p>
     <button
       type="button"
       onClick={onRetry}
-      className="inline-flex items-center gap-2 min-h-11 px-5 rounded-xl border border-white/10 bg-white/5 text-sm font-semibold text-gray-200 hover:text-white hover:border-blue-500/50 hover:bg-blue-500/5 transition-colors"
+      className="inline-flex items-center gap-2 min-h-11 px-5 rounded-xl border border-line bg-tint text-sm font-semibold text-ink hover:text-ink hover:border-blue-500/50 hover:bg-blue-500/5 transition-colors"
     >
       <RotateCw size={15} aria-hidden />
       Try again
@@ -277,11 +277,11 @@ const EmptyState = ({ onOpen }: { onOpen: () => void }) => (
     viewport={{ once: true }}
     className="mt-6 sm:mt-8 w-full max-w-2xl glass-effect rounded-2xl p-6 sm:p-10 text-center flex flex-col items-center gap-3"
   >
-    <Quote size={28} className="text-blue-400/60" aria-hidden />
-    <h3 className="font-display text-lg sm:text-xl font-bold text-gray-100">
+    <Quote size={28} className="text-accent/60" aria-hidden />
+    <h3 className="font-display text-lg sm:text-xl font-bold text-ink">
       This space is for the people I&apos;ve worked with
     </h3>
-    <p className="text-sm sm:text-base text-gray-400 leading-relaxed max-w-lg">
+    <p className="text-sm sm:text-base text-muted leading-relaxed max-w-lg">
       If we&apos;ve shipped something together — a feature, an SDK, a whole app
       — I&apos;d be grateful for a couple of honest lines about what that was
       like. It takes two minutes, and it says far more than anything I could
@@ -290,7 +290,7 @@ const EmptyState = ({ onOpen }: { onOpen: () => void }) => (
     <button
       type="button"
       onClick={onOpen}
-      className="mt-2 inline-flex items-center gap-2 min-h-12 px-6 rounded-xl border border-white/10 bg-white/5 text-sm font-semibold text-gray-200 hover:text-white hover:border-blue-500/50 hover:bg-blue-500/5 transition-colors"
+      className="mt-2 inline-flex items-center gap-2 min-h-12 px-6 rounded-xl border border-line bg-tint text-sm font-semibold text-ink hover:text-ink hover:border-blue-500/50 hover:bg-blue-500/5 transition-colors"
     >
       <PenLine size={15} aria-hidden />
       Write one
@@ -299,23 +299,23 @@ const EmptyState = ({ onOpen }: { onOpen: () => void }) => (
 );
 
 const RecommendationCard = ({ item }: { item: Recommendation }) => (
-  <figure className="h-full flex flex-col glass-effect rounded-2xl p-5 sm:p-6 gap-4 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-2xl hover:shadow-black/40">
+  <figure className="h-full flex flex-col glass-effect rounded-2xl p-5 sm:p-6 gap-4 transition-all duration-300 hover:-translate-y-1 hover:border-line-strong hover:shadow-2xl hover:shadow-shade">
     <div className="flex items-start justify-between gap-3">
       <Stars
         value={item.rating}
         label={`${item.name} rated ${item.rating} out of 5`}
       />
       {item.wouldWorkAgain && (
-        <span className="text-[10px] sm:text-[11px] font-semibold text-emerald-400 border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 rounded-full whitespace-nowrap">
+        <span className="text-[10px] sm:text-[11px] font-semibold text-positive border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 rounded-full whitespace-nowrap">
           Would work with me again
         </span>
       )}
     </div>
 
-    <blockquote className="relative text-sm sm:text-[15px] text-gray-300 leading-relaxed break-words">
+    <blockquote className="relative text-sm sm:text-[15px] text-body leading-relaxed break-words">
       <Quote
         size={22}
-        className="absolute -top-1 -left-0.5 text-white/5"
+        className="absolute -top-1 -left-0.5 text-tint-strong"
         aria-hidden
       />
       <p className="relative">&ldquo;{item.quote}&rdquo;</p>
@@ -326,7 +326,7 @@ const RecommendationCard = ({ item }: { item: Recommendation }) => (
         {item.highlights.map((highlight) => (
           <li
             key={highlight}
-            className="border border-white/5 bg-white/5 text-gray-400 text-[11px] px-2.5 py-1 rounded-full font-medium"
+            className="border border-line-soft bg-tint text-muted text-[11px] px-2.5 py-1 rounded-full font-medium"
           >
             {highlight}
           </li>
@@ -334,7 +334,7 @@ const RecommendationCard = ({ item }: { item: Recommendation }) => (
       </ul>
     )}
 
-    <figcaption className="mt-auto pt-4 border-t border-white/5 flex items-center gap-3">
+    <figcaption className="mt-auto pt-4 border-t border-line-soft flex items-center gap-3">
       {item.photoUrl ? (
         /* Plain <img>: the URL is whatever you pasted into the dashboard, and
            next/image would need every possible host declared up front. */
@@ -344,11 +344,11 @@ const RecommendationCard = ({ item }: { item: Recommendation }) => (
           alt=""
           loading="lazy"
           decoding="async"
-          className="shrink-0 h-11 w-11 rounded-full object-cover border border-white/10"
+          className="shrink-0 h-11 w-11 rounded-full object-cover border border-line"
         />
       ) : (
         <span
-          className="grid place-items-center shrink-0 h-11 w-11 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 font-display text-sm font-bold"
+          className="grid place-items-center shrink-0 h-11 w-11 rounded-full bg-blue-500/10 border border-blue-500/20 text-accent-soft font-display text-sm font-bold"
           aria-hidden
         >
           {initials(item.name)}
@@ -357,27 +357,27 @@ const RecommendationCard = ({ item }: { item: Recommendation }) => (
       <div className="min-w-0">
         {/* break-words throughout: a long unbroken company name or job title
             would otherwise run off the edge of the card on a narrow phone */}
-        <p className="text-sm font-bold text-gray-100 flex items-center gap-1.5 flex-wrap break-words">
+        <p className="text-sm font-bold text-ink flex items-center gap-1.5 flex-wrap break-words">
           {item.linkedin ? (
             <a
               href={item.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-blue-400 transition-colors inline-flex items-center gap-1.5"
+              className="hover:text-accent transition-colors inline-flex items-center gap-1.5"
             >
               {item.name}
-              <Linkedin size={12} className="text-blue-400" aria-hidden />
+              <Linkedin size={12} className="text-accent" aria-hidden />
               <span className="sr-only">— LinkedIn profile</span>
             </a>
           ) : (
             item.name
           )}
         </p>
-        <p className="text-xs text-gray-500 leading-snug break-words">
+        <p className="text-xs text-faint leading-snug break-words">
           {item.designation}
           {item.company && ` · ${item.company}`}
         </p>
-        <p className="text-[11px] text-gray-600 mt-0.5 break-words">
+        <p className="text-[11px] text-faint mt-0.5 break-words">
           {item.relationship}
           {item.project && ` · ${item.project}`}
         </p>

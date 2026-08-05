@@ -43,21 +43,21 @@ const Experience = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
                     viewport={{ once: true }}
-                    className="w-full max-w-4xl mt-6 border border-gray-700 bg-[#161B22]/70 backdrop-blur-3xl p-5 sm:p-8 rounded-2xl"
+                    className="w-full max-w-4xl mt-6 border border-line-strong bg-surface-raised/70 backdrop-blur-3xl p-5 sm:p-8 rounded-2xl"
                 >
                     <div className="flex flex-col gap-1">
                         <div className="flex justify-between flex-wrap items-start gap-2">
-                            <h3 className="text-lg sm:text-xl font-bold text-gray-100">
+                            <h3 className="text-lg sm:text-xl font-bold text-ink">
                                 Junior Mobile Developer
                             </h3>
-                            <span className="text-xs sm:text-sm text-emerald-400 border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 rounded-full whitespace-nowrap">
+                            <span className="text-xs sm:text-sm text-positive border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 rounded-full whitespace-nowrap">
                                 Current
                             </span>
                         </div>
-                        <p className="text-base sm:text-lg text-blue-400">
+                        <p className="text-base sm:text-lg text-accent">
                             iApp Technologies LLP
                         </p>
-                        <ul className="list-disc list-outside ml-4 sm:ml-5 mt-4 text-sm sm:text-base text-gray-300 space-y-2 leading-relaxed">
+                        <ul className="list-disc list-outside ml-4 sm:ml-5 mt-4 text-sm sm:text-base text-body space-y-2 leading-relaxed">
                             {responsibilities.map((item) => (
                                 <li key={item}>{item}</li>
                             ))}

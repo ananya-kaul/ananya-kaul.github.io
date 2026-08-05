@@ -71,7 +71,7 @@ const Writing = () => {
           href={MEDIUM_PROFILE}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-8 inline-flex items-center gap-2 min-h-12 px-6 rounded-xl border border-white/10 bg-white/5 text-sm font-semibold text-gray-200 hover:text-white hover:border-blue-500/50 hover:bg-blue-500/5 transition-colors"
+          className="mt-8 inline-flex items-center gap-2 min-h-12 px-6 rounded-xl border border-line bg-tint text-sm font-semibold text-ink hover:text-ink hover:border-blue-500/50 hover:bg-blue-500/5 transition-colors"
         >
           Read everything on Medium
           <ArrowUpRight size={16} aria-hidden />
@@ -89,10 +89,10 @@ const ArticleCard = ({ article }: { article: Article }) => {
       href={article.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="h-full flex flex-col glass-effect rounded-2xl p-5 sm:p-6 gap-3 group transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-2xl hover:shadow-black/40"
+      className="h-full flex flex-col glass-effect rounded-2xl p-5 sm:p-6 gap-3 group transition-all duration-300 hover:-translate-y-1 hover:border-line-strong hover:shadow-2xl hover:shadow-shade"
     >
-      <div className="flex items-center gap-2 text-xs text-gray-500 flex-wrap">
-        <span className="text-blue-400 font-semibold">{article.publication}</span>
+      <div className="flex items-center gap-2 text-xs text-faint flex-wrap">
+        <span className="text-accent font-semibold">{article.publication}</span>
         <span aria-hidden>·</span>
         <span className="inline-flex items-center gap-1.5">
           <CalendarDays size={12} aria-hidden />
@@ -100,11 +100,11 @@ const ArticleCard = ({ article }: { article: Article }) => {
         </span>
       </div>
 
-      <h3 className="font-display text-base sm:text-lg font-bold text-gray-100 leading-snug group-hover:text-blue-400 transition-colors">
+      <h3 className="font-display text-base sm:text-lg font-bold text-ink leading-snug group-hover:text-accent transition-colors">
         {article.title}
       </h3>
 
-      <p className="text-sm text-gray-400 leading-relaxed line-clamp-3">
+      <p className="text-sm text-muted leading-relaxed line-clamp-3">
         {article.blurb}
       </p>
 
@@ -112,14 +112,14 @@ const ArticleCard = ({ article }: { article: Article }) => {
         {article.tags.slice(0, 3).map((tag) => (
           <span
             key={tag}
-            className="border border-white/5 bg-white/5 text-gray-400 text-[11px] px-2.5 py-1 rounded-full font-medium group-hover:bg-blue-500/10 group-hover:text-blue-300 group-hover:border-blue-500/20 transition-colors"
+            className="border border-line-soft bg-tint text-muted text-[11px] px-2.5 py-1 rounded-full font-medium group-hover:bg-blue-500/10 group-hover:text-accent-soft group-hover:border-blue-500/20 transition-colors"
           >
             {tag}
           </span>
         ))}
         <ArrowUpRight
           size={16}
-          className="ml-auto text-blue-400 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          className="ml-auto text-accent transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
           aria-hidden
         />
       </div>

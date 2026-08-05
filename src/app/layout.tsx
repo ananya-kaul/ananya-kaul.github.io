@@ -6,6 +6,7 @@ import BackToTop from "./components/BackToTop";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CursorTrail from "./components/CursorTrail";
+import { themeInitScript } from "./components/ThemeToggle";
 import { PERSON, SITE_DESCRIPTION, SITE_URL } from "./lib/site";
 import { apps, hasLivePlayStore } from "./lib/apps";
 import { articles } from "./lib/writing";
@@ -255,8 +256,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  /* The starting value only. ThemeToggle rewrites this tag when the theme
+     changes, so Safari's toolbar and Android's status bar follow the page. */
   themeColor: "#0d1117",
-  colorScheme: "dark",
+  colorScheme: "dark light",
   width: "device-width",
   initialScale: 1,
   // Never block pinch-zoom — it's an accessibility requirement
@@ -270,7 +273,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    /* suppressHydrationWarning: the inline script below sets data-theme on this
+       element before React runs, so the server's markup and the browser's
+       differ by that one attribute. That is the entire point of the script. */
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Must be in <head> and must not be deferred — it has to run before
+            the first paint, or light-mode visitors get a flash of dark. */}
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
         className={`${montserrat.variable} ${openSans.variable} antialiased grid-background`}
       >

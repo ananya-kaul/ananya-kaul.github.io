@@ -44,20 +44,20 @@ const year = new Date().getFullYear();
 
 const Footer = () => {
   return (
-    <footer className="w-full mt-24 sm:mt-32 bg-[#0D1117] border-t border-white/5 shadow-[0_-10px_30px_rgba(13,17,23,0.45)] pt-12 pb-10">
+    <footer className="w-full mt-24 sm:mt-32 bg-surface-solid border-t border-line-soft shadow-[0_-10px_30px_rgba(13,17,23,0.45)] pt-12 pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col gap-8">
         <div className="flex flex-col md:flex-row gap-8 md:gap-12 justify-between items-center md:items-start text-center md:text-left">
           {/* Identity */}
           <div className="flex flex-col gap-2 items-center md:items-start">
-            <p className="text-lg font-medium font-display flex gap-2 items-center text-gray-50 uppercase tracking-widest">
-              <span className="flex items-center gap-1 font-mono text-blue-400 font-bold">
-                <span className="text-gray-600 font-light">{"{"}</span>
-                <span className="text-blue-400">AK</span>
-                <span className="text-gray-600 font-light">{"}"}</span>
+            <p className="text-lg font-medium font-display flex gap-2 items-center text-ink uppercase tracking-widest">
+              <span className="flex items-center gap-1 font-mono text-accent font-bold">
+                <span className="text-faint font-light">{"{"}</span>
+                <span className="text-accent">AK</span>
+                <span className="text-faint font-light">{"}"}</span>
               </span>
               Ananya Kaul
             </p>
-            <p className="text-sm text-gray-500 max-w-xs leading-relaxed">
+            <p className="text-sm text-faint max-w-xs leading-relaxed">
               AI/ML &amp; mobile developer building AI-powered products, and
               writing about AI engineering.
             </p>
@@ -70,7 +70,7 @@ const Footer = () => {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="text-gray-400 hover:text-blue-400 transition-colors"
+                    className="text-muted hover:text-accent transition-colors"
                   >
                     {link.label}
                   </a>
@@ -88,7 +88,7 @@ const Footer = () => {
                   href={link.url}
                   target={link.url.startsWith("mailto:") ? undefined : "_blank"}
                   rel="noopener noreferrer"
-                  className="grid place-items-center h-11 w-11 rounded-xl text-gray-500 hover:text-blue-400 hover:bg-white/5 transition-colors"
+                  className="grid place-items-center h-11 w-11 rounded-xl text-faint hover:text-accent hover:bg-tint transition-colors"
                 >
                   {link.icon}
                   <span className="sr-only">{link.name}</span>
@@ -98,7 +98,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        <div className="pt-6 border-t border-white/5 flex justify-center items-center text-xs text-gray-600">
+        <div className="pt-6 border-t border-line-soft flex justify-center items-center text-xs text-faint">
           <p>© {year} Ananya Kaul. All rights reserved.</p>
         </div>
       </div>

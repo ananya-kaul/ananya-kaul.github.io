@@ -49,23 +49,23 @@ const Education = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2 + index * 0.15 }}
                         viewport={{ once: true }}
-                        className="w-full max-w-4xl mt-4 sm:mt-6 border border-gray-700 bg-[#161B22]/70 backdrop-blur-3xl p-5 sm:p-8 rounded-2xl hover:border-blue-500/50 transition-colors"
+                        className="w-full max-w-4xl mt-4 sm:mt-6 border border-line-strong bg-surface-raised/70 backdrop-blur-3xl p-5 sm:p-8 rounded-2xl hover:border-blue-500/50 transition-colors"
                     >
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
                             <div>
-                                <h3 className="text-lg sm:text-xl font-bold text-gray-100">
+                                <h3 className="text-lg sm:text-xl font-bold text-ink">
                                     {item.school}
                                 </h3>
-                                <p className="text-sm sm:text-base text-blue-400 mt-1 leading-relaxed">
+                                <p className="text-sm sm:text-base text-accent mt-1 leading-relaxed">
                                     {item.course}
                                 </p>
                             </div>
                             {/* Left-aligned on phones, right-aligned once there's room */}
                             <div className="text-left md:text-right shrink-0">
-                                <span className="block text-sm text-gray-400">
+                                <span className="block text-sm text-muted">
                                     {item.period}
                                 </span>
-                                <span className="block text-sm text-gray-300 font-medium mt-0.5">
+                                <span className="block text-sm text-body font-medium mt-0.5">
                                     {item.result}
                                 </span>
                             </div>

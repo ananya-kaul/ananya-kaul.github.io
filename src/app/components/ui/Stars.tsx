@@ -30,7 +30,7 @@ const Stars = ({
           key={i}
           size={size}
           className={`shrink-0 ${
-            filled ? "text-amber-400 fill-amber-400" : "text-gray-700"
+            filled ? "text-star fill-star" : "text-line-strong"
           }`}
         />
       ))}
