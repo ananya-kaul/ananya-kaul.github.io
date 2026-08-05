@@ -485,18 +485,21 @@ Their words are the entire value of the thing.
 
 ### The numbers above the cards
 
-Three of the four are calculated from what's currently listed, so they can never
+Two of the three are calculated from what's currently listed, so they can never
 contradict what's on screen:
 
-- **Average rating** — worked out from the listed recommendations
 - **Recommendations** — how many are listed right now
 - **Live apps delivered** — counted from `apps.ts` (apps with a real store link)
 - **Years experience** — the one you set by hand: `YEARS_EXPERIENCE` in
   `src/app/lib/recommendations.ts`. Bump it when it changes.
 
-Until you've listed at least one, the average and the count are hidden and the
-section shows a short invitation instead — so an empty list looks deliberate
-rather than broken.
+There is deliberately **no average-rating tile**. With a handful of
+recommendations an average is nearly always "5.0/5", which reads as padding
+rather than evidence — the cards themselves say more. Each card still shows the
+stars that person gave.
+
+Until you've listed at least one, the count is hidden and the section shows a
+short invitation instead — so an empty list looks deliberate rather than broken.
 
 ### What visitors see while it loads
 

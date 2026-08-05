@@ -191,14 +191,6 @@ export const submitRecommendation = async (payload: {
   }
 };
 
-/** Average rating to one decimal place, e.g. 4.9. Zero when there are none. */
-export const averageOf = (items: Recommendation[]) =>
-  items.length === 0
-    ? 0
-    : Math.round(
-        (items.reduce((sum, item) => sum + item.rating, 0) / items.length) * 10
-      ) / 10;
-
 /**
  * Shown in the stats row. This is the one number here that isn't calculated,
  * because only you know when you started — bump it by hand each year.

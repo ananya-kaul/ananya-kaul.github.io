@@ -7,7 +7,6 @@ import Stars from "../ui/Stars";
 import RecommendationForm from "./RecommendationForm";
 import { liveApps } from "../../lib/apps";
 import {
-  averageOf,
   fetchListedRecommendations,
   YEARS_EXPERIENCE,
   type Recommendation,
@@ -51,21 +50,19 @@ const Recommendations = () => {
   }, [attempt]);
 
   const count = items.length;
-  const average = averageOf(items);
 
   /**
    * Everything except "Years experience" is counted from live data, so the
    * numbers can never drift from what a visitor can see on the page. The
-   * rating and count only appear once there is something to count.
+   * count only appears once there is something to count.
+   *
+   * There is deliberately no average-rating tile: an average of one or two
+   * fives says less than the cards themselves do, and reads as padding.
+   * Each card still carries its own stars.
    */
   const stats = [
     ...(state === "ready" && count > 0
       ? [
-          {
-            value: `${average.toFixed(1)}/5`,
-            label: "Average rating",
-            rating: average,
-          },
           {
             value: `${count}`,
             label: count === 1 ? "Recommendation" : "Recommendations",
@@ -104,8 +101,12 @@ const Recommendations = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.15 }}
           viewport={{ once: true }}
-          className={`mt-7 w-full grid grid-cols-2 gap-2.5 sm:gap-4 ${
-            stats.length === 4 ? "max-w-3xl md:grid-cols-4" : "max-w-md"
+          /* Three tiles want three columns — in a two-column grid the third
+             would sit alone on a second row, which reads as a mistake. */
+          className={`mt-7 w-full grid gap-2.5 sm:gap-4 ${
+            stats.length === 3
+              ? "grid-cols-3 max-w-2xl"
+              : "grid-cols-2 max-w-md"
           }`}
         >
           {stats.map((stat) => (
@@ -115,9 +116,6 @@ const Recommendations = () => {
             >
               <dt className="sr-only">{stat.label}</dt>
               <dd className="contents">
-                {"rating" in stat && stat.rating !== undefined && (
-                  <Stars value={stat.rating} size={13} label="" />
-                )}
                 <span className="block font-display text-xl sm:text-2xl font-bold text-gray-50">
                   {stat.value}
                 </span>
