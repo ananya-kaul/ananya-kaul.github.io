@@ -23,6 +23,16 @@ export const MEDIUM_PROFILE = "https://medium.com/@ananyakaul";
 export const articles: Article[] = [
   {
     title:
+      "The $206K Skill Gap: Why Most “AI Engineers” Still Can’t Get Hired in 2026",
+    url: "https://medium.com/the-programmer/the-206k-skill-gap-why-most-ai-engineers-still-cant-get-hired-in-2026-cbb6920f5c15",
+    date: "2026-08-06",
+    publication: "Medium",
+    blurb:
+      "Salaries are up 33% year over year. Postings are up 61%. And hiring managers are rejecting nine out of ten applicants anyway. Open any hiring dashboard right now and you’ll see the same contradiction.",
+    tags: ["Skills", "Hiring", "Ai Skills", "Software Development"],
+  },
+  {
+    title:
       "Stop Building Toy Chatbots: The 5 AI Engineering Projects That Will Get You Hired",
     url: "https://pub.towardsai.net/stop-building-toy-chatbots-the-5-ai-engineering-projects-that-will-get-you-hired-d569eebe89fd",
     date: "2026-07-26",
