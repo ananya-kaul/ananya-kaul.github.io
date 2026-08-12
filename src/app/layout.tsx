@@ -52,7 +52,21 @@ const person = {
   telephone: PERSON.phone,
   jobTitle: PERSON.jobTitle,
   description: SITE_DESCRIPTION,
-  sameAs: [PERSON.linkedin, PERSON.medium, PERSON.github, PERSON.instagram],
+  sameAs: [
+    PERSON.linkedin,
+    PERSON.medium,
+    PERSON.github,
+    PERSON.instagram,
+    PERSON.orcid,
+  ],
+  // ORCID is a persistent researcher identifier, so it is worth stating as an
+  // identifier as well as a sameAs link — that is the pairing Google and
+  // scholarly indexers read it from.
+  identifier: {
+    "@type": "PropertyValue",
+    propertyID: "ORCID",
+    value: PERSON.orcid,
+  },
   address: {
     "@type": "PostalAddress",
     addressLocality: PERSON.location.city,

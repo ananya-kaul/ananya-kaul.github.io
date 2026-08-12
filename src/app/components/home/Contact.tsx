@@ -3,10 +3,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import SectionHeader from "../ui/SectionHeader";
-import { FORM_ENDPOINT } from "../../lib/site";
+import { FORM_ENDPOINT, PERSON } from "../../lib/site";
 import { BiSend, BiLoaderAlt } from "react-icons/bi";
 import { MdMailOutline } from "react-icons/md";
 import { BsWhatsapp, BsLinkedin } from "react-icons/bs";
+import { SiOrcid } from "react-icons/si";
 
 type StatusType = "Loading" | "Success" | "Error";
 
@@ -25,6 +26,14 @@ const directLinks = [
     label: "LinkedIn",
     href: "https://linkedin.com/in/ananyakaul",
     icon: <BsLinkedin size={16} aria-hidden />,
+  },
+  {
+    // The label is the full iD URI rather than the word "ORCID": that is what
+    // ORCID's display guidelines ask for, and it is the string a journal or an
+    // editor will actually want to copy.
+    label: PERSON.orcid,
+    href: PERSON.orcid,
+    icon: <SiOrcid size={16} style={{ color: "#A6CE39" }} aria-hidden />,
   },
 ];
 

@@ -2,6 +2,11 @@
 import React from "react";
 import SectionHeader from "../ui/SectionHeader";
 import { motion } from "framer-motion";
+import { SiOrcid } from "react-icons/si";
+import { PERSON } from "../../lib/site";
+
+/** ORCID's brand green. Their display guidelines ask for the mark in this colour. */
+const ORCID_GREEN = "#A6CE39";
 
 const Achievements = () => {
     return (
@@ -56,6 +61,27 @@ const Achievements = () => {
                                         className="text-accent hover:text-accent-soft text-sm inline-flex items-center gap-1 transition-colors w-fit min-h-9"
                                     >
                                         View Publication <span className="text-xs">↗</span>
+                                    </a>
+                                </div>
+                            </li>
+                            {/* Peer review sits directly under the publication: the two are the
+                                same strand of work, and the reviewing invitation only makes
+                                sense to a reader who has just seen that she publishes. The ORCID
+                                iD is shown the way ORCID asks — the green mark plus the full
+                                https URI — because that is the form other researchers scan for. */}
+                            <li className="flex gap-3">
+                                <span style={{ color: ORCID_GREEN }} className="text-lg">★</span>
+                                <div className="flex flex-col gap-1">
+                                    <span><strong className="text-ink">Peer Reviewer, SN Computer Science</strong> – Reviewed a submission for <em>SN Computer Science</em> (Springer Nature, ISSN 2661-8907) in 2025. The review is recorded on my ORCID record.</span>
+                                    <a
+                                        href={PERSON.orcid}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-accent hover:text-accent-soft text-sm inline-flex items-center gap-1.5 transition-colors w-fit min-h-9 break-all"
+                                    >
+                                        <SiOrcid size={16} style={{ color: ORCID_GREEN }} aria-hidden className="shrink-0" />
+                                        <span>{PERSON.orcid}</span>
+                                        <span className="text-xs">↗</span>
                                     </a>
                                 </div>
                             </li>

@@ -1,12 +1,21 @@
 import React from "react";
 import { BsInstagram, BsWhatsapp, BsLinkedin, BsMedium } from "react-icons/bs";
 import { MdMailOutline } from "react-icons/md";
+import { SiOrcid } from "react-icons/si";
+import { PERSON } from "../lib/site";
 
 const socialLinks = [
   {
     name: "LinkedIn",
     icon: <BsLinkedin size={20} aria-hidden />,
     url: "https://linkedin.com/in/ananyakaul",
+  },
+  {
+    // Keeps its brand green rather than inheriting the footer's hover colour —
+    // the iD mark is only recognisable as an ORCID iD in that green.
+    name: "ORCID iD",
+    icon: <SiOrcid size={20} style={{ color: "#A6CE39" }} aria-hidden />,
+    url: PERSON.orcid,
   },
   {
     name: "Medium",

@@ -10,6 +10,12 @@ export const PERSON = {
   instagram: "https://www.instagram.com/theluckylad",
   github: "https://github.com/ananya-kaul",
   medium: "https://medium.com/@ananyakaul",
+  /**
+   * ORCID iD. Held as the full https URI on purpose — that is the form ORCID
+   * asks you to display and link, and it is what other researchers expect to
+   * be able to copy straight out of the page.
+   */
+  orcid: "https://orcid.org/0009-0003-4125-519X",
   employer: {
     name: "iApp Technologies LLP",
     url: "https://iapptechnologies.com/",
