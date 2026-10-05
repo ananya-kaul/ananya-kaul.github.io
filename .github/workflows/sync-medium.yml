@@ -4,6 +4,9 @@ name: Sync Medium articles
 # src/app/lib/writing.ts, then kicks off a deploy so the site picks them up.
 # Run it by hand any time from the Actions tab ("Run workflow").
 #
+# It also makes one read from Supabase each run, so the free project behind
+# the recommendations and the contact form is never idle long enough to pause.
+#
 # GitHub switches off scheduled workflows in a public repository after 60 days
 # without a commit. Most days there is no new article, so nothing is committed
 # and the clock keeps running — the last step re-enables this workflow through
@@ -55,6 +58,28 @@ jobs:
           # so ask the deploy workflow to run explicitly.
           gh workflow run deploy.yml --ref main
           echo "Committed new articles and triggered a deploy."
+
+      # Supabase pauses a free project after about a week without database
+      # activity, and a quiet portfolio easily goes that long — it paused once
+      # already and took the recommendations wall and both forms down with it.
+      # One small public read a day keeps it awake. A failure here turns the
+      # run red, which is the early warning that the project is paused again.
+      - name: Keep the Supabase project from pausing
+        if: always()
+        env:
+          SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "::error::Supabase secrets are not set, so the project cannot be kept awake."
+            exit 1
+          fi
+          curl -fsS --retry 3 --retry-delay 10 -o /dev/null \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            "$SUPABASE_URL/rest/v1/public_recommendations?select=id&limit=1" \
+            || { echo "::error::Supabase did not answer. The project may be paused: restore it from the dashboard."; exit 1; }
+          echo "Supabase answered — the project stays active."
 
       # Runs even when Medium is down, because a few bad days in a row are
       # exactly when the 60-day clock would otherwise run out.
