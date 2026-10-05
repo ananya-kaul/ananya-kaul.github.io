@@ -3,6 +3,11 @@ name: Sync Medium articles
 # Checks the Medium feed once a day and commits any new posts into
 # src/app/lib/writing.ts, then kicks off a deploy so the site picks them up.
 # Run it by hand any time from the Actions tab ("Run workflow").
+#
+# GitHub switches off scheduled workflows in a public repository after 60 days
+# without a commit. Most days there is no new article, so nothing is committed
+# and the clock keeps running — the last step re-enables this workflow through
+# the API on every run, which resets that clock without touching the history.
 on:
   schedule:
     - cron: "0 6 * * *" # 06:00 UTC daily
@@ -10,7 +15,7 @@ on:
 
 permissions:
   contents: write # to commit the updated article list
-  actions: write # to trigger the deploy workflow afterwards
+  actions: write # to trigger the deploy workflow and keep this one enabled
 
 concurrency:
   group: "sync-medium"
@@ -50,3 +55,14 @@ jobs:
           # so ask the deploy workflow to run explicitly.
           gh workflow run deploy.yml --ref main
           echo "Committed new articles and triggered a deploy."
+
+      # Runs even when Medium is down, because a few bad days in a row are
+      # exactly when the 60-day clock would otherwise run out.
+      - name: Keep this workflow from being disabled for inactivity
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api --method PUT \
+            "repos/${{ github.repository }}/actions/workflows/sync-medium.yml/enable"
+          echo "Re-enabled sync-medium.yml — the inactivity clock is reset."
