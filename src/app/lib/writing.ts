@@ -23,6 +23,16 @@ export const MEDIUM_PROFILE = "https://medium.com/@ananyakaul";
 export const articles: Article[] = [
   {
     title:
+      "The 90-Day AI Engineer Roadmap: From API Caller to Production-Ready",
+    url: "https://medium.com/@ananyakaul/the-90-day-ai-engineer-roadmap-from-api-caller-to-production-ready-1f35bc498f8c",
+    date: "2026-10-12",
+    publication: "Medium",
+    blurb:
+      "Every portfolio looks the same right now. Here’s the 90-day plan that makes yours look different. Scroll through any “AI engineer portfolio” thread and you’ll see the same project, wearing a different logo.",
+    tags: ["Software Development", "AI", "Roadmaps", "Ai Engineering"],
+  },
+  {
+    title:
       "The $206K Skill Gap: Why Most “AI Engineers” Still Can’t Get Hired in 2026",
     url: "https://medium.com/the-programmer/the-206k-skill-gap-why-most-ai-engineers-still-cant-get-hired-in-2026-cbb6920f5c15",
     date: "2026-08-06",
