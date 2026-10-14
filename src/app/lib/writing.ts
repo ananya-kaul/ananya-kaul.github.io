@@ -23,6 +23,16 @@ export const MEDIUM_PROFILE = "https://medium.com/@ananyakaul";
 export const articles: Article[] = [
   {
     title:
+      "Meta Muse vs. ChatGPT Dots vs. Grok Bot: Which AI Agent Should You Choose?",
+    url: "https://medium.com/@ananyakaul/meta-muse-vs-chatgpt-dots-vs-grok-bot-which-ai-agent-should-you-choose-3a1828276093",
+    date: "2026-10-14",
+    publication: "Medium",
+    blurb:
+      "The better question isn’t which agent is best. It’s which one fits the job in front of you. AI has moved well beyond the chat window.",
+    tags: ["AI Agents", "Meta", "Grok", "Muse"],
+  },
+  {
+    title:
       "The 90-Day AI Engineer Roadmap: From API Caller to Production-Ready",
     url: "https://medium.com/@ananyakaul/the-90-day-ai-engineer-roadmap-from-api-caller-to-production-ready-1f35bc498f8c",
     date: "2026-10-12",
