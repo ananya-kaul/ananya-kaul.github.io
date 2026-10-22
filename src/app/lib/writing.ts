@@ -23,6 +23,16 @@ export const MEDIUM_PROFILE = "https://medium.com/@ananyakaul";
 export const articles: Article[] = [
   {
     title:
+      "I Replaced My 9-to-5 Workflow With AI: Here’s Exactly How I Saved 18 Hours a Week",
+    url: "https://medium.com/@ananyakaul/i-replaced-my-9-to-5-workflow-with-ai-heres-exactly-how-i-saved-18-hours-a-week-840483d26153",
+    date: "2026-10-22",
+    publication: "Medium",
+    blurb:
+      "A step-by-step breakdown of the AI system that cut my workday from 10 hours to 4—without burning out or cutting corners.",
+    tags: ["Growth", "Technology", "Work", "Artificial Intelligence"],
+  },
+  {
+    title:
       "Meta Muse vs. ChatGPT Dots vs. Grok Bot: Which AI Agent Should You Choose?",
     url: "https://medium.com/@ananyakaul/meta-muse-vs-chatgpt-dots-vs-grok-bot-which-ai-agent-should-you-choose-3a1828276093",
     date: "2026-10-14",
