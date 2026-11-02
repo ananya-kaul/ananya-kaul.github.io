@@ -23,6 +23,16 @@ export const MEDIUM_PROFILE = "https://medium.com/@ananyakaul";
 export const articles: Article[] = [
   {
     title:
+      "I Stopped Burnout at 24 Using 5 Habits My Therapist Taught Me — Here’s the Exact System",
+    url: "https://medium.com/@ananyakaul/i-stopped-burnout-at-24-using-5-habits-my-therapist-taught-me-heres-the-exact-system-116a4570cae0",
+    date: "2026-10-31",
+    publication: "Medium",
+    blurb:
+      "I was crying before meetings and sleeping four hours a night. These habits brought me back without a dramatic life overhaul.",
+    tags: ["Burnout", "Psychology", "Wellness", "Mental Health"],
+  },
+  {
+    title:
       "I Replaced My 9-to-5 Workflow With AI: Here’s Exactly How I Saved 18 Hours a Week",
     url: "https://medium.com/@ananyakaul/i-replaced-my-9-to-5-workflow-with-ai-heres-exactly-how-i-saved-18-hours-a-week-840483d26153",
     date: "2026-10-22",
