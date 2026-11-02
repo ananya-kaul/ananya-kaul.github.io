@@ -4,6 +4,10 @@ name: Sync Medium articles
 # src/app/lib/writing.ts, then kicks off a deploy so the site picks them up.
 # Run it by hand any time from the Actions tab ("Run workflow").
 #
+# Those commits reach main through a pull request the workflow merges itself,
+# which needs Settings -> Actions -> General -> "Allow GitHub Actions to create
+# and approve pull requests" to stay on.
+#
 # It also makes one read from Supabase each run, so the free project behind
 # the recommendations and the contact form is never idle long enough to pause.
 #
@@ -18,6 +22,7 @@ on:
 
 permissions:
   contents: write # to commit the updated article list
+  pull-requests: write # to open and merge the pull request main requires
   actions: write # to trigger the deploy workflow and keep this one enabled
 
 concurrency:
@@ -48,16 +53,29 @@ jobs:
             exit 0
           fi
 
+          # main only accepts changes through a pull request, so the update goes
+          # up on its own branch and is merged straight away. The branch name is
+          # fixed: if a merge fails, the next run updates the same pull request
+          # instead of opening another one.
+          branch="automation/medium-sync"
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
           git add src/app/lib/writing.ts
           git commit -m "Add new Medium article(s) [skip ci]"
-          git push
+          git push --force origin "$branch"
 
-          # A push made with GITHUB_TOKEN does not trigger other workflows,
+          if [ -z "$(gh pr list --head "$branch" --state open --json number --jq '.[].number')" ]; then
+            gh pr create --base main --head "$branch" \
+              --title "Add new Medium article(s) [skip ci]" \
+              --body "Opened by the daily Medium sync."
+          fi
+          gh pr merge "$branch" --repo "$GITHUB_REPOSITORY" --squash --delete-branch
+
+          # A merge made with GITHUB_TOKEN does not trigger other workflows,
           # so ask the deploy workflow to run explicitly.
           gh workflow run deploy.yml --ref main
-          echo "Committed new articles and triggered a deploy."
+          echo "Merged new articles and triggered a deploy."
 
       # Supabase pauses a free project after about a week without database
       # activity, and a quiet portfolio easily goes that long — it paused once
