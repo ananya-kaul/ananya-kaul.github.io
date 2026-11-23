@@ -23,6 +23,16 @@ export const MEDIUM_PROFILE = "https://medium.com/@ananyakaul";
 export const articles: Article[] = [
   {
     title:
+      "The Next Tech Boom Won’t Be About AI. It’ll Be About Data",
+    url: "https://medium.com/@ananyakaul/the-next-tech-boom-wont-be-about-ai-it-ll-be-about-data-d2a4079a723c",
+    date: "2026-11-23",
+    publication: "Medium",
+    blurb:
+      "The model race is turning into a utilities business. What separates the winners from everyone else is the one input you can’t download.",
+    tags: ["Technology", "Artificial Intelligence", "Startup", "Data"],
+  },
+  {
+    title:
       "I Stopped Burnout at 24 Using 5 Habits My Therapist Taught Me — Here’s the Exact System",
     url: "https://medium.com/@ananyakaul/i-stopped-burnout-at-24-using-5-habits-my-therapist-taught-me-heres-the-exact-system-116a4570cae0",
     date: "2026-10-31",
