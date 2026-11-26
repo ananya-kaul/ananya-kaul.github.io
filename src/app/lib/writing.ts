@@ -23,6 +23,16 @@ export const MEDIUM_PROFILE = "https://medium.com/@ananyakaul";
 export const articles: Article[] = [
   {
     title:
+      "Why AI App Builders Are Getting Sued (and the 20-Point Legal Checklist That Could Save You)",
+    url: "https://medium.com/@ananyakaul/why-ai-app-builders-are-getting-sued-and-the-20-point-legal-checklist-that-could-save-you-c39d80cb8bf0",
+    date: "2026-11-26",
+    publication: "Medium",
+    blurb:
+      "You can ship an app in a weekend. You can also get a legal notice in a week. Building an app used to take months of coding, debugging, and testing.",
+    tags: ["AI Agents", "AI", "Ai App Development"],
+  },
+  {
+    title:
       "The Next Tech Boom Won’t Be About AI. It’ll Be About Data",
     url: "https://medium.com/@ananyakaul/the-next-tech-boom-wont-be-about-ai-it-ll-be-about-data-d2a4079a723c",
     date: "2026-11-23",
